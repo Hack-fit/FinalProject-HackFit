@@ -8,7 +8,9 @@ export default function OnBoarding() {
   const handleRegister = () => {
     navigation.navigate("Register");
   };
-
+  const handleLogin = () => {
+    navigation.navigate("Login");
+  };
   return (
     <ImageBackground
       source={require("../assets/image 3.png")}
@@ -30,7 +32,7 @@ export default function OnBoarding() {
           </TouchableOpacity>
           <View style={styles.signInContainer}>
             <Text style={styles.signInText}>Already have an account? </Text>
-            <TouchableOpacity onPress={handleRegister}>
+            <TouchableOpacity onPress={handleLogin}>
               <Text style={styles.signInLink}>Sign In</Text>
             </TouchableOpacity>
           </View>
