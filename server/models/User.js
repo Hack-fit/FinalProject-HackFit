@@ -35,6 +35,7 @@ class User {
 
     newUser.createdAt = new Date();
     newUser.updatedAt = new Date();
+    newUser.role = "User"
 
     const result = await this.Collection("users").insertOne(newUser);
     return newUser;
