@@ -8,6 +8,10 @@ export default function Login() {
   const navigate = useNavigation();
   const handleLogin = () => {
     // Logika untuk melakukan login
+    navigate.navigate("Homepage")
+  };
+  const handleRegist = () => {
+    // Logika untuk melakukan login
     navigate.navigate("Register")
   };
 
@@ -32,7 +36,7 @@ export default function Login() {
       </TouchableOpacity>
       <View style={styles.signUpContainer}>
         <Text style={styles.signUpText}>You don't have an account? </Text>
-        <TouchableOpacity onPress={handleLogin}>
+        <TouchableOpacity onPress={handleRegist}>
           <Text style={styles.signUpLink}>Sign Up</Text>
         </TouchableOpacity>
       </View>
