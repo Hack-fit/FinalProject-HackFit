@@ -1,3 +1,4 @@
+const Booking = require("../models/Booking");
 
 
 const typeDefs = `#graphql
@@ -22,12 +23,13 @@ const typeDefs = `#graphql
 const resolvers = {
     Query: {
         Booking: async () => {
-            return "booking"
+            const data = await Booking.getall()
+            return data
         }
     },
 
     Mutation : {
-        BookingPT: async (parent,args) => {
+        BookingPT: async (parent,args,contextval) => {
             return "args"
         }
     }
