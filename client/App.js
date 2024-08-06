@@ -12,6 +12,8 @@ import UpdateProfile from "./screens/UpdateProfile";
 
 const Stack = createNativeStackNavigator();
 
+
+
 export default function App() {
   return (
     <>
