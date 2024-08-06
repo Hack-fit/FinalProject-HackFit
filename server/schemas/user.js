@@ -30,12 +30,13 @@ const typeDefs = `#graphql
 
     type Query{
        user: [User]
+      #  userbyid(userId:id):User
     }
 
     type Mutation{
         register(user: NewUser): User
         login(user: loginUser): String
-    
+        
     }
 `;
 
