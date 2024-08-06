@@ -5,7 +5,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 export default function ProfileScreen({ navigation }) {
   const navigate = useNavigation();
   const user = {
-    username: "john_doe",
+    name:"bayu",
+    username: "Bayu_ganteng",
     email: "john.doe@example.com",
     phone: "+1234567890",
     age: "28",
@@ -23,11 +24,15 @@ export default function ProfileScreen({ navigation }) {
         <Text style={styles.header}>Profile</Text>
         <View style={styles.avatarContainer}>
           <Text style={styles.avatar}>
-            {user.username.charAt(0).toUpperCase()}
+            {user.name.charAt(0).toUpperCase()}
           </Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
+      <View style={styles.infoRow}>
+          <Text style={styles.label}>Name:</Text>
+          <Text style={styles.info}>{user.name}</Text>
+        </View>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Username:</Text>
           <Text style={styles.info}>{user.username}</Text>
