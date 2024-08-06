@@ -1,13 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons"; // Pilih ikon yang Anda suka dari library ini
 
 import Homepage from "../screens/Homepage";
 import Explore from "../screens/Explore";
 import Analytics from "../screens/Analytics";
-import Profile from "../screens/Profile";
-import UpdateProfile from "../screens/UpdateProfile";
 import ProfileStack from "./ProfileStack";
 
 const Tab = createBottomTabNavigator();
@@ -22,7 +19,7 @@ export default function MyTabs() {
           if (route.name === "Home") {
             iconName = "home";
           } else if (route.name === "Explore") {
-            iconName = "rocket"; // Ikon roket
+            iconName = "rocket"; 
           } else if (route.name === "Analytics") {
             iconName = "stats-chart";
           } else if (route.name === "Profile") {
@@ -33,7 +30,7 @@ export default function MyTabs() {
         },
         tabBarActiveTintColor: "orange",
         tabBarInactiveTintColor: "gray",
-        tabBarStyle: { paddingBottom: 5, paddingTop: 5, height: 60 }, // Sesuaikan jika perlu
+        tabBarStyle: { paddingBottom: 5, paddingTop: 5, height: 60 }, 
       })}
     >
       <Tab.Screen name="Home" component={Homepage} options={{ headerShown: true }} />
