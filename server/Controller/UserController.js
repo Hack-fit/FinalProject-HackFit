@@ -14,8 +14,8 @@ class UserController {
 
   static async register(req, res) {
     try {
+      console.log(req.body, '<<<<');
       const user = req.body;
-      // console.log(user, '<<<<');
 
       if (user.name === "") {
         throw "name is required";
@@ -144,15 +144,15 @@ class UserController {
 
   static async finduserbyId(req,res,next){
     try {
-      const {id} = req.user
+      const {userid} = req.user
   
-      const userid = new ObjectId(String(id))
-      console.log(userid)
+      const id = new ObjectId(String(userid))
+      // console.log(id)
   
-      const data = await database.collection('users').findOne({_id:userid})
-      console.log(data)
+      const data = await database.collection('users').findOne({_id:id})
+      // console.log(data)
   
-      res.status(200).json({data})
+      res.status(200).json(data)
       
     } catch (error) {
       res.status(400).json(error)

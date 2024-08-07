@@ -8,6 +8,8 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
+import api from "../helper/axios";
+import axios from "axios";
 
 export default function Register({ navigation }) {
   const [name, setName] = useState("");
@@ -17,7 +19,8 @@ export default function Register({ navigation }) {
   const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async (e) => {
+    e.preventDefault()
     // Logika untuk registrasi bisa ditambahkan di sini
     console.log(
       "Name:",
@@ -29,8 +32,22 @@ export default function Register({ navigation }) {
       "Password:",
       password
     );
-    // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
-    navigation.navigate("Login");
+    try {
+      const {data} = await axios.post("https://20d0-182-0-248-19.ngrok-free.app/register",{
+          name,
+          username,
+          email,
+          password,
+          phoneNumber,
+          age
+        })
+      // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
+      navigation.navigate("Login");
+      
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   return (
@@ -93,7 +110,7 @@ export default function Register({ navigation }) {
         <StatusBar style="auto" />
         <View style={styles.signInContainer}>
           <Text style={styles.signInText}>Already have an account? </Text>
-          <TouchableOpacity onPress={handleRegister}>
+          <TouchableOpacity onPress={() => handleRegister}>
             <Text style={styles.signInLink}>Sign In</Text>
           </TouchableOpacity>
         </View>
