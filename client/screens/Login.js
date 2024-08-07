@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -24,45 +25,47 @@ export default function Login() {
 
   return (
     <>
-      <ImageBackground
-        source={require("../assets/logo.png")}
-        style={styles.backgroundImage}
-        imageStyle={{opacity: 0.1}}
-        resizeMode="contain"
-      >
-        <View style={styles.container}>
-          <Text style={styles.title}>Login</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-          />
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <View style={styles.signUpContainer}>
-            <Text style={styles.signUpText}>You don't have an account? </Text>
-            <TouchableOpacity onPress={handleRegist}>
-              <Text style={styles.signUpLink}>Sign Up</Text>
+      <SafeAreaView>
+        <ImageBackground
+          source={require("../assets/logo.png")}
+          style={styles.backgroundImage}
+          imageStyle={{ opacity: 0.1 }}
+          resizeMode="contain"
+        >
+          <View style={styles.container}>
+            <Text style={styles.title}>Login</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Username"
+              value={username}
+              onChangeText={setUsername}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+            <View style={styles.signUpContainer}>
+              <Text style={styles.signUpText}>You don't have an account? </Text>
+              <TouchableOpacity onPress={handleRegist}>
+                <Text style={styles.signUpLink}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </SafeAreaView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    flex: 1,
+    // flex: 1,
     width: "100%",
     height: "100%",
     alignItems: "center",

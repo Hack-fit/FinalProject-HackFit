@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 export default function ProfileScreen({ navigation }) {
   const navigate = useNavigation();
   const user = {
-    name:"bayu",
+    name: "bayu",
     username: "Bayu_ganteng",
     email: "john.doe@example.com",
     phone: "+1234567890",
@@ -23,13 +23,11 @@ export default function ProfileScreen({ navigation }) {
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Profile</Text>
         <View style={styles.avatarContainer}>
-          <Text style={styles.avatar}>
-            {user.name.charAt(0).toUpperCase()}
-          </Text>
+          <Text style={styles.avatar}>{user.name.charAt(0).toUpperCase()}</Text>
         </View>
       </View>
       <View style={styles.infoContainer}>
-      <View style={styles.infoRow}>
+        <View style={styles.infoRow}>
           <Text style={styles.label}>Name:</Text>
           <Text style={styles.info}>{user.name}</Text>
         </View>
@@ -58,8 +56,11 @@ export default function ProfileScreen({ navigation }) {
           <Text style={styles.info}>{user.weight}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleEditProfile}>
+      <TouchableOpacity style={styles.buttonEdit} onPress={handleEditProfile}>
         <Text style={styles.buttonText}>Edit Profile</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.buttonLogOut}>
+        <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>
     </View>
   );
@@ -112,8 +113,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
-  button: {
-    backgroundColor: "orange",
+  buttonEdit: {
+    backgroundColor: "#FF8225",
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    alignItems: "center",
+  },
+  buttonLogOut: {
+    marginTop: 5,
+    backgroundColor: "#B43F3F",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,

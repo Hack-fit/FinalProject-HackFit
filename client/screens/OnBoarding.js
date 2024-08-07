@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text, View, ImageBackground, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function OnBoarding() {
   const navigation = useNavigation();
@@ -12,39 +19,41 @@ export default function OnBoarding() {
     navigation.navigate("Login");
   };
   return (
-    <ImageBackground
-      source={require("../assets/image 3.png")}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Wherever You Are,</Text>
-          <Text style={styles.title}>Health is Number One</Text>
-          <Text style={styles.description}>
-            There is no instant way to a healthy life
-          </Text>
-        </View>
+    <SafeAreaView>
+      <ImageBackground
+        source={require("../assets/image 3.png")}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.title}>Wherever You Are,</Text>
+            <Text style={styles.title}>Health is Number One</Text>
+            <Text style={styles.description}>
+              There is no instant way to a healthy life
+            </Text>
+          </View>
 
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Get Started</Text>
-          </TouchableOpacity>
-          <View style={styles.signInContainer}>
-            <Text style={styles.signInText}>Already have an account? </Text>
-            <TouchableOpacity onPress={handleLogin}>
-              <Text style={styles.signInLink}>Sign In</Text>
+          <View style={styles.footer}>
+            <TouchableOpacity style={styles.button} onPress={handleRegister}>
+              <Text style={styles.buttonText}>Get Started</Text>
             </TouchableOpacity>
+            <View style={styles.signInContainer}>
+              <Text style={styles.signInText}>Already have an account? </Text>
+              <TouchableOpacity onPress={handleLogin}>
+                <Text style={styles.signInLink}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    flex: 1,
+    // flex: 1,
     width: "100%",
     height: "100%",
     alignItems: "center",
@@ -59,7 +68,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 500
+    marginTop: 500,
   },
   title: {
     fontSize: 24,
@@ -78,10 +87,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom:50
+    marginBottom: 50,
   },
   button: {
-    backgroundColor: "orange",
+    backgroundColor: "#FF8225",
     paddingVertical: 10,
     paddingHorizontal: 40,
     borderRadius: 25,
@@ -104,7 +113,7 @@ const styles = StyleSheet.create({
   },
   signInLink: {
     fontSize: 14,
-    color: "orange",
+    color: "#FF8225",
     fontWeight: "bold",
   },
 });

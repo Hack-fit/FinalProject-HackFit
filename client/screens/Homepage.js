@@ -1,21 +1,17 @@
+import { StatusBar } from "expo-status-bar";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Homepage({ navigation }) {
   return (
     <>
-      <ImageBackground
-        source={require("../assets/logo.png")}
-        style={styles.backgroundImage}
-        imageStyle={{ opacity: 0.1 }}
-        resizeMode="contain"
-      >
-        <View style={styles.container}>
-          <Text>ini Homepage</Text>
-          {/* <Content /> */}
-          {/* <BottomNavbar /> */}
-          {/* <StatusBar style="auto" /> */}
-        </View>
-      </ImageBackground>
+      <StatusBar style="auto" />
+      <View style={styles.container}>
+        <Text>ini Homepage</Text>
+        {/* <Content /> */}
+        {/* <BottomNavbar /> */}
+        {/* <StatusBar style="auto" /> */}
+      </View>
     </>
   );
 }
