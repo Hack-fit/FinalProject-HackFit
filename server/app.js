@@ -5,8 +5,11 @@ if(process.env.NODE_ENV !== "production"){
 const express = require("express")
 const UserController = require("./Controller/UserController")
 const authentication = require("./middleware/authentication")
+// var cors = require('cors')
 const app = express()
 const port = 4000
+
+// app.use(cors())
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
