@@ -117,13 +117,6 @@ export default function Register({ navigation }) {
             <Text style={styles.signInLink}>Sign In</Text>
 
           </TouchableOpacity>
-
-          <StatusBar style="auto" />
-          <View style={styles.signInContainer}>
-            <Text style={styles.signInText}>Already have an account? </Text>
-            <TouchableOpacity onPress={handleRegister}>
-              <Text style={styles.signInLink}>Sign In</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ImageBackground>
