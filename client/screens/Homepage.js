@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
   },
   carousel: {
-    backgroundColor: "red",
+    // backgroundColor: "red",
     marginVertical: 10,
     width: Dimensions.get("window").width * 0.9, // Mengatur lebar carousel
     height: Dimensions.get("window").width * 0.45, // Mengatur tinggi carousel

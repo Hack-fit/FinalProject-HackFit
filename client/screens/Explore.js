@@ -1,13 +1,12 @@
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import PaymentButton from "../components/PaymentButton";
 
 export default function Explore() {
   return (
     <>
         <View style={styles.container}>
           <Text>ini halaman Explore</Text>
-          {/* <Content /> */}
-          {/* <BottomNavbar /> */}
-          {/* <StatusBar style="auto" /> */}
+          <PaymentButton/>
         </View>
     </>
   );
