@@ -9,7 +9,6 @@ export default function CarouselCard() {
         require('../assets/gym2.jpg'),
         require('../assets/gym3.jpg'),
         require('../assets/gym4.jpg'),
-        require('../assets/gym5.jpg'),
         require('../assets/farel.jpeg')
     ];
 
