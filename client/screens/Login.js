@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import React, { useState } from "react";
 import {
   View,
@@ -7,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -15,8 +17,20 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigation();
   const handleLogin = async () => {
-    // Logika untuk melakukan login
-    navigate.navigate("Homepage");
+    try {
+      const {data} = await axios.post("https://00f5-114-124-174-236.ngrok-free.app/login",{
+        username,
+        password
+      })
+
+      console.log(data)//data.access_token ==> untuk secureStore
+      navigate.navigate("Homepage");
+    } catch (error) {
+      console.log(error)
+      Alert.alert("username/passswors is wrong")
+      navigate.navigate("Login");
+    }
+
   };
   const handleRegist = () => {
     // Logika untuk melakukan login
@@ -52,7 +66,7 @@ export default function Login() {
             </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>You don't have an account? </Text>
-              <TouchableOpacity onPress={handleRegist}>
+              <TouchableOpacity onPress={() => handleRegist}>
                 <Text style={styles.signUpLink}>Sign Up</Text>
               </TouchableOpacity>
             </View>
