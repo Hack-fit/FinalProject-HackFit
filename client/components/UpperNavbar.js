@@ -1,21 +1,25 @@
 import React from "react";
-import { Link } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function UpperNavbar() {
+  const navigation = useNavigation();
+  const navigate = useNavigation();
+  const handleHome = () => {
+    navigate.navigate("Homepage");
+  };
   return (
     <SafeAreaView>
       <View style={styles.navbar}>
-        <Image
-          source={require("../assets/logo.png")} // Ganti dengan path ke logo Anda
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        {/* <TouchableOpacity style={styles.settingsIcon}>
-          <Ionicons name="settings-outline" size={24} color="black" />
-        </TouchableOpacity> */}
+        <TouchableOpacity onPress={handleHome}>
+          <Image
+            source={require("../assets/logo.png")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -23,11 +27,11 @@ export default function UpperNavbar() {
 
 const styles = StyleSheet.create({
   navbar: {
-    height: 60, // Atur tinggi navbar sesuai kebutuhan Anda
-    backgroundColor: "#173B45", // Atur warna background navbar sesuai kebutuhan Anda
+    height: 60,
+    backgroundColor: "#173B45",
     justifyContent: "center",
     alignItems: "center",
-    elevation: 4, // Tambahkan bayangan untuk efek elevasi (opsional)
+    elevation: 4,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -36,12 +40,12 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   logo: {
-    height: 80, // Atur tinggi logo sesuai kebutuhan Anda
+    height: 80,
   },
-//   settingsIcon: {
-//     position: "absolute",
-//     right: 20,
-//     top: "50%",
-//     transform: [{ translateY: -12 }],
-//   },
+  backButton: {
+    position: "absolute",
+    left: 20,
+    top: "50%",
+    transform: [{ translateY: -12 }],
+  },
 });
