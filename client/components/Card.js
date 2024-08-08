@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -9,6 +10,12 @@ import {
 } from "react-native";
 
 const ProfileCard = ({ name, imageUrl }) => {
+  const navigate = useNavigation();
+
+  const handlePT = () => {
+    navigate.navigate("PersonalTrainer");
+  };
+
   return (
     <View style={styles.card}>
       <View style={styles.imageFrame}>
@@ -16,10 +23,7 @@ const ProfileCard = ({ name, imageUrl }) => {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{name}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => alert(`Details of ${name}`)}
-        >
+        <TouchableOpacity style={styles.button} onPress={handlePT}>
           <Text style={styles.buttonText}>Check Details</Text>
         </TouchableOpacity>
       </View>
@@ -29,29 +33,28 @@ const ProfileCard = ({ name, imageUrl }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
+    backgroundColor: "#FFF",
+    borderRadius: 15,
     padding: 15,
     flexDirection: "row",
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
     elevation: 5,
     marginVertical: 10,
     width: Dimensions.get("window").width * 0.9,
+    alignSelf: "center",
   },
   imageFrame: {
-    borderWidth: 2,
-    borderColor: "#fff",
     borderRadius: 10,
     overflow: "hidden",
   },
   image: {
     width: 110,
     height: 110,
-    borderRadius: 0,
+    borderRadius: 10,
     marginRight: 15,
   },
   infoContainer: {
@@ -59,19 +62,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 5,
+    color: "#333",
+    marginBottom: 10,
   },
   button: {
-    width: 150,
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#FF8225",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 25,
+    alignSelf: "flex-start",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonText: {
-    color: "#fff",
+    color: "#FFF",
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -1,6 +1,7 @@
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import ProfileCard from "./Card";
+// import { View } from "react-native-reanimated/lib/typescript/Animated";
 
 const dummyData = [
   {
@@ -57,7 +58,7 @@ const dummyData = [
 
 const CardList = () => {
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
+    <View style={styles.containerList}>
       {dummyData.map((profile) => (
         <ProfileCard
           key={profile.id}
@@ -65,12 +66,12 @@ const CardList = () => {
           imageUrl={profile.imageUrl}
         />
       ))}
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollView: {
+  containerList: {
     alignItems: "center",
   },
 });
