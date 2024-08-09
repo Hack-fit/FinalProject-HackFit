@@ -18,11 +18,13 @@ import api from "../helper/axios";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading,setloading] = useState(false)
   const {signedin,setsignin} = useContext(Authcontext)
 
   const navigate = useNavigation();
   const handleLogin = async () => {
     try {
+      setloading(true)
       const {data} = await api({ // use helper axios
         url:'/login',
         method:'POST',
@@ -36,12 +38,13 @@ export default function Login() {
 
       await SecureStore.setItemAsync("access-token",data?.access_token) //set access-token to securestore,blm di headers
 
+      setloading(false)
       setsignin(true)
 
     } catch (error) {
       console.log(error)
       Alert.alert("username/passswors is wrong")
-
+      setloading(false)
     }
 
   };
@@ -73,12 +76,16 @@ export default function Login() {
               value={password}
               onChangeText={setPassword}
             />
+            {!loading ? 
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
               <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity> : <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Loading...</Text>
             </TouchableOpacity>
+              }
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>You don't have an account? </Text>
-              <TouchableOpacity onPress={() => handleRegist}>
+              <TouchableOpacity onPress={handleRegist}>
                 <Text style={styles.signUpLink}>Sign Up</Text>
               </TouchableOpacity>
             </View>

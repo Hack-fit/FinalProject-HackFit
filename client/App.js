@@ -18,15 +18,15 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [signedin,setsignin] = useState(false)// setting untuk login atau belum disini, ganti false jadi true
   const [loading,setloading] = useState(true)
+  const [token,settertoken] = useState("")
 
   useEffect(() => {
     async function settoken() {
       const res = await SecureStore.getItemAsync('access-token')
       if (res) {
-        console.log(res)
-        const headers = {'Authorization':`Bearer ${access-token}`};
+        settertoken(res)
         setloading(false)
-
+        setsignin(true)
       }
       else{
         setloading(false)
@@ -36,7 +36,7 @@ export default function App() {
     }
   
     settoken()
-  }, [])
+  }, [token])
 
   if (loading) {
     return(<>
@@ -48,7 +48,7 @@ export default function App() {
   return (
     <>
         <NavigationContainer>
-          <Authcontext.Provider value={{signedin,setsignin}}>
+          <Authcontext.Provider value={{signedin,setsignin,token}}>
             {!signedin ? (
               <Stack.Navigator>
               <Stack.Screen
