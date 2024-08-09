@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonText: {
-    color: "black",
+    color: "#FFF",
     fontSize: 16,
     fontWeight: "bold",
   },

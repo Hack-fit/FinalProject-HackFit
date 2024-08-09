@@ -9,7 +9,6 @@ export default function CarouselCard() {
         require('../assets/gym2.jpg'),
         require('../assets/gym3.jpg'),
         require('../assets/gym4.jpg'),
-        require('../assets/gym5.jpg'),
         require('../assets/farel.jpeg')
     ];
 
@@ -21,8 +20,8 @@ export default function CarouselCard() {
                 height={width / 2}
                 autoPlay={true}
                 data={images}
-                scrollAnimationDuration={1000}
-                onSnapToItem={(index) => console.log('current index:', index)}
+                scrollAnimationDuration={2000}
+                // onSnapToItem={(index) => console.log('current index:', index)}
                 renderItem={({ item, index }) => (
                     <View
                         style={{

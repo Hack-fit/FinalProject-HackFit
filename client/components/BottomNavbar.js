@@ -7,6 +7,7 @@ import Explore from "../screens/Explore";
 import Analytics from "../screens/Analytics";
 import ProfileStack from "./ProfileStack";
 import UpperNavbar from "./UpperNavbar";
+import HomeStack from "./HomeStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,10 +37,10 @@ export default function MyTabs() {
 
     })}
     >
-      <Tab.Screen name="Home" component={Homepage} options={{ header: (props) => <UpperNavbar {...props} /> }} />
+      <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false}} />
       <Tab.Screen name="Explore" component={Explore} options={{ header: (props) => <UpperNavbar {...props} /> }}/>
       <Tab.Screen name="Analytics" component={Analytics} options={{ header: (props) => <UpperNavbar {...props} /> }}/>
-      <Tab.Screen name="Profile" component={ProfileStack} options={{ header: (props) => <UpperNavbar {...props} /> }}/>
+      <Tab.Screen name="Profile" component={ProfileStack} options={{ headerShown: false}}/>
     </Tab.Navigator>
   );
 }
