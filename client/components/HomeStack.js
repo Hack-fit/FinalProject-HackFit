@@ -1,6 +1,4 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ProfileScreen from "../screens/Profile";
-import UpdateProfile from "../screens/UpdateProfile";
 import Homepage from "../screens/Homepage";
 import Personaltrainer from "../screens/PersonalTrainer";
 import UpperNavbar from "./UpperNavbar";

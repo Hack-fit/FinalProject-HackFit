@@ -1,10 +1,22 @@
+import { Link, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
 export default function CardToDoList({ todoList }) {
+  const navigate = useNavigation()
   const renderTodoItem = ({ item }) => (
     <View style={styles.card}>
-      <Text style={styles.taskText}>{item.day}</Text>
+      <TouchableOpacity onPress={()=> navigate.navigate("Daily Task")}>
+        {/* <Link href={"DailyTask"}> */}
+          <Text style={styles.taskText}>{item.day}</Text>
+        {/* </Link> */}
+      </TouchableOpacity>
     </View>
   );
 
@@ -20,7 +32,9 @@ export default function CardToDoList({ todoList }) {
           contentContainerStyle={styles.todoList}
         />
       ) : (
-        <Text style={styles.noTodoText}>You don't have any To Do List here</Text>
+        <Text style={styles.noTodoText}>
+          You don't have any To Do List here
+        </Text>
       )}
     </View>
   );
@@ -29,9 +43,9 @@ export default function CardToDoList({ todoList }) {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor:"#173B45",
+    backgroundColor: "#173B45",
     borderRadius: 10,
-    height: 100
+    height: 100,
   },
   todoList: {
     alignItems: "center", // Menyelaraskan item ke tengah secara vertikal
@@ -67,6 +81,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     // justifyContent: "center",
-    padding: 25
+    padding: 25,
   },
 });

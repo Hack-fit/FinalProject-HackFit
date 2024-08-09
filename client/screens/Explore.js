@@ -1,11 +1,19 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import PaymentButton from "../components/PaymentButton";
 import BannerAi from "../components/BannerAi";
 import CardToDoList from "../components/CardToDoList";
 import CardToDo from "../components/CardTodo";
+import { useNavigation } from "@react-navigation/native";
 
-const Explore = () => {
+export default function Explore() {
+  const navigate = useNavigation();
   const todoList = [
     { day: "Monday" },
     { day: "Tuesday" },
@@ -30,14 +38,19 @@ const Explore = () => {
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Make Your Training and Meal Plan With Fit-AI!</Text>
-        <FitAIButton>
+        <Text style={styles.footerText}>
+          Make Your Training and Meal Plan With Fit-AI!
+        </Text>
+        <TouchableOpacity
+          style={styles.fitAIButton}
+          onPress={() => navigate.navigate("Fit Ai")}
+        >
           <Text style={styles.buttonText}>Fit-AI</Text>
-        </FitAIButton>
+        </TouchableOpacity>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -108,9 +121,10 @@ const ToDoListSection = ({ children }) => (
 );
 
 const FitAIButton = ({ children }) => (
-  <TouchableOpacity style={styles.fitAIButton}>
+  <TouchableOpacity
+    style={styles.fitAIButton}
+    onPress={() => navigate.navigate("Fit Ai")}
+  >
     {children}
   </TouchableOpacity>
 );
-
-export default Explore;
