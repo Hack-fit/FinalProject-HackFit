@@ -1,10 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import * as SecureStore from 'expo-secure-store'
+import { Authcontext } from "../helper/context";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ProfileScreen() {
   const navigate = useNavigation();
+  const {signedin,setsignin} = useContext(Authcontext)
+
   const user = {
     name: "Bayu",
     username: "Bayu_ganteng",
@@ -66,7 +70,7 @@ export default function ProfileScreen() {
       <TouchableOpacity style={styles.buttonEdit} onPress={handleEditProfile}>
         <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonLogOut}>
+      <TouchableOpacity onPress={async () => await SecureStore.deleteItemAsync('access-token').then(()=>setsignin(false))} style={styles.buttonLogOut}>
         <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>
     </View>

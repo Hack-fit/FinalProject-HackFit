@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -11,29 +11,36 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as SecureStore from 'expo-secure-store'
+import { Authcontext } from "../helper/context";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const {signedin,setsignin} = useContext(Authcontext)
+
   const navigate = useNavigation();
   const handleLogin = async () => {
     try {
-      const {data} = await axios.post("https://00f5-114-124-174-236.ngrok-free.app/login",{
+      const {data} = await axios.post("https://d8af-139-228-111-126.ngrok-free.app/login",{
         username,
         password
       })
 
       console.log(data)//data.access_token ==> untuk secureStore
-      navigate.navigate("Homepage");
+
+      await SecureStore.setItemAsync("access-token",data?.access_token)//set access-token to securestore,blm di headers
+
+      setsignin(true)
+
     } catch (error) {
       console.log(error)
       Alert.alert("username/passswors is wrong")
-      navigate.navigate("Login");
+
     }
 
   };
   const handleRegist = () => {
-    // Logika untuk melakukan login
     navigate.navigate("Register");
   };
 
