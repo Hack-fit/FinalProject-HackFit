@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from 'expo-secure-store'
 import { Authcontext } from "../helper/context";
+import api from "../helper/axios";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -22,14 +23,18 @@ export default function Login() {
   const navigate = useNavigation();
   const handleLogin = async () => {
     try {
-      const {data} = await axios.post("https://d8af-139-228-111-126.ngrok-free.app/login",{
-        username,
-        password
+      const {data} = await api({ // use helper axios
+        url:'/login',
+        method:'POST',
+        data:{
+          username,
+          password
+        }
       })
 
-      console.log(data)//data.access_token ==> untuk secureStore
+      console.log(data) //data.access_token ==> untuk secureStore
 
-      await SecureStore.setItemAsync("access-token",data?.access_token)//set access-token to securestore,blm di headers
+      await SecureStore.setItemAsync("access-token",data?.access_token) //set access-token to securestore,blm di headers
 
       setsignin(true)
 

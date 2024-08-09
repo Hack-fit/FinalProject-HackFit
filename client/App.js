@@ -5,10 +5,11 @@ import OnBoarding from "./screens/OnBoarding";
 import Register from "./screens/Register";
 import Login from "./screens/Login";
 import MyTabs from "./components/BottomNavbar";
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaContext, SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 import { Authcontext } from "./helper/context";
+import * as SecureStore from 'expo-secure-store'
 
 const Stack = createNativeStackNavigator();
 
@@ -16,21 +17,33 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [signedin,setsignin] = useState(false)// setting untuk login atau belum disini, ganti false jadi true
-  // useEffect(() => {
-  
-  //   async function settoken() {
-  //     const res = await SecureStore.getItemAsync('accessToken')
-  //     const headers = {'Authorization':`Bearer ${access-token}`};
-  //     await axios.get("")
+  const [loading,setloading] = useState(true)
+
+  useEffect(() => {
+    async function settoken() {
+      const res = await SecureStore.getItemAsync('access-token')
+      if (res) {
+        console.log(res)
+        const headers = {'Authorization':`Bearer ${access-token}`};
+        setloading(false)
+
+      }
+      else{
+        setloading(false)
+        return null
+      }
       
-  //   }
+    }
   
-  //   settoken()
-  
-  //   return () => {
-  //     second
-  //   }
-  // }, [third])
+    settoken()
+  }, [])
+
+  if (loading) {
+    return(<>
+    </>)
+  }
+
+
 
   return (
     <>
