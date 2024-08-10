@@ -11,6 +11,11 @@ class UserController {
     // console.log(data)
     res.status(200).json(data);
   }
+  static async getAllTrainers(req, res) {
+    const data = await database.collection("trainers").find().toArray();
+    // console.log(data)
+    res.status(200).json(data);
+  }
 
   static async register(req, res) {
     try {
@@ -64,7 +69,7 @@ class UserController {
       res.status(400).json({ error });
     }
   }
-  
+
   static async registerPt(req, res) {
     try {
       const user = req.body;
@@ -104,6 +109,15 @@ class UserController {
       }
       if (user.specialist === "") {
         throw "body type is required";
+      }
+      if (user.phoneNumber === "") {
+        throw "Phone number is required";
+      }
+      if (user.bio === "") {
+        throw "bio is required";
+      }
+      if (user.profile_picture === "") {
+        throw "profile picture is required";
       }
 
       var salt = bcrypt.genSaltSync(10);

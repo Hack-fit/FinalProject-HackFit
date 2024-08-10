@@ -16,10 +16,14 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
  
 
+
 app.get('/user',UserController.getall)
+app.get('/trainer',UserController.getAllTrainers)
+
 app.post('/register',UserController.register)
 app.post('/register-pt',UserController.registerPt)
 app.post('/login',UserController.login)
+
 app.post(`/midtrans`, BookingController.midtrans)
 app.post(`/notification-payment`, BookingController.notification)
 
@@ -27,6 +31,7 @@ app.use(authentication)// authentication setelah login, belum handle di client. 
 
 app.post('/openai',UserController.openAi)
 app.get('/profile',UserController.finduserbyId)
+
 
 
 app.listen(port, () => {
