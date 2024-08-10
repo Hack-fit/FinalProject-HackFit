@@ -34,7 +34,7 @@ export default function Register({ navigation }) {
       password
     );
     try {
-      const {data} = await axios.post("https://20d0-182-0-248-19.ngrok-free.app/register",{
+      const {data} = await axios.post(" https://6030-139-228-111-126.ngrok-free.app/register",{
           name,
           username,
           email,
