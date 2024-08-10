@@ -187,6 +187,22 @@ class UserController {
       console.log(error);
     }
   }
+
+  static async updateuser(req,res){
+    try {
+      const {userid} = req.user
+      const body = req.body
+
+      const data = await database.collection('users').updateOne({_id:userid},{$set:body})
+
+      // console.log(data)
+
+      res.status(201).json({message:"successfully updated profile"})
+      
+    } catch (error) {
+      res.status(400).json(error)
+    }
+  }
 }
 
 module.exports = UserController;
