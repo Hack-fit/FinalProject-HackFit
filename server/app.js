@@ -10,12 +10,14 @@ const port = 4000
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
  
-app.post('/openai',UserController.openAi)
-
 app.get('/user',UserController.getall)
+app.get('/trainer',UserController.getAllTrainers)
+
 app.post('/register',UserController.register)
 app.post('/register-pt',UserController.registerPt)
 app.post('/login',UserController.login)
+app.post('/openai',UserController.openAi)
+
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`)
