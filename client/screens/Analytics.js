@@ -38,7 +38,7 @@ export default function Analytics() {
 
     try {
       const response = await axios.post(
-        `https://5f1d-2404-c0-5c40-00-a6-5f56.ngrok-free.app/midtrans`,
+        `https://4e03-118-99-81-225.ngrok-free.app/midtrans`,
         transactionDetails
       );
       console.log(response.data.payment_url, `rerererererererere`);

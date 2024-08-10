@@ -11,6 +11,7 @@ export default function ProfileScreen() {
   const [user,setprofile] = useState({})
   const [loading,setloading] = useState(false)
   const {signedin,setsignin} = useContext(Authcontext)
+  const [get,set] = useState(0)
 
   // console.log(token)
   const profileuser = async () => {
@@ -24,8 +25,9 @@ export default function ProfileScreen() {
     })
 
     setprofile(data)
-    console.log(data)
+    // console.log(data)
     setloading(false)
+    set(1)
   }
 
   const handlelogout = async () => {
@@ -39,7 +41,7 @@ export default function ProfileScreen() {
 
   useEffect(()=>{
     profileuser()
-  },[])
+  },[get])
 
   if (loading === true) {
     return(

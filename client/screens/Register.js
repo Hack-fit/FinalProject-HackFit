@@ -11,6 +11,7 @@ import {
 import api from "../helper/axios";
 import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Link } from "@react-navigation/native";
 
 export default function Register({ navigation }) {
   const [name, setName] = useState("");
@@ -119,9 +120,8 @@ export default function Register({ navigation }) {
         <StatusBar style="auto" />
         <View style={styles.signInContainer}>
           <Text style={styles.signInText}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => handleRegister}>
-            <Text style={styles.signInLink}>Sign In</Text>
-
+          <TouchableOpacity>
+            <Link to={'/Login'} style={styles.signInLink}>Sign In</Link>
           </TouchableOpacity>
           </View>
         </View>

@@ -27,6 +27,7 @@ app.use(authentication)// authentication setelah login, belum handle di client. 
 
 app.post('/openai',UserController.openAi)
 app.get('/profile',UserController.finduserbyId)
+app.put('/update-user',UserController.updateuser)
 
 
 app.listen(port, () => {
