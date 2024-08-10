@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 let api = axios.create({
-    baseURL:"https://d8af-139-228-111-126.ngrok-free.app" // <== ganti url disini
+
+    // baseURL:"http://localhost:4000"
+    baseURL:`https://5f1d-2404-c0-5c40-00-a6-5f56.ngrok-free.app`
 })
 
 export default api

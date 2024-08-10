@@ -34,6 +34,7 @@ export default function Register({ navigation }) {
       password
     );
     try {
+
       const {data} = await api({
           url:'/register',
           method:'POST',
@@ -45,6 +46,7 @@ export default function Register({ navigation }) {
             phoneNumber,
             age
           }
+
         })
       // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
       navigation.navigate("Login");
