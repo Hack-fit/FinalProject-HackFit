@@ -8,6 +8,9 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
+import api from "../helper/axios";
+import axios from "axios";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Register({ navigation }) {
   const [name, setName] = useState("");
@@ -17,7 +20,8 @@ export default function Register({ navigation }) {
   const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async (e) => {
+    e.preventDefault()
     // Logika untuk registrasi bisa ditambahkan di sini
     console.log(
       "Name:",
@@ -29,62 +33,84 @@ export default function Register({ navigation }) {
       "Password:",
       password
     );
-    // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
-    navigation.navigate("Login");
+    try {
+
+      const {data} = await api({
+          url:'/register',
+          method:'POST',
+          data: {
+            name,
+            username,
+            email,
+            password,
+            phoneNumber,
+            age
+          }
+
+        })
+      // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
+      navigation.navigate("Login");
+      
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   return (
-    <ImageBackground
-      source={require("../assets/logo.png")}
-      style={styles.backgroundImage}
-      imageStyle={{ opacity: 0.1 }}
-      resizeMode="contain"
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>Register</Text>
+    <SafeAreaView>
+      <ImageBackground
+        source={require("../assets/logo.png")}
+        style={styles.backgroundImage}
+        imageStyle={{ opacity: 0.1 }}
+        resizeMode="contain"
+      >
+        <View style={styles.container}>
+          <Text style={styles.title}>Register</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={(text) => setUsername(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChangeText={(text) => setPhoneNumber(text)}
-          keyboardType="phone-pad"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Age"
-          value={age}
-          onChangeText={(text) => setAge(text)}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-          autoCapitalize="none"
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Name"
+            value={name}
+            onChangeText={(text) => setName(text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChangeText={(text) => setPhoneNumber(text)}
+            keyboardType="phone-pad"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Age"
+            value={age}
+            onChangeText={(text) => setAge(text)}
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+
 
         <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>Register</Text>
@@ -93,18 +119,20 @@ export default function Register({ navigation }) {
         <StatusBar style="auto" />
         <View style={styles.signInContainer}>
           <Text style={styles.signInText}>Already have an account? </Text>
-          <TouchableOpacity onPress={handleRegister}>
+          <TouchableOpacity onPress={() => handleRegister}>
             <Text style={styles.signInLink}>Sign In</Text>
+
           </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    flex: 1,
+    // flex: 1,
     width: "100%",
     height: "100%",
     alignItems: "center",
@@ -133,7 +161,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: "orange",
+    backgroundColor: "#FF8225",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
@@ -141,7 +169,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonText: {
-    color: "black",
+    color: "#FFF",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -153,7 +181,7 @@ const styles = StyleSheet.create({
   },
   signInLink: {
     fontSize: 14,
-    color: "orange",
+    color: "#FF8225",
     fontWeight: "bold",
   },
 });

@@ -1,31 +1,52 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import Carousel from "../components/Carousel";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import CardList from "../components/CardList";
+import { ScrollView } from "react-native";
 
-export default function Homepage({ navigation }) {
+const Homepage = ({ navigation }) => {
   return (
-    <>
-      <ImageBackground
-        source={require("../assets/logo.png")}
-        style={styles.backgroundImage}
-        imageStyle={{ opacity: 0.1 }}
-        resizeMode="contain"
-      >
-        <View style={styles.container}>
-          <Text>ini Homepage</Text>
-          {/* <Content /> */}
-          {/* <BottomNavbar /> */}
-          {/* <StatusBar style="auto" /> */}
-        </View>
-      </ImageBackground>
-    </>
+    <ScrollView style={styles.container}>
+      <StatusBar style="auto" />
+      <View style={styles.carouselContainer}>
+        <Carousel />
+      </View>
+      <View style={styles.trainersSection}>
+        <Text style={styles.title}>Personal Trainers:</Text>
+        <CardList />
+      </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  backgroundImage: {
+  container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#F5F5F5",
+  },
+  trainersSection: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginBottom: 5,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 2,
+  },
+  carouselContainer: {
+    marginVertical: 20,
+    marginHorizontal:20,
+    width: Dimensions.get("window").width * 0.9,
+    height: Dimensions.get("window").width * 0.45,
+    borderRadius: 10,
+    overflow: "hidden",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
+
+export default Homepage;

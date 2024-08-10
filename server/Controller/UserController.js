@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const database = require("../config/mongodb");
 const isEmail = require("../helper/isEmail");
 const { signToken } = require("../helper/jwt");
@@ -18,8 +19,8 @@ class UserController {
 
   static async register(req, res) {
     try {
+      console.log(req.body, '<<<<');
       const user = req.body;
-      // console.log(user, '<<<<');
 
       if (user.name === "") {
         throw "name is required";
@@ -135,21 +136,45 @@ class UserController {
     try {
       let { username, password } = req.body;
       if (!username) {
-        throw { name : "email/password is invalid"};
+        throw { name : "username/password is invalid"};
       }
       const post = await database.collection("users").findOne({
         username: username,
       });
 
-      let compare = bcrypt.compareSync(password, post.password);
-      if (!compare) {
-        throw { name: "Invalid email/password" };
+      if (!post) {
+        throw {name:"username/password is invalid"}
       }
+
+      let compare = bcrypt.compareSync(password, post.password);
+      
+      if (!compare) {
+        throw { name: "Invalid username/password" };
+      }
+
       let access_token = signToken(post);
-      res.status(201).json({access_token});
+      res.status(200).json({access_token});
+      
     } catch (error) {
       console.log(error);
       res.status(400).json({error : error.name});
+    }
+  }
+
+  static async finduserbyId(req,res,next){
+    try {
+      const {userid} = req.user
+  
+      const id = new ObjectId(String(userid))
+      // console.log(id)
+  
+      const data = await database.collection('users').findOne({_id:id})
+      // console.log(data)
+  
+      res.status(200).json(data)
+      
+    } catch (error) {
+      res.status(400).json(error)
     }
   }
 
