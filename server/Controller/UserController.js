@@ -128,6 +128,10 @@ class UserController {
         username: username,
       });
 
+      if (!post) {
+        throw {name:"username/password is invalid"}
+      }
+
       let compare = bcrypt.compareSync(password, post.password);
       
       if (!compare) {
@@ -135,7 +139,8 @@ class UserController {
       }
 
       let access_token = signToken(post);
-      res.status(201).json({access_token});
+      res.status(200).json({access_token});
+      
     } catch (error) {
       console.log(error);
       res.status(400).json({error : error.name});

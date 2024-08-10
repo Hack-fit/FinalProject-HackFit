@@ -1,25 +1,53 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import * as SecureStore from 'expo-secure-store'
+import { Authcontext } from "../helper/context";
 import { Ionicons } from "@expo/vector-icons";
+import api from "../helper/axios";
 
 export default function ProfileScreen() {
   const navigate = useNavigation();
-  const user = {
-    name: "Bayu",
-    username: "Bayu_ganteng",
-    email: "john.doe@example.com",
-    phone: "+1234567890",
-    age: "28",
-    height: "175 cm",
-    weight: "70 kg",
-    profilePicture:
-      "https://images.unsplash.com/photo-1545346315-f4c47e3e1b55?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTN8fHdvcmtpbmclMjBvdXR8ZW58MHx8MHx8fDA%3D",
-  };
+  const [user,setprofile] = useState({})
+  const [loading,setloading] = useState(false)
+  const {signedin,setsignin} = useContext(Authcontext)
+
+  // console.log(token)
+  const profileuser = async () => {
+    setloading(true)
+    const {data} = await api({
+      url:'/profile',
+      method:'GET',
+      headers:{
+        'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+      }
+    })
+
+    setprofile(data)
+    console.log(data)
+    setloading(false)
+  }
+
+  const handlelogout = async () => {
+    await SecureStore.deleteItemAsync('access-token')
+    .then(()=>setsignin(false)).finally(()=>setprofile({}))
+  }
 
   const handleEditProfile = () => {
     navigate.navigate("UpdateProfile");
   };
+
+  useEffect(()=>{
+    profileuser()
+  },[])
+
+  if (loading === true) {
+    return(
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -66,7 +94,7 @@ export default function ProfileScreen() {
       <TouchableOpacity style={styles.buttonEdit} onPress={handleEditProfile}>
         <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonLogOut}>
+      <TouchableOpacity onPress={handlelogout} style={styles.buttonLogOut}>
         <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>
     </View>

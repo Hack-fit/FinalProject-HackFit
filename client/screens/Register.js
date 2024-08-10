@@ -34,13 +34,19 @@ export default function Register({ navigation }) {
       password
     );
     try {
-      const {data} = await axios.post(" https://6030-139-228-111-126.ngrok-free.app/register",{
-          name,
-          username,
-          email,
-          password,
-          phoneNumber,
-          age
+
+      const {data} = await api({
+          url:'/register',
+          method:'POST',
+          data: {
+            name,
+            username,
+            email,
+            password,
+            phoneNumber,
+            age
+          }
+
         })
       // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
       navigation.navigate("Login");
