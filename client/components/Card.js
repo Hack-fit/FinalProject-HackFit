@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const ProfileCard = ({ name, imageUrl }) => {
+const ProfileCard = ({ name, imageUrl,ptid }) => {
   const navigate = useNavigation();
 
   const handlePT = () => {
@@ -23,7 +23,7 @@ const ProfileCard = ({ name, imageUrl }) => {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{name}</Text>
-        <TouchableOpacity style={styles.button} onPress={handlePT}>
+        <TouchableOpacity style={styles.button} onPress={()=>navigate.navigate("PersonalTrainer",{id:ptid})}>
           <Text style={styles.buttonText}>Check Details</Text>
         </TouchableOpacity>
       </View>
