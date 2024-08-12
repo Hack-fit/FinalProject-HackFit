@@ -34,8 +34,6 @@ export default function Login() {
         }
       })
 
-      console.log(data) //data.access_token ==> untuk secureStore
-
       await SecureStore.setItemAsync("access-token",data?.access_token) //set access-token to securestore,blm di headers
 
       setloading(false)

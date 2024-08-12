@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [signedin,setsignin] = useState(false)// setting untuk login atau belum disini, ganti false jadi true
-  const [loading,setloading] = useState(true)
+  const [loading,setloading] = useState(false)
   const [token,settertoken] = useState("")
 
   useEffect(() => {

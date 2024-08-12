@@ -7,6 +7,7 @@ const UserController = require("./Controller/UserController")
 const authentication = require("./middleware/authentication")
 const BookingController = require("./Controller/BookingController")
 const TrainerController = require("./Controller/TrainerController")
+const TrainingController = require("./Controller/TrainingController")
 // var cors = require('cors')
 const app = express()
 const port = 4000
@@ -37,6 +38,7 @@ app.get('/trainer-detail/:id',TrainerController.getptbyid)
 app.post('/openai',UserController.openAi)
 app.get('/profile',UserController.finduserbyId)
 app.put('/update-user',UserController.updateuser)
+app.get('/get-training',TrainingController.getTraining)
 
 
 

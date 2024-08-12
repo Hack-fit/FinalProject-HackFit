@@ -20,20 +20,22 @@ export default function Register({ navigation }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
+  const [loading,setloading] = useState(false)
 
   const handleRegister = async (e) => {
     e.preventDefault()
+    setloading(true)
     // Logika untuk registrasi bisa ditambahkan di sini
-    console.log(
-      "Name:",
-      name,
-      "Username:",
-      username,
-      "Email:",
-      email,
-      "Password:",
-      password
-    );
+    // console.log(
+    //   "Name:",
+    //   name,
+    //   "Username:",
+    //   username,
+    //   "Email:",
+    //   email,
+    //   "Password:",
+    //   password
+    // );
     try {
 
       const {data} = await api({
@@ -50,10 +52,12 @@ export default function Register({ navigation }) {
 
         })
       // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
+      setloading(false)
       navigation.navigate("Login");
       
     } catch (error) {
       console.log(error)
+      setloading(false)
     }
 
   };
@@ -113,9 +117,11 @@ export default function Register({ navigation }) {
           />
 
 
-        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        {loading ? <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Loading...</Text>
+        </TouchableOpacity> : <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
 
         <StatusBar style="auto" />
         <View style={styles.signInContainer}>

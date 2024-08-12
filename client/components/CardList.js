@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import ProfileCard from "./Card";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
@@ -65,7 +65,7 @@ const CardList = () => {
   const trainers = async () => {
     setloading(true)
    const {data} =  await api({
-      url:'trainers',
+      url:'/trainers',
       method:'GET',
       headers:{
         'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
@@ -80,12 +80,11 @@ const CardList = () => {
     trainers()
   },[])
 
-  if (loading) {
+  if(loading){
     return(
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    )
+      <View style={{flex:1,justifyContent:'center'}}>
+        <ActivityIndicator size="large" color="#00ff00" />
+      </View>)
   }
 
 

@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React,{useState,useEffect} from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Linking } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Linking, ActivityIndicator } from "react-native";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
 
@@ -13,18 +13,24 @@ export default function Personaltrainer({route}) {
   const navigate = useNavigation();
 
   const getpt = async () => {
-    setloading(true)
-    setgetid(id)
-    const {data} = await api({
-      url:`/trainer-detail/${id}`,
-      method:'GET',
-      headers:{
-        'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
-      }
-    })
-    setgetdata(data)
-    setloading(false)
-    // console.log(data)
+    try {
+      setloading(true)
+      setgetid(id)
+      const {data} = await api({
+        url:`/trainer-detail/${id}`,
+        method:'GET',
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      })
+      setgetdata(data)
+      setloading(false)
+      // console.log(data)
+      
+    } catch (error) {
+      console.log(error)
+      setloading(false)
+    }
 
   }
 
@@ -32,6 +38,7 @@ export default function Personaltrainer({route}) {
     // navigate.navigate("UpdateProfile");
     await Linking.openURL('https://wa.me/+628998882482')
   };
+
 
   useEffect(()=>{
     getpt()
