@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     flex: 2, // Membuat info menempati ruang yang lebih banyak
   },
   buttonEdit: {
-    backgroundColor: "#FF8225",
+    backgroundColor: "#173B45",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,

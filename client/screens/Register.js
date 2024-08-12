@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: "#FF8225",
+    backgroundColor: "#173B45",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   },
   signInLink: {
     fontSize: 14,
-    color: "#FF8225",
+    color: "#173B45",
     fontWeight: "bold",
   },
 });

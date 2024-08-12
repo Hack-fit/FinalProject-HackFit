@@ -19,7 +19,7 @@ export default function ExploreStack() {
           }}
         />
         <Stack.Screen
-          name="Daily Task"
+          name="DailyTask"
           component={DailyTask}
           options={{
             headerShown: true,
@@ -28,7 +28,7 @@ export default function ExploreStack() {
           }}
         />
         <Stack.Screen
-          name="Fit Ai"
+          name="FitAi"
           component={FitAi}
           options={{
             headerShown: true,
