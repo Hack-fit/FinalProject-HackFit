@@ -7,7 +7,7 @@ async function authentication(req,res,next) {
     try {
 
         const token_access = req.headers.authorization
-        // console.log(token_access)
+        console.log(token_access)
 
         if (!token_access) {
             throw({name:"invalid token"})
@@ -38,7 +38,8 @@ async function authentication(req,res,next) {
 
         req.user = {
             userid:id,
-            email:user.email
+            email:user.email,
+            name:user.name,
         }
 
         next()
