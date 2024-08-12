@@ -90,14 +90,14 @@ const UpdateProfile = () => {
         <TextInput
           style={styles.input}
           placeholder="Height (cm)"
-          value={height}
+          value={height.replace('cm','')}
           onChangeText={(text) => setheight(text)}
           keyboardType="numeric"
         />
         <TextInput
           style={styles.input}
           placeholder="Weight (kg)"
-          value={weight}
+          value={weight.replace('kg','')}
           onChangeText={(text) => setweight(text)}
           keyboardType="numeric"
         />

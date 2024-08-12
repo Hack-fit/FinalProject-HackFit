@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store'
 import { Authcontext } from "../helper/context";
 import { Ionicons } from "@expo/vector-icons";
@@ -43,12 +43,11 @@ export default function ProfileScreen() {
     profileuser()
   },[get])
 
-  if (loading === true) {
+  if(loading){
     return(
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    )
+      <View style={{flex:1,justifyContent:'center'}}>
+        <ActivityIndicator size="large" color="#00ff00" />
+      </View>)
   }
 
   return (
