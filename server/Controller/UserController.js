@@ -9,7 +9,7 @@ const trainer = require("../model/trainer");
 
 class UserController {
   static async getall(req, res) {
-    const data = await user.getall();
+    const data = await user.getuser();
     // console.log(data)
     res.status(200).json(data);
   }
@@ -45,14 +45,16 @@ class UserController {
         throw "username is required";
       }
 
-      const emailFormat = isEmail(user.email)
-      if(!emailFormat){
-        throw "email must be in email format"
+      const emailFormat = isEmail(user.email);
+      if (!emailFormat) {
+        throw "email must be in email format";
       }
 
-      const emailUnique = await database.collection("trainers").findOne({email: user.email});
-      if(emailUnique){
-        throw "email must be unique"
+      const emailUnique = await database
+        .collection("trainers")
+        .findOne({ email: user.email });
+      if (emailUnique) {
+        throw "email must be unique";
       }
 
       if (user.emai === "") {
@@ -99,26 +101,24 @@ class UserController {
     try {
       let { username, password } = req.body;
 
-      const access_token = await user.loginuser(username, password)
+      const access_token = await user.loginuser(username, password);
 
-      res.status(200).json({access_token:access_token});
-      
+      res.status(200).json({ access_token: access_token });
     } catch (error) {
       console.log(error);
-      res.status(400).json({error : error.name});
+      res.status(400).json({ error: error.name });
     }
   }
 
-  static async finduserbyId(req,res,next){
+  static async finduserbyId(req, res, next) {
     try {
-      const {userid} = req.user
+      const { userid } = req.user;
 
-      const data = await user.getuserbyid(userid)
-      
-      res.status(200).json(data)
-      
+      const data = await user.getuserbyid(userid);
+
+      res.status(200).json(data);
     } catch (error) {
-      res.status(400).json(error)
+      res.status(400).json(error);
     }
   }
 
@@ -132,18 +132,34 @@ class UserController {
     }
   }
 
-  static async updateuser(req,res){
+  static async updateuser(req, res) {
     try {
-      const {userid} = req.user
-      const body = req.body
+      const { userid } = req.user;
+      const body = req.body;
 
-      const data = await user.updateuser(userid,body)
+      const data = await user.updateuser(userid, body);
       // console.log(data)
 
-      res.status(201).json({message:"successfully updated profile"})
-      
+      res.status(201).json({ message: "successfully updated profile" });
     } catch (error) {
-      res.status(400).json(error)
+      res.status(400).json(error);
+    }
+  }
+  static async deleteUser(req, res) {
+    try {
+      const {_id} = req.body;
+      // console.log(body, "<><>");
+     
+      const data = await user.deleteUser(_id);
+      console.log(data)
+
+      if(!data){
+        throw "user not found"
+      }
+
+      res.status(201).json({ message: "successfully deleted profile" });
+    } catch (error) {
+      res.status(404).json(error.message);
     }
   }
 }
