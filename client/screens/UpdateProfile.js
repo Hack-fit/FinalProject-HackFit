@@ -34,11 +34,11 @@ const UpdateProfile = () => {
   const handleSubmit = async () => {
     setloading(true)
     try {
-      console.log("Update profile submitted:");
-      console.log(`Name: ${name}`);
-      console.log(`Age: ${age}`);
-      console.log(`Height: ${height}`);
-      console.log(`Weight: ${weight}`);
+      // console.log("Update profile submitted:");
+      // console.log(`Name: ${name}`);
+      // console.log(`Age: ${age}`);
+      // console.log(`Height: ${height}`);
+      // console.log(`Weight: ${weight}`);
   
         const {data} = await api({
           url:'/update-user',

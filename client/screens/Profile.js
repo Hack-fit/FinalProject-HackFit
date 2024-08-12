@@ -92,6 +92,11 @@ export default function ProfileScreen() {
           <Text style={styles.label}>Weight:</Text>
           <Text style={styles.info}>{user.weight}</Text>
         </View>
+        <View style={styles.infoRow}>
+          <Ionicons name="logo-bitcoin" size={20} color="#555" />
+          <Text style={styles.label}>Token:</Text>
+          {user.token ? <Text style={styles.info}>{user.token}</Text> : <Text style={styles.info}>No token</Text>}
+        </View>
       </View>
       <TouchableOpacity style={styles.buttonEdit} onPress={handleEditProfile}>
         <Text style={styles.buttonText}>Edit Profile</Text>

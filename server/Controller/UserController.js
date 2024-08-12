@@ -53,8 +53,11 @@ class UserController {
         throw "body type is required";
       }
 
+
       var salt = bcrypt.genSaltSync(10);
       user.password = bcrypt.hashSync(user.password, salt);
+
+      user.token = 2
 
       const post = await database.collection("users").insertOne(user);
 
