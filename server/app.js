@@ -39,6 +39,7 @@ app.post('/openai',UserController.openAi)
 app.get('/profile',UserController.finduserbyId)
 app.put('/update-user',UserController.updateuser)
 app.get('/get-training',TrainingController.getTraining)
+app.delete('/delete-user',UserController.deleteUser)
 
 
 
