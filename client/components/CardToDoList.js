@@ -1,4 +1,4 @@
-import { Link, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -12,7 +12,7 @@ export default function CardToDoList({ todoList }) {
   const navigate = useNavigation()
   const renderTodoItem = ({ item }) => (
     <View style={styles.card}>
-      <TouchableOpacity onPress={()=> navigate.navigate("Daily Task")}>
+      <TouchableOpacity onPress={()=> navigate.navigate("DailyTask", todoList)}>
         {/* <Link href={"DailyTask"}> */}
           <Text style={styles.taskText}>{item.day}</Text>
         {/* </Link> */}
