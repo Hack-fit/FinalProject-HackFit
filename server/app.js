@@ -16,14 +16,17 @@ const port = 4000
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
  
-
 app.get('/', (req, res,next) => {
   res.send('successfully connected')
 })
+
 app.get('/user',UserController.getall)
+app.get('/trainer',UserController.getAllTrainers)
+
 app.post('/register',UserController.register)
 app.post('/register-pt',UserController.registerPt)
 app.post('/login',UserController.login)
+
 app.post(`/midtrans`, BookingController.midtrans)
 app.post(`/notification-payment`, BookingController.notification)
 
@@ -34,6 +37,7 @@ app.get('/trainer-detail/:id',TrainerController.getptbyid)
 app.post('/openai',UserController.openAi)
 app.get('/profile',UserController.finduserbyId)
 app.put('/update-user',UserController.updateuser)
+
 
 
 app.listen(port, () => {
