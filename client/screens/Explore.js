@@ -5,45 +5,100 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import PaymentButton from "../components/PaymentButton";
 import BannerAi from "../components/BannerAi";
-import CardToDoList from "../components/CardToDoList";
-import CardToDo from "../components/CardTodo";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Explore() {
-  const navigate = useNavigation();
-  const todoList = [
-    { day: "Monday" },
-    { day: "Tuesday" },
-    { day: "Wednesday" },
-    { day: "Thursday" },
-    { day: "Friday" },
-    { day: "Saturday" },
-    { day: "Sunday" },
+  const navigation = useNavigation();
+  const todoLists = [
+    {
+      name: "Lower Strength",
+      todo: [
+        {
+          day: "Senin",
+          Jenis_Latihan: "Latihan Kaki",
+          Rincian_Latihan: [
+            { jenisLatihan: "Leg Press", rep: 12, set: 3, tipe: "leg press" },
+            {
+              jenisLatihan: "Lunges dengan Dumbell",
+              rep: 12,
+              set: 3,
+              tipe: "Lunges",
+            },
+          ],
+        },
+        {
+          day: "Rabu",
+          Jenis_Latihan: "Latihan Punggung dan Bahu",
+          Rincian_Latihan: [
+            { jenisLatihan: "Lat Pulldown Machine", rep: 10, set: 3, tipe: "" },
+            { jenisLatihan: "Rowing Machine", rep: 12, set: 3, tipe: "" },
+            {
+              jenisLatihan: "Shoulder Press dengan Dumbell",
+              rep: 12,
+              set: 3,
+              tipe: "",
+            },
+          ],
+        },
+        {
+          day: "Jumat",
+          Jenis_Latihan: "Latihan Dada dan Trisep",
+          Rincian_Latihan: [
+            { jenisLatihan: "Pec Deck Machine", rep: 12, set: 3, tipe: "" },
+            {
+              jenisLatihan: "Smith Machine Bench Press",
+              rep: 10,
+              set: 3,
+              tipe: "bench press",
+            },
+            {
+              jenisLatihan: "Cable Tricep Pushdown",
+              rep: 15,
+              set: 3,
+              tipe: "",
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         <BannerAiContainer>
           <BannerAi />
         </BannerAiContainer>
 
-        <ToDoListSection>
-          <Text style={styles.sectionTitle}>To Do List:</Text>
-          <CardToDoList todoList={todoList} />
-        </ToDoListSection>
-      </View>
-
+        {todoLists.length > 0 ? (
+          <ToDoListSection>
+            <Text style={styles.sectionTitle}>To-Do Lists:</Text>
+            {todoLists.map((list, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  navigation.navigate("DailyTask", { todoList: list.todo })
+                }
+                style={styles.todoContainer}
+              >
+                <Text style={styles.todoName}>{list.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </ToDoListSection>
+        ) : (
+          <Text style={styles.noTodoText}>No To-Do List Available</Text>
+        )}
+      </ScrollView>
       <View style={styles.footer}>
         <Text style={styles.footerText}>
           Make Your Training and Meal Plan With Fit-AI!
         </Text>
         <TouchableOpacity
           style={styles.fitAIButton}
-          onPress={() => navigate.navigate("Fit Ai")}
+          onPress={() => navigation.navigate("FitAi")}
         >
           <Text style={styles.buttonText}>Fit-AI</Text>
         </TouchableOpacity>
@@ -58,10 +113,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   content: {
-    flex: 1, // Menggunakan flex untuk mengisi ruang yang tersedia
-    alignItems: "center",
-    justifyContent: "flex-start",
-    paddingTop: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
   },
   bannerAiContainer: {
     width: Dimensions.get("window").width * 0.9,
@@ -69,10 +122,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 10,
     overflow: "hidden",
+    alignSelf: "center",
   },
   todoListSection: {
-    width: "100%",
-    paddingHorizontal: 20,
     marginBottom: 20,
   },
   sectionTitle: {
@@ -81,8 +133,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#333",
   },
+  todoContainer: {
+    marginBottom: 20,
+    padding: 15,
+    backgroundColor: "#F5F5F5",
+    borderRadius: 10,
+  },
+  todoName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#173B45",
+  },
+  noTodoText: {
+    fontSize: 16,
+    color: "#888",
+    textAlign: "center",
+    marginTop: 20,
+  },
   footer: {
-    width: "100%",
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: "#fff",
@@ -118,13 +186,4 @@ const BannerAiContainer = ({ children }) => (
 
 const ToDoListSection = ({ children }) => (
   <View style={styles.todoListSection}>{children}</View>
-);
-
-const FitAIButton = ({ children }) => (
-  <TouchableOpacity
-    style={styles.fitAIButton}
-    onPress={() => navigate.navigate("Fit Ai")}
-  >
-    {children}
-  </TouchableOpacity>
 );

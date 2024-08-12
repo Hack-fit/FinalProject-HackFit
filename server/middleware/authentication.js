@@ -19,13 +19,13 @@ async function authentication(req,res,next) {
             throw({name:"invalid token"})
         }
         const verif = verifyToken(token)
-        // console.log(verif)
+        // console.log(verif.userid)
 
         if (!verif) {
             throw({name:"invalid token"})
         }
 
-        const id = new ObjectId(String(verif.id))
+        const id = new ObjectId(String(verif.userid))
         // console.log(id)
         
         const user = await database.collection('users').findOne({_id:id})

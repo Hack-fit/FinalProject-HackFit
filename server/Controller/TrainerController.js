@@ -1,10 +1,13 @@
 const { ObjectId } = require("mongodb");
 const database = require("../config/mongodb");
+const trainer = require("../model/trainer");
 
 class TrainerController{
     static async getalltrainer(req,res,next){
         try {
-            const data = await database.collection('trainers').find().toArray()
+            const data = await trainer.gettrainer()
+
+            // console.log(data)
 
             res.status(200).json(data)
         } catch (error) {
@@ -15,9 +18,7 @@ class TrainerController{
     static async getptbyid(req,res,next){
         try {
             const {id} = req.params
-            // console.log(req.params)
-
-            const data = await database.collection('trainers').findOne({_id:new ObjectId(String(id))})
+            const data = await trainer.gettrainerbyid(id)
 
             res.status(200).json(data)
             

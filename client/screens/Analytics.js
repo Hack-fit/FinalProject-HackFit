@@ -39,6 +39,7 @@ export default function Analytics() {
     // console.log(transactionDetails,`-------------222`);
 
     try {
+
       const response = await api({
         url: `/midtrans`,
         method: "POST",
@@ -49,6 +50,7 @@ export default function Analytics() {
       }
       // `https://5352-139-228-111-126.ngrok-free.app/midtrans`,
       // transactionDetails
+
       );
       console.log(response.data.payment_url, `rerererererererere`);
 

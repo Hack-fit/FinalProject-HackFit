@@ -90,14 +90,14 @@ const UpdateProfile = () => {
         <TextInput
           style={styles.input}
           placeholder="Height (cm)"
-          value={height}
+          value={height.replace('cm','')}
           onChangeText={(text) => setheight(text)}
           keyboardType="numeric"
         />
         <TextInput
           style={styles.input}
           placeholder="Weight (kg)"
-          value={weight}
+          value={weight.replace('kg','')}
           onChangeText={(text) => setweight(text)}
           keyboardType="numeric"
         />
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
   },
   button: {
-    backgroundColor: "#FF8225",
+    backgroundColor: "#173B45",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,

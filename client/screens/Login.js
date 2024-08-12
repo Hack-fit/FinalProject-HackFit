@@ -34,8 +34,6 @@ export default function Login() {
         }
       })
 
-      console.log(data) //data.access_token ==> untuk secureStore
-
       await SecureStore.setItemAsync("access-token",data?.access_token) //set access-token to securestore,blm di headers
 
       setloading(false)
@@ -127,7 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: "#FF8225",
+    backgroundColor: "#173B45",
     paddingVertical: 10,
     paddingHorizontal: 40,
     borderRadius: 25,
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
   },
   signUpLink: {
     fontSize: 14,
-    color: "#FF8225",
+    color: "#173B45",
     fontWeight: "bold",
     marginLeft: 5,
   },
