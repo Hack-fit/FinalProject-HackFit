@@ -1,13 +1,29 @@
 const { default: axios } = require("axios");
 
 class BookingController {
-  static async bookingPT(req, res, next) {
-    const { userid } = req.user;
-    const { PTid } = req.body;
-  }
   static async midtrans(req, res) {
     try {
-      const transactionDetails = req.body;
+      console.log(req.user,`-----------123`);
+      
+      const { name, username, email, phone = "08222222"} = req.user;
+      const { gross_amount= 10000, paket = 5 } = req.body;
+
+      const transactionDetails = {
+        transaction_details: {
+          order_id: `order-${Math.floor(Math.random() * 1000000)}`,
+          paket: `${paket} token`,
+          gross_amount: gross_amount,
+        },
+        credit_card: {
+          secure: true,
+        },
+        customer_details: {
+          first_name: name,
+        last_name: username,
+          email: email,
+          phone: phone,
+        },
+      };
       //   console.log(transactionDetails,`9898989898`);
 
       const response = await axios.post(

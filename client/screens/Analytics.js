@@ -10,6 +10,8 @@ import { WebView } from "react-native-webview";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
 export default function Analytics() {
   const [token, setToken] = useState(null);
@@ -19,27 +21,36 @@ export default function Analytics() {
 
   const getTransactionToken = async () => {
     setLoading(true);
-    const transactionDetails = {
-      transaction_details: {
-        order_id: `order-${Math.floor(Math.random() * 1000000)}`,
-        gross_amount: 10000, // Contoh jumlah pembayaran
-      },
-      credit_card: {
-        secure: true,
-      },
-      customer_details: {
-        first_name: "Budi",
-        last_name: "Utomo",
-        email: "budi.utomo@example.com",
-        phone: "081234567890",
-      },
-    };
+    // const transactionDetails = {
+    //   transaction_details: {
+    //     order_id: `order-${Math.floor(Math.random() * 1000000)}`,
+    //     gross_amount: 10000, // Contoh jumlah pembayaran
+    //   },
+    //   credit_card: {
+    //     secure: true,
+    //   },
+    //   customer_details: {
+    //     first_name: "Budi",
+    //     last_name: "Utomo",
+    //     email: "budi.utomo@example.com",
+    //     phone: "081234567890",
+    //   },
+    // };
     // console.log(transactionDetails,`-------------222`);
 
     try {
-      const response = await axios.post(
-        `https://fc55-139-228-111-126.ngrok-free.app/midtrans`,
-        transactionDetails
+
+      const response = await api({
+        url: `/midtrans`,
+        method: "POST",
+        data: transactionDetails,
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      }
+      // `https://5352-139-228-111-126.ngrok-free.app/midtrans`,
+      // transactionDetails
+
       );
       console.log(response.data.payment_url, `rerererererererere`);
 
