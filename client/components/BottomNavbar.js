@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons"; // Choose icons from this
 
 import HomeStack from "./HomeStack";
 import ExploreStack from "./ExploreStack";
-import AnalyticsStack from "./AnalyticStack";
+import AnalyticsStack from "./CommunitycStack";
 import ProfileStack from "./ProfileStack";
 import Subscription from "../screens/Subscription";
 import UpperNavbar from "./UpperNavbar";
@@ -23,7 +23,7 @@ export default function MyTabs() {
           } else if (route.name === "Explore") {
             iconName = "rocket";
           } else if (route.name === "Analytics") {
-            iconName = "stats-chart";
+            iconName = "people-outline";
           } else if (route.name === "Profile") {
             iconName = "person";
           } else if (route.name === "Subscription") {
