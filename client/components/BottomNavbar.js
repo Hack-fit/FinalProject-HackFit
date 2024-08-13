@@ -9,6 +9,7 @@ import ProfileStack from "./ProfileStack";
 import UpperNavbar from "./UpperNavbar";
 import HomeStack from "./HomeStack";
 import ExploreStack from "./ExploreStack";
+import AnalyticsStack from "./AnalyticStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,8 +50,8 @@ export default function MyTabs() {
       />
       <Tab.Screen
         name="Analytics"
-        component={Analytics}
-        options={{ header: (props) => <UpperNavbar {...props} /> }}
+        component={AnalyticsStack}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         name="Profile"
