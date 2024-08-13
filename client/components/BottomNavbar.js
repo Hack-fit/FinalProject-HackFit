@@ -7,6 +7,7 @@ import ExploreStack from "./ExploreStack";
 import AnalyticsStack from "./AnalyticStack";
 import ProfileStack from "./ProfileStack";
 import Subscription from "../screens/Subscription";
+import UpperNavbar from "./UpperNavbar";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,10 @@ export default function MyTabs() {
         <Tab.Screen
           name="Subscription" // Add the Subscription screen
           component={Subscription}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: true,
+            header: (props) => <UpperNavbar {...props} />,
+          }}
         />
       <Tab.Screen
         name="Analytics"
