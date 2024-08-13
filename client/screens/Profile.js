@@ -47,7 +47,13 @@ export default function ProfileScreen() {
     return(
       <View style={{flex:1,justifyContent:'center'}}>
         <ActivityIndicator size="large" color="#00ff00" />
-      </View>)
+      <TouchableOpacity onPress={handlelogout} style={styles.buttonLogOut}>
+        <Text style={styles.buttonText}>Log out</Text>
+      </TouchableOpacity>
+      </View>
+      
+      
+    )
   }
 
   return (

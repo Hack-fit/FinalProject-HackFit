@@ -57,12 +57,13 @@ export default function FitAi() {
     };
 
     const handleCreatePlan = async () => {
-        setloading(true);
+        setloading(true)
         console.log("Level:", level);
         console.log("Workout Frequency:", workoutFrequency);
         console.log("Goal:", goal);
         console.log("Equipment:", equipment);
-        const {data} = await api({
+        try {
+        const data = await api({
             url:'/openai',
             method:'post',
             data:{
@@ -75,9 +76,13 @@ export default function FitAi() {
                 'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
             }
         })
+            Alert.alert(data.message)
+            setloading(false)
+            
+        } catch (error) {
+            Alert.alert(error.message)
+        }
 
-        setloading(false);
-        setdata(data)
 
     };
 
@@ -101,9 +106,12 @@ export default function FitAi() {
                 </ScrollView>
             </View>
 
-            <TouchableOpacity style={styles.createPlanButton} onPress={handleCreatePlan}>
+            {loading ?             <TouchableOpacity style={styles.createPlanButton} onPress={handleCreatePlan}>
+                <Text style={styles.buttonText}>Loading...</Text>
+            </TouchableOpacity> : <TouchableOpacity style={styles.createPlanButton} onPress={handleCreatePlan}>
                 <Text style={styles.buttonText}>Create your Plan</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
+
         </SafeAreaView>
     );
 }

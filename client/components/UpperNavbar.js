@@ -3,7 +3,6 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import * as SecureStore from 'expo-secure-store'
 import { Authcontext } from "../helper/context";
 
 export default function UpperNavbar() {
@@ -12,8 +11,7 @@ export default function UpperNavbar() {
   const {signedin,setsignin} = useContext(Authcontext)
 
   const handleHome = async () => {
-    await SecureStore.deleteItemAsync('access-token')
-    .then(()=>setsignin(false))
+    navigate.navigate("Home");
   };
   return (
     <SafeAreaView>

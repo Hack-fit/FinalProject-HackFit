@@ -6,13 +6,14 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import BannerAi from "../components/BannerAi";
 import { useNavigation } from "@react-navigation/native";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
-export default function Explore() {
-  const navigation = useNavigation();
-  const todoLists = [
+const todoLists = [
     {
       name: "Lower Strength",
       todo: [
@@ -92,6 +93,33 @@ export default function Explore() {
       ]
     },
   ]
+export default function Explore() {
+  const navigation = useNavigation();
+  const [loading,setloading] = React.useState(false)
+  const [gettodoLists, setTodoLists] = React.useState([]);
+
+  const fetch_data = async () => {
+    try {
+      setloading(true)
+      const { data } = await api({
+        url: "/get-todo",
+        method: "GET",
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      });
+      // console.log(data);
+      setTodoLists(data)
+      setloading(false)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  React.useEffect(()=>{
+    fetch_data()
+  },[])
 
   return (
     <View style={styles.container}>
@@ -100,10 +128,10 @@ export default function Explore() {
           <BannerAi />
         </BannerAiContainer>
 
-        {todoLists.length > 0 ? (
+        {gettodoLists.length > 0 ? (
           <ToDoListSection>
             <Text style={styles.sectionTitle}>To-Do Lists:</Text>
-            {todoLists.map((list, index) => (
+            {gettodoLists[0].todo.map((list, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() =>

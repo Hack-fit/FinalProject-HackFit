@@ -14,6 +14,18 @@ class TrainingController {
             res.status(400).json(error)
         }
     }
+
+    static async getTodo(req,res){
+        try {
+            const {userid} = req.user
+
+            const data = await Training.getTodoList(userid)
+
+            res.status(200).json(data)
+        } catch (error) {
+            res.status(400).json(error)
+        }
+    }
 }
 
 module.exports=TrainingController
