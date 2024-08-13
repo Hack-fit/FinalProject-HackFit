@@ -1,8 +1,10 @@
+
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import CardCommunity from "../components/CardCommunity";
 
 export default function Analytics() {
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>HackFit Community</Text>

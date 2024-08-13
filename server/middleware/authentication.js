@@ -37,7 +37,9 @@ async function authentication(req,res,next) {
         }
 
         req.user = {
-            userid:user._id,
+            userid:id,
+            email:user.email,
+            name:user.name,
         }
 
         next()
