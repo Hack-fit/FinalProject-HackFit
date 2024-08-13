@@ -4,30 +4,17 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  TouchableOpacity,
-  ScrollView,
+  FlatList
+
 } from "react-native";
-import BannerAi from "../components/BannerAi";
+
 import { useNavigation } from "@react-navigation/native";
-
-export default function Analytics() {
-  const navigation = useNavigation();
-  return (
-    <View style={styles.container}>
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.fitAIButton}
-          onPress={() => navigation.navigate("Subscription")}
-        >
-          <Text style={styles.buttonText}>Subscription</Text>
-        </TouchableOpacity>
-      </View>
-
-import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
 import CardCommunity from "../components/CardCommunity";
 
-export default function Analytics() {
+export default function Community() {
+  const navigation = useNavigation();
+  
+
 
   return (
     <View style={styles.container}>
@@ -41,6 +28,7 @@ export default function Analytics() {
     </View>
   );
 }
+
 
 
 
@@ -137,4 +125,4 @@ const BannerAiContainer = ({ children }) => (
 
 const ToDoListSection = ({ children }) => (
   <View style={styles.todoListSection}>{children}</View>
-);
+)
