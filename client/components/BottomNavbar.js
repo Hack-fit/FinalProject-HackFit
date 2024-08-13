@@ -8,6 +8,7 @@ import AnalyticsStack from "./CommunitycStack";
 import ProfileStack from "./ProfileStack";
 import Subscription from "../screens/Subscription";
 import UpperNavbar from "./UpperNavbar";
+import CommunitycStack from "./CommunitycStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +23,7 @@ export default function MyTabs() {
             iconName = "home";
           } else if (route.name === "Explore") {
             iconName = "rocket";
-          } else if (route.name === "Analytics") {
+          } else if (route.name === "Community") {
             iconName = "people-outline";
           } else if (route.name === "Profile") {
             iconName = "person";
@@ -56,8 +57,8 @@ export default function MyTabs() {
           }}
         />
       <Tab.Screen
-        name="Analytics"
-        component={AnalyticsStack}
+        name="Community"
+        component={CommunitycStack}
         options={{ headerShown: false }}
       />
       <Tab.Screen

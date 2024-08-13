@@ -6,7 +6,7 @@ import Community from "../screens/Community";
 
 const Stack = createNativeStackNavigator();
 
-export default function AnalyticsStack() {
+export default function CommunitycStack() {
   return (
     <>
       <Stack.Navigator>
