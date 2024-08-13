@@ -23,6 +23,8 @@ export default function App() {
   useEffect(() => {
     async function settoken() {
       const res = await SecureStore.getItemAsync('access-token')
+      // console.log(res,`-----------------`);
+      
       if (res) {
         settertoken(res)
         setloading(false)

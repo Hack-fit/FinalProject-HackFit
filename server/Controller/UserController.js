@@ -124,7 +124,11 @@ class UserController {
 
   static async openAi(req, res) {
     try {
-      let responseOpenAI = await openAi();
+      const data = req.body;
+
+      console.log(data);
+
+      let responseOpenAI = await openAi(data);
 
       res.send(responseOpenAI);
     } catch (error) {

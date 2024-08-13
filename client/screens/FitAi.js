@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Text, View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
 export default function FitAi() {
     const [level, setLevel] = useState(null);
     const [workoutFrequency, setWorkoutFrequency] = useState(null);
     const [goal, setGoal] = useState(null);
     const [equipment, setEquipment] = useState([]);
+    const [getdata, setdata] = useState([]);
+    const [loading, setloading] = useState(false);
 
     const optionsLevel = ["Pemula", "Profesional"];
     const optionsFrequency = ["1 kali", "2 kali", "3 kali", "4 kali", "5 kali", "6 kali", "7 kali", "> 7 kali"];
@@ -52,11 +56,29 @@ export default function FitAi() {
         ));
     };
 
-    const handleCreatePlan = () => {
+    const handleCreatePlan = async () => {
+        setloading(true);
         console.log("Level:", level);
         console.log("Workout Frequency:", workoutFrequency);
         console.log("Goal:", goal);
         console.log("Equipment:", equipment);
+        const {data} = await api({
+            url:'/openai',
+            method:'post',
+            data:{
+                level,
+                workoutFrequency,
+                goal,
+                equipment
+            },
+            headers:{
+                'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+            }
+        })
+
+        setloading(false);
+        setdata(data)
+
     };
 
     return (
