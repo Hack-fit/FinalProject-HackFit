@@ -14,58 +14,85 @@ import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
 
 const todoLists = [
-  {
-    name: "Lower Strength",
-    todo: [
-      {
-        day: "Senin",
-        Jenis_Latihan: "Latihan Kaki",
-        Rincian_Latihan: [
-          { jenisLatihan: "Leg Press", rep: 12, set: 3, tipe: "leg press" },
-          {
-            jenisLatihan: "Lunges dengan Dumbell",
-            rep: 12,
-            set: 3,
-            tipe: "Lunges",
-          },
-        ],
-      },
-      {
-        day: "Rabu",
-        Jenis_Latihan: "Latihan Punggung dan Bahu",
-        Rincian_Latihan: [
-          { jenisLatihan: "Lat Pulldown Machine", rep: 10, set: 3, tipe: "" },
-          { jenisLatihan: "Rowing Machine", rep: 12, set: 3, tipe: "" },
-          {
-            jenisLatihan: "Shoulder Press dengan Dumbell",
-            rep: 12,
-            set: 3,
-            tipe: "",
-          },
-        ],
-      },
-      {
-        day: "Jumat",
-        Jenis_Latihan: "Latihan Dada dan Trisep",
-        Rincian_Latihan: [
-          { jenisLatihan: "Pec Deck Machine", rep: 12, set: 3, tipe: "" },
-          {
-            jenisLatihan: "Smith Machine Bench Press",
-            rep: 10,
-            set: 3,
-            tipe: "bench press",
-          },
-          {
-            jenisLatihan: "Cable Tricep Pushdown",
-            rep: 15,
-            set: 3,
-            tipe: "",
-          },
-        ],
-      },
-    ],
-  },
-];
+    {
+      name: "Lower Strength",
+      todo: [
+        {
+          "Hari": "Senin",
+          "Jenis_Latihan": "Kardio dan Daya Tahan",
+          "Rincian_Latihan": [
+            {
+              "Jenis_Latihan": "Treadmill",
+              "rep": 30,
+              "set": 1,
+              "tipe": "",
+              "link": "https://www.youtube.com/embed/fMKBfvsltAQ?si=wn7as4btpBubMfkR"
+            },
+            {
+              "Jenis_Latihan": "Plank",
+              "rep": 15,
+              "set": 3,
+              "tipe": "plank"
+            }
+          ]
+        },
+        {
+          "Hari": "Selasa",
+          "Jenis_Latihan": "Kekuatan Atas Tubuh",
+          "Rincian_Latihan": [
+            {
+              "Jenis_Latihan": "Bench Press",
+              "rep": 10,
+              "set": 4,
+              "tipe": "bench press"
+            },
+            {
+              "Jenis_Latihan": "Pull-Up",
+              "rep": 8,
+              "set": 3,
+              "tipe": "pull up"
+            }
+          ]
+        },
+        {
+          "Hari": "Kamis",
+          "Jenis_Latihan": "Kardio dan Daya Tahan",
+          "Rincian_Latihan": [
+            {
+              "Jenis_Latihan": "Treadmill",
+              "rep": 30,
+              "set": 1,
+              "tipe": ""
+            },
+            {
+              "Jenis_Latihan": "Lunges",
+              "rep": 12,
+              "set": 3,
+              "tipe": "Lunges"
+            }
+          ]
+        },
+        {
+          "Hari": "Jumat",
+          "Jenis_Latihan": "Kekuatan Bawah Tubuh",
+          "Rincian_Latihan": [
+            {
+              "Jenis_Latihan": "Cable Machine",
+              "rep": 10,
+              "set": 4,
+              "tipe": ""
+            },
+            {
+              "Jenis_Latihan": "Squat",
+              "rep": 10,
+              "set": 3,
+              "tipe": "squat"
+            }
+          ]
+        }
+      ]
+    },
+  ]
 export default function Explore() {
   const navigation = useNavigation();
   const [loading,setloading] = React.useState(false)

@@ -19,12 +19,32 @@ module.exports = async function OpenAi({level,workoutFrequency,goal,equipment}) 
         "tipe" : "ambil jenis latihan salah satu dari array of objek terkait yang sudah di siapkan disini ambil hanya data nama pada objeknya saja [{"nama":"push up" ,"link":"https://www.youtube.com/watch?v=fMKBfvsltAQ"},{"nama":"pull up","link":" https://www.youtube.com/watch?v=KvsQyhp3y68"},{"nama":"bench press","link":"  https://www.youtube.com/watch?v=DUY22QAOdOU"},{"nama":"barbel squat","link":" https://www.youtube.com/watch?v=gLj_OlQjHBI"},{"nama":"leg press","link":"  https://www.youtube.com/watch?v=TKhrxoOjS3s"},{"nama":"plank","link":" https://www.youtube.com/watch?v=8MvNDLdRgZI"},{"nama":"lunges","link":" https://www.youtube.com/watch?v=xgJl9zTEIPw"}] dan jika tidak ada yang terkait kosongkan saja",
         "link": "isi dengan link yang ada pada objek diatas sesuai dengan namanya"
       }]
-    }] 
-      dan tolong hapus tag pembuka dan penutup untuk data JSONnya`,
+    }] dan tolong hapus tag pembuka dan penutup untuk data JSONnya`,
       },
     ],
     model: "gpt-4o-mini",
   });
   //   console.log(completion.choices[0].message.content);
+
+  const content = [
+    { nama: "push up", link: "https://www.youtube.com/watch?v=fMKBfvsltAQ" },
+    { nama: "pull up", link: " https://www.youtube.com/watch?v=KvsQyhp3y68" },
+    {
+      nama: "bench press",
+      link: "  https://www.youtube.com/watch?v=DUY22QAOdOU",
+    },
+    {
+      nama: "barbel squat",
+      link: " https://www.youtube.com/watch?v=gLj_OlQjHBI",
+    },
+    {
+      nama: "leg press",
+      link: "  https://www.youtube.com/watch?v=TKhrxoOjS3s",
+    },
+    { nama: "plank", link: " https://www.youtube.com/watch?v=8MvNDLdRgZI" },
+    { nama: "lunges", link: " https://www.youtube.com/watch?v=xgJl9zTEIPw" },
+  ];
+  console.log(completion.choices[0].message.content);
+
   return completion.choices[0].message.content;
 };
