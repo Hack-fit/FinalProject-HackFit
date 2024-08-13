@@ -1,25 +1,27 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import VideoScreen from "../components/Video";
 
 export default function DailyTask({ route }) {
   const { todoList } = route.params;
-
+  // console.log(todoList[0].Rincian_Latihan, ",,,,,,,,,,");
   return (
     <ScrollView style={styles.container}>
       {todoList.map((item, index) => (
         <View key={index} style={styles.dayContainer}>
           <View style={styles.headerContainer}>
             <MaterialIcons name="today" size={24} color="#4CAF50" />
-            <Text style={styles.dayText}>{item.day}</Text>
+            <Text style={styles.dayText}>{item.day}</Text> {/* kolom hari */}
           </View>
-          <Text style={styles.typeText}>{item.Jenis_Latihan}</Text>
+          <Text style={styles.typeText}>{item.Jenis_Latihan}</Text> {/* kolom jenis latihan */}
           {item.Rincian_Latihan.map((detail, idx) => (
             <View key={idx} style={styles.detailContainer}>
               <View style={styles.exerciseInfo}>
                 <MaterialIcons name="fitness-center" size={20} color="#FF9800" />
                 <Text style={styles.detailText}>
-                  {`${detail.jenisLatihan}: ${detail.rep} reps, ${detail.set} sets`}
+
+                  {`${detail.jenis_Latihan}: ${detail.rep} reps, ${detail.set} sets`} {/* kolom detail jenis latihan */}
                 </Text>
               </View>
               {detail.tipe === "" ? (
@@ -29,6 +31,7 @@ export default function DailyTask({ route }) {
                   <Text style={styles.videoButtonText}>Watch Video</Text>
                 </TouchableOpacity>
               )}
+              <VideoScreen videoUrl={detail.link}/>
             </View>
           ))}
         </View>

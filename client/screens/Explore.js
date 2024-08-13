@@ -6,65 +6,120 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import BannerAi from "../components/BannerAi";
 import { useNavigation } from "@react-navigation/native";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
-export default function Explore() {
-  const navigation = useNavigation();
-  const todoLists = [
+const todoLists = [
     {
       name: "Lower Strength",
       todo: [
         {
-          day: "Senin",
-          Jenis_Latihan: "Latihan Kaki",
-          Rincian_Latihan: [
-            { jenisLatihan: "Leg Press", rep: 12, set: 3, tipe: "leg press" },
+          "Hari": "Senin",
+          "Jenis_Latihan": "Kardio dan Daya Tahan",
+          "Rincian_Latihan": [
             {
-              jenisLatihan: "Lunges dengan Dumbell",
-              rep: 12,
-              set: 3,
-              tipe: "Lunges",
+              "Jenis_Latihan": "Treadmill",
+              "rep": 30,
+              "set": 1,
+              "tipe": "",
+              "link": "https://www.youtube.com/embed/fMKBfvsltAQ?si=wn7as4btpBubMfkR"
             },
-          ],
+            {
+              "Jenis_Latihan": "Plank",
+              "rep": 15,
+              "set": 3,
+              "tipe": "plank"
+            }
+          ]
         },
         {
-          day: "Rabu",
-          Jenis_Latihan: "Latihan Punggung dan Bahu",
-          Rincian_Latihan: [
-            { jenisLatihan: "Lat Pulldown Machine", rep: 10, set: 3, tipe: "" },
-            { jenisLatihan: "Rowing Machine", rep: 12, set: 3, tipe: "" },
+          "Hari": "Selasa",
+          "Jenis_Latihan": "Kekuatan Atas Tubuh",
+          "Rincian_Latihan": [
             {
-              jenisLatihan: "Shoulder Press dengan Dumbell",
-              rep: 12,
-              set: 3,
-              tipe: "",
+              "Jenis_Latihan": "Bench Press",
+              "rep": 10,
+              "set": 4,
+              "tipe": "bench press"
             },
-          ],
+            {
+              "Jenis_Latihan": "Pull-Up",
+              "rep": 8,
+              "set": 3,
+              "tipe": "pull up"
+            }
+          ]
         },
         {
-          day: "Jumat",
-          Jenis_Latihan: "Latihan Dada dan Trisep",
-          Rincian_Latihan: [
-            { jenisLatihan: "Pec Deck Machine", rep: 12, set: 3, tipe: "" },
+          "Hari": "Kamis",
+          "Jenis_Latihan": "Kardio dan Daya Tahan",
+          "Rincian_Latihan": [
             {
-              jenisLatihan: "Smith Machine Bench Press",
-              rep: 10,
-              set: 3,
-              tipe: "bench press",
+              "Jenis_Latihan": "Treadmill",
+              "rep": 30,
+              "set": 1,
+              "tipe": ""
             },
             {
-              jenisLatihan: "Cable Tricep Pushdown",
-              rep: 15,
-              set: 3,
-              tipe: "",
-            },
-          ],
+              "Jenis_Latihan": "Lunges",
+              "rep": 12,
+              "set": 3,
+              "tipe": "Lunges"
+            }
+          ]
         },
-      ],
+        {
+          "Hari": "Jumat",
+          "Jenis_Latihan": "Kekuatan Bawah Tubuh",
+          "Rincian_Latihan": [
+            {
+              "Jenis_Latihan": "Cable Machine",
+              "rep": 10,
+              "set": 4,
+              "tipe": ""
+            },
+            {
+              "Jenis_Latihan": "Squat",
+              "rep": 10,
+              "set": 3,
+              "tipe": "squat"
+            }
+          ]
+        }
+      ]
     },
-  ];
+  ]
+export default function Explore() {
+  const navigation = useNavigation();
+  const [loading,setloading] = React.useState(false)
+  const [gettodoLists, setTodoLists] = React.useState([]);
+
+  const fetch_data = async () => {
+    try {
+      setloading(true)
+      const { data } = await api({
+        url: "/get-todo",
+        method: "GET",
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      });
+      // console.log(data);
+      setTodoLists(data)
+      setloading(false)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  React.useEffect(()=>{
+    fetch_data()
+  },[])
 
   return (
     <View style={styles.container}>
@@ -73,10 +128,10 @@ export default function Explore() {
           <BannerAi />
         </BannerAiContainer>
 
-        {todoLists.length > 0 ? (
+        {gettodoLists.length > 0 ? (
           <ToDoListSection>
             <Text style={styles.sectionTitle}>To-Do Lists:</Text>
-            {todoLists.map((list, index) => (
+            {gettodoLists[0].todo.map((list, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() =>

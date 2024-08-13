@@ -1,6 +1,8 @@
-import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import React,{useEffect,useState} from "react";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import ProfileCard from "./Card";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 // import { View } from "react-native-reanimated/lib/typescript/Animated";
 
 const dummyData = [
@@ -57,13 +59,43 @@ const dummyData = [
 ];
 
 const CardList = () => {
+  const [gettrainers,settrainer] = useState([])
+  const [loading,setloading] = useState(false)
+
+  const trainers = async () => {
+    setloading(true)
+   const {data} =  await api({
+      url:'/trainers',
+      method:'GET',
+      headers:{
+        'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+      }
+    })
+
+    settrainer(data)
+    setloading(false)
+  }
+  
+  useEffect(()=>{
+    trainers()
+  },[])
+
+  if(loading){
+    return(
+      <View style={{flex:1,justifyContent:'center'}}>
+        <ActivityIndicator size="large" color="#00ff00" />
+      </View>)
+  }
+
+
   return (
     <View style={styles.containerList}>
-      {dummyData.map((profile) => (
+      {gettrainers.map((profile) => (
         <ProfileCard
-          key={profile.id}
+          key={profile._id}
           name={profile.name}
-          imageUrl={profile.imageUrl}
+          ptid={profile._id}
+          imageUrl={profile.profile_picture}
         />
       ))}
     </View>

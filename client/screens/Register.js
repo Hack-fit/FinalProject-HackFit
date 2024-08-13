@@ -8,7 +8,10 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
+import api from "../helper/axios";
+import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Link } from "@react-navigation/native";
 
 export default function Register({ navigation }) {
   const [name, setName] = useState("");
@@ -17,21 +20,46 @@ export default function Register({ navigation }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
+  const [loading,setloading] = useState(false)
 
-  const handleRegister = () => {
+  const handleRegister = async (e) => {
+    e.preventDefault()
+    setloading(true)
     // Logika untuk registrasi bisa ditambahkan di sini
-    console.log(
-      "Name:",
-      name,
-      "Username:",
-      username,
-      "Email:",
-      email,
-      "Password:",
-      password
-    );
-    // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
-    navigation.navigate("Login");
+    // console.log(
+    //   "Name:",
+    //   name,
+    //   "Username:",
+    //   username,
+    //   "Email:",
+    //   email,
+    //   "Password:",
+    //   password
+    // );
+    try {
+
+      const {data} = await api({
+          url:'/register',
+          method:'POST',
+          data: {
+            name,
+            username,
+            email,
+            password,
+            phoneNumber,
+            age
+          }
+
+        })
+      // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
+      setloading(false)
+      navigation.navigate("Login");
+      
+    } catch (error) {
+      console.log(error)
+      setloading(false)
+    }
+
   };
 
   return (
@@ -88,16 +116,19 @@ export default function Register({ navigation }) {
             autoCapitalize="none"
           />
 
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
 
-          <StatusBar style="auto" />
-          <View style={styles.signInContainer}>
-            <Text style={styles.signInText}>Already have an account? </Text>
-            <TouchableOpacity onPress={handleRegister}>
-              <Text style={styles.signInLink}>Sign In</Text>
-            </TouchableOpacity>
+        {loading ? <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Loading...</Text>
+        </TouchableOpacity> : <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>}
+
+        <StatusBar style="auto" />
+        <View style={styles.signInContainer}>
+          <Text style={styles.signInText}>Already have an account? </Text>
+          <TouchableOpacity>
+            <Link to={'/Login'} style={styles.signInLink}>Sign In</Link>
+          </TouchableOpacity>
           </View>
         </View>
       </ImageBackground>

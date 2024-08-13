@@ -1,23 +1,75 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
 const UpdateProfile = () => {
   const navigation = useNavigation();
-  const [profile, setProfile] = useState({
-    name: "",
-    age: "",
-    height: "",
-    weight: "",
-  });
+  const [profile, setProfile] = useState({});
+  const [name,setname] = useState("")
+  const [age, setage] = useState("")
+  const [height, setheight] = useState("")
+  const [weight, setweight] = useState("")
+  const [getdata,setgetdata] = useState(0)
+  const [loading,setloading] = useState(false)
 
-  const handleSubmit = () => {
-    console.log("Update profile submitted:");
-    console.log(`Name: ${profile.name}`);
-    console.log(`Age: ${profile.age}`);
-    console.log(`Height: ${profile.height}`);
-    console.log(`Weight: ${profile.weight}`);
+  const getprofile = async () => {
+    const {data} = await api({
+      url:'/profile',
+      method:'GET',
+      headers:{
+        'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+      }
+    })
+
+    setProfile(data)
+    setname(data.name)
+    setage(data.age)
+    setheight(data.height)
+    setweight(data.weight)
+    setgetdata(1)
+  }
+
+  const handleSubmit = async () => {
+    setloading(true)
+    try {
+      // console.log("Update profile submitted:");
+      // console.log(`Name: ${name}`);
+      // console.log(`Age: ${age}`);
+      // console.log(`Height: ${height}`);
+      // console.log(`Weight: ${weight}`);
+  
+        const {data} = await api({
+          url:'/update-user',
+          method:"PUT",
+          data:{
+            name:name,
+            age:age,
+            height:height,
+            weight:weight
+          },
+          headers:{
+            'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+          }
+        })
+        console.log(data)
+        setloading(false)
+        Alert.alert(data.message)
+        navigation.navigate('Profile')
+      
+    } catch (error) {
+      console.log(error)
+      Alert.alert("something is wrong")
+      setloading(false)
+    }
+    
   };
+
+  useEffect(() => {
+    getprofile()
+  }, [])
+  
 
   return (
     <View style={styles.container}>
@@ -25,33 +77,37 @@ const UpdateProfile = () => {
         <TextInput
           style={styles.input}
           placeholder="Name"
-          value={profile.name}
-          onChangeText={(text) => setProfile({ ...profile, name: text })}
+          value={name}
+          onChangeText={(text) => setname(text)}
         />
         <TextInput
           style={styles.input}
           placeholder="Age"
-          value={profile.age}
-          onChangeText={(text) => setProfile({ ...profile, age: text })}
+          value={age}
+          onChangeText={(text) => setage(text)}
           keyboardType="numeric"
         />
         <TextInput
           style={styles.input}
           placeholder="Height (cm)"
-          value={profile.height}
-          onChangeText={(text) => setProfile({ ...profile, height: text })}
+          value={height.replace('cm','')}
+          onChangeText={(text) => setheight(text)}
           keyboardType="numeric"
         />
         <TextInput
           style={styles.input}
           placeholder="Weight (kg)"
-          value={profile.weight}
-          onChangeText={(text) => setProfile({ ...profile, weight: text })}
+          value={weight.replace('kg','')}
+          onChangeText={(text) => setweight(text)}
           keyboardType="numeric"
         />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        {loading ? <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Loading...</Text>
+        </TouchableOpacity> : <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Update Profile</Text>
         </TouchableOpacity>
+      
+        }
       </View>
     </View>
   );

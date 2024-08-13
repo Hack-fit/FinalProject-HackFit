@@ -1,50 +1,77 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React,{useState,useEffect} from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Linking, ActivityIndicator } from "react-native";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
-export default function Personaltrainer() {
+export default function Personaltrainer({route}) {
+  const {id} = route.params
+  const [getdata,setgetdata] = useState({})
+  const [getid,setgetid] = useState("")
+  const [loading,setloading] = useState(false)
+
   const navigate = useNavigation();
-  const user = {
-    name: "Bayu",
-    phone: "+1234567890",
-    age: "28",
-    height: "175 cm",
-    weight: "70 kg",
-    profilePicture: "https://images.unsplash.com/photo-1545346315-f4c47e3e1b55?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTN8fHdvcmtpbmclMjBvdXR8ZW58MHx8MHx8fDA%3D",
+
+  const getpt = async () => {
+    try {
+      setloading(true)
+      setgetid(id)
+      const {data} = await api({
+        url:`/trainer-detail/${id}`,
+        method:'GET',
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      })
+      setgetdata(data)
+      setloading(false)
+      // console.log(data)
+      
+    } catch (error) {
+      console.log(error)
+      setloading(false)
+    }
+
+  }
+
+  const handleBookNow = async () => {
+    // navigate.navigate("UpdateProfile");
+    await Linking.openURL('https://wa.me/+628998882482')
   };
 
-  const handleBookNow = () => {
-    navigate.navigate("UpdateProfile");
-  };
+
+  useEffect(()=>{
+    getpt()
+  },[id])
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Image
-          source={{ uri: user.profilePicture }}
+          source={{ uri: getdata.profile_picture }}
           style={styles.avatar}
         />
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Name:</Text>
-          <Text style={styles.info}>{user.name}</Text>
+          <Text style={styles.info}>{getdata.name}</Text>
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Phone:</Text>
-          <Text style={styles.info}>{user.phone}</Text>
+          <Text style={styles.info}>{getdata.phone_number}</Text>
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Age:</Text>
-          <Text style={styles.info}>{user.age}</Text>
+          <Text style={styles.info}>{getdata.age}</Text>
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Height:</Text>
-          <Text style={styles.info}>{user.height}</Text>
+          <Text style={styles.info}>{getdata.height}</Text>
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.label}>Weight:</Text>
-          <Text style={styles.info}>{user.weight}</Text>
+          <Text style={styles.info}>{getdata.weight}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleBookNow}>
