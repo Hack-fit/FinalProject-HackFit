@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import VideoScreen from "../components/Video";
 
 export default function DailyTask({ route }) {
   const { todoList } = route.params;
-
+  // console.log(todoList[0].Rincian_Latihan, ",,,,,,,,,,");
   return (
     <ScrollView style={styles.container}>
       {todoList.map((item, index) => (
@@ -19,7 +20,7 @@ export default function DailyTask({ route }) {
               <View style={styles.exerciseInfo}>
                 <MaterialIcons name="fitness-center" size={20} color="#FF9800" />
                 <Text style={styles.detailText}>
-                  {`${detail.jenisLatihan}: ${detail.rep} reps, ${detail.set} sets`}
+                  {`${detail.Jenis_Latihan}: ${detail.rep} reps, ${detail.set} sets`}
                 </Text>
               </View>
               {detail.tipe === "" ? (
@@ -29,6 +30,7 @@ export default function DailyTask({ route }) {
                   <Text style={styles.videoButtonText}>Watch Video</Text>
                 </TouchableOpacity>
               )}
+              <VideoScreen videoUrl={detail.link}/>
             </View>
           ))}
         </View>

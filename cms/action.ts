@@ -3,8 +3,12 @@ import { revalidatePath } from "next/cache";
 
 export const handleDelete = async (id: string) => {
     try {
-        const res = await fetch(`http://localhost:4000/user/${id}`, {
+        const res = await fetch(`http://localhost:4000/delete-user`, {
             method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id }),
         });
     
 
@@ -15,5 +19,6 @@ export const handleDelete = async (id: string) => {
         revalidatePath("/", "layout");
     } catch (error) {
         console.error(error);
+        
     }
 };
