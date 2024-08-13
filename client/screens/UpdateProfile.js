@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
 
@@ -66,9 +66,13 @@ const UpdateProfile = () => {
     
   };
 
-  useEffect(() => {
-    getprofile()
-  }, [])
+  //fetching data every screen openned
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('masuk')
+      getprofile()
+    }, [navigation])
+  );
   
 
   return (
@@ -90,14 +94,14 @@ const UpdateProfile = () => {
         <TextInput
           style={styles.input}
           placeholder="Height (cm)"
-          value={height.replace('cm','')}
+          value={height}
           onChangeText={(text) => setheight(text)}
           keyboardType="numeric"
         />
         <TextInput
           style={styles.input}
           placeholder="Weight (kg)"
-          value={weight.replace('kg','')}
+          value={weight}
           onChangeText={(text) => setweight(text)}
           keyboardType="numeric"
         />

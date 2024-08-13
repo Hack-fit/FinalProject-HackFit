@@ -12,6 +12,9 @@ import api from "../helper/axios";
 import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "@react-navigation/native";
+import { showMessage } from "react-native-flash-message";
+import RNPickerSelect from 'react-native-picker-select';
+
 
 export default function Register({ navigation }) {
   const [name, setName] = useState("");
@@ -19,25 +22,14 @@ export default function Register({ navigation }) {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
   const [loading,setloading] = useState(false)
 
   const handleRegister = async (e) => {
     e.preventDefault()
     setloading(true)
-    // Logika untuk registrasi bisa ditambahkan di sini
-    // console.log(
-    //   "Name:",
-    //   name,
-    //   "Username:",
-    //   username,
-    //   "Email:",
-    //   email,
-    //   "Password:",
-    //   password
-    // );
     try {
-
       const {data} = await api({
           url:'/register',
           method:'POST',
@@ -47,16 +39,25 @@ export default function Register({ navigation }) {
             email,
             password,
             phoneNumber,
-            age
+            age,
+            gender
           }
 
         })
+      // console.log(data)
       // Navigasi ke halaman lain setelah berhasil registrasi, misalnya ke halaman login
       setloading(false)
+      showMessage({
+        message:"successfully registered",
+        type:"success"
+      })
       navigation.navigate("Login");
       
     } catch (error) {
-      console.log(error)
+      showMessage({
+        message:error.response.data.message,
+        type:"danger"
+      })
       setloading(false)
     }
 
@@ -106,6 +107,15 @@ export default function Register({ navigation }) {
             value={age}
             onChangeText={(text) => setAge(text)}
             keyboardType="numeric"
+          />
+          <RNPickerSelect
+            style={styles.inputselect}
+            value={gender}
+            onValueChange={(value) => setGender(value)}
+            items={[
+              { label: 'Male', value: 'Male' },
+              { label: 'Female', value: 'Female'},
+            ]}
           />
           <TextInput
             style={styles.input}
@@ -165,6 +175,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     paddingHorizontal: 10,
+  },
+  inputselect: {
+    width: "100%",
+    height: 50,
   },
   button: {
     backgroundColor: "#173B45",
