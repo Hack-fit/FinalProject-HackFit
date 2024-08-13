@@ -30,7 +30,7 @@ class UserController {
       res.status(201).json("successfully registered");
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error });
+      res.status(400).json({message:error});
     }
   }
 
@@ -107,7 +107,7 @@ class UserController {
       res.status(200).json({ access_token: access_token });
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error: error.name });
+      res.status(400).json({ message: error });
     }
   }
 
@@ -127,11 +127,31 @@ class UserController {
     try {
       const {level, workoutFrequency, goal, equipment, name} = req.body
       const { userid } = req.user;
-
-      const {token} = await user.getuserbyid(userid);
-      if (token <= 0) {
+      // console.log(level,workoutFrequency,goal,equipment)
+      
+      const datauser = await user.getuserbyid(userid);
+      console.log(datauser.token)
+      if (datauser.token <= 0 || datauser.token === 0) {
         throw "Out of token please buy more to use this feature"; 
       }
+      else if(datauser.token > 0){
+        await user.updateToken(userid)
+      }
+
+
+      if (!level) {
+        throw "data tidak boleh kosong";
+      }
+      if (!workoutFrequency) {
+        throw "data tidak boleh kosong";
+      }
+      if (!goal) {
+        throw "data tidak boleh kosong";
+      }
+      if (equipment === "" || []) {
+        throw "data tidak boleh kosong"; 
+      }
+
 
       let responseOpenAI = await openAi({level, workoutFrequency, goal, equipment});
 
@@ -143,10 +163,19 @@ class UserController {
       const conjunctionData = await Training.insertConjunction({userid:new ObjectId(String(userid)), trainingid: data.insertedId})
 
       res.status(201).json({ message: "successfully created training" });
-      res.send(responseOpenAI);
+      // res.send(responseOpenAI);
     } catch (error) {
-      console.log(error);
-      res.status(400).json({message:error});
+      console.log(error)
+      if (error === "Out of token please buy more to use this feature") {
+        console.log(error);
+        res.status(400).json({message:error});
+      }
+      else{
+        const { userid } = req.user;
+        await user.updatetokenplus(userid)
+        res.status(400).json({message:error});
+      }
+
     }
   }
 

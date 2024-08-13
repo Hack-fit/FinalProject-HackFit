@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Alert } from "react-native";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
+import { showMessage } from "react-native-flash-message";
 
 export default function FitAi() {
     const [level, setLevel] = useState(null);
@@ -58,10 +59,10 @@ export default function FitAi() {
 
     const handleCreatePlan = async () => {
         setloading(true)
-        console.log("Level:", level);
-        console.log("Workout Frequency:", workoutFrequency);
-        console.log("Goal:", goal);
-        console.log("Equipment:", equipment);
+        // console.log("Level:", level);
+        // console.log("Workout Frequency:", workoutFrequency);
+        // console.log("Goal:", goal);
+        // console.log("Equipment:", equipment);
         try {
         const data = await api({
             url:'/openai',
@@ -75,14 +76,24 @@ export default function FitAi() {
             headers:{
                 'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
             }
-        })
-            Alert.alert(data.message)
+        })  
+            showMessage({
+                message: "Plan Created!",
+                description: "Your plan has been created successfully.",
+                type: "success",
+            })
             setloading(false)
             
         } catch (error) {
-            Alert.alert(error.message)
+            // console.log(error)
+            console.log(error.response.data.message)
+            showMessage({
+                message: error.response.data.message,
+                description: "Your plan has not been created.",
+                type: "danger",
+            })
+            setloading(false)
         }
-
 
     };
 
@@ -106,7 +117,7 @@ export default function FitAi() {
                 </ScrollView>
             </View>
 
-            {loading ?             <TouchableOpacity style={styles.createPlanButton} onPress={handleCreatePlan}>
+            {loading ? <TouchableOpacity style={styles.createPlanButton} onPress={handleCreatePlan}>
                 <Text style={styles.buttonText}>Loading...</Text>
             </TouchableOpacity> : <TouchableOpacity style={styles.createPlanButton} onPress={handleCreatePlan}>
                 <Text style={styles.buttonText}>Create your Plan</Text>

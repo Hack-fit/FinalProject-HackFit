@@ -1,5 +1,6 @@
 import { Audio, Video } from "expo-av";
 import react from "react";
+import { View } from "react-native";
 import WebView from "react-native-webview";
 
 export default VideoScreen = ({videoUrl}) => {
@@ -32,12 +33,16 @@ export default VideoScreen = ({videoUrl}) => {
   }
 
   return (
-    <WebView 
-    source={{ uri: videoUrl }}
-    style={{ width: "100%", height: 200 }}
-    javaScriptEnabled={true}
-    domStorageEnabled={true}
-    />
+    <View>
+      <WebView 
+      source={{ uri: videoUrl }}
+      style={{ width: "100%", height: 200 }}
+      javaScriptEnabled={true}
+      domStorageEnabled={true}
+      />
+
+
+    </View>
      
     
     // <Video

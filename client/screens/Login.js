@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from 'expo-secure-store'
 import { Authcontext } from "../helper/context";
 import api from "../helper/axios";
+import { showMessage } from "react-native-flash-message";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -40,8 +41,11 @@ export default function Login() {
       setsignin(true)
 
     } catch (error) {
-      console.log(error)
-      Alert.alert("username/passswors is wrong")
+      // console.log(error)
+      showMessage({
+        message:error.response.data.message,
+        type:"danger"
+      })
       setloading(false)
     }
 

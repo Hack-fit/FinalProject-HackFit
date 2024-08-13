@@ -10,6 +10,7 @@ import { SafeAreaContext, SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 import { Authcontext } from "./helper/context";
 import * as SecureStore from 'expo-secure-store'
+import FlashMessage from "react-native-flash-message";
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +83,7 @@ export default function App() {
           }
 
           </ Authcontext.Provider >
+          <FlashMessage position="top" />
         </NavigationContainer>
     </>
   );
