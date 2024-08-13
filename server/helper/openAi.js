@@ -1,24 +1,30 @@
 const { OpenAI } = require("openai");
 require("dotenv").config();
 
-module.exports = async function OpenAi() {
+module.exports = async function OpenAi({level,workoutFrequency,goal,equipment}) { 
   const openai = new OpenAI({
     apiKey: process.env.Open_AI_Key,
   });
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: `Buatkan saya jadwal latihan gym untuk pemula, selama 3 hari dalam seminggu selang seling dengan alat yang dipakai{Leg Press, Cable Machine, Lat Pulldown Machine,Pec Deck Machine, Smith, Machine, Rowing Machine, Dumbell} dalam bentuk list JSON[{
-      "Hari" : ""
-      "Jenis Latihan" : "",
-      "Rincian Latihan" : [{
-      "Jenis Latihan" : "",
-      "rep": ,
-      "set": ,
-      "tipe" : "ambil jenis latihan salah satu dari objek terkait yang sudah di siapkan disini {"push up", "pull up", "bench press", "squat", "leg press", "plank", "Lunges"} dan jika tidak ada yang terkait kosongkan saja"
+    messages: [
+      {
+        role: "system",
+        content: `Buatkan saya jadwal latihan gym untuk ${level} dalam ${workoutFrequency} kali seminggu selang seling dengan tujuan untuk ${goal} menggunakan ${equipment} dalam bentuk list JSON[{
+      "day" : ""
+      "Jenis_Latihan" : "",
+      "Rincian_Latihan" : [{
+        "Jenis_Latihan" : "",
+        "rep": ,
+        "set": ,
+        "tipe" : "ambil jenis latihan salah satu dari array of objek terkait yang sudah di siapkan disini ambil hanya data nama pada objeknya saja [{"nama":"push up" ,"link":"https://www.youtube.com/watch?v=fMKBfvsltAQ"},{"nama":"pull up","link":" https://www.youtube.com/watch?v=KvsQyhp3y68"},{"nama":"bench press","link":"  https://www.youtube.com/watch?v=DUY22QAOdOU"},{"nama":"barbel squat","link":" https://www.youtube.com/watch?v=gLj_OlQjHBI"},{"nama":"leg press","link":"  https://www.youtube.com/watch?v=TKhrxoOjS3s"},{"nama":"plank","link":" https://www.youtube.com/watch?v=8MvNDLdRgZI"},{"nama":"lunges","link":" https://www.youtube.com/watch?v=xgJl9zTEIPw"}] dan jika tidak ada yang terkait kosongkan saja",
+        "link": "isi dengan link yang ada pada objek diatas sesuai dengan namanya"
       }]
-      }] 
-      dan tolong hapus tag pembuka dan penutup untuk data JSONnya` }],
+    }] 
+      dan tolong hapus tag pembuka dan penutup untuk data JSONnya`,
+      },
+    ],
     model: "gpt-4o-mini",
   });
-//   console.log(completion.choices[0].message.content);
-  return completion.choices[0].message.content
+  //   console.log(completion.choices[0].message.content);
+  return completion.choices[0].message.content;
 };

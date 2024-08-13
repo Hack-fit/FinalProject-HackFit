@@ -6,6 +6,7 @@ const openAi = require("../helper/openAi");
 const bcrypt = require("bcryptjs");
 const user = require("../model/user");
 const trainer = require("../model/trainer");
+const Training = require("../model/training");
 
 class UserController {
   static async getall(req, res) {
@@ -124,11 +125,28 @@ class UserController {
 
   static async openAi(req, res) {
     try {
-      let responseOpenAI = await openAi();
+      const {level, workoutFrequency, goal, equipment, name} = req.body
+      const { userid } = req.user;
 
+      const {token} = await user.getuserbyid(userid);
+      if (token <= 0) {
+        throw "Out of token please buy more to use this feature"; 
+      }
+
+      let responseOpenAI = await openAi({level, workoutFrequency, goal, equipment});
+
+      const training = {name,todo: JSON.parse(responseOpenAI)}
+
+      const data = await Training.insertdata(training)
+      console.log(data,"insert data training")
+
+      const conjunctionData = await Training.insertConjunction({userid:new ObjectId(String(userid)), trainingid: data.insertedId})
+
+      res.status(201).json({ message: "successfully created training" });
       res.send(responseOpenAI);
     } catch (error) {
       console.log(error);
+      res.status(400).json({message:error});
     }
   }
 

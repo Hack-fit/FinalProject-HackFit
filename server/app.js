@@ -42,6 +42,7 @@ app.get('/trainer-detail/:id',TrainerController.getptbyid)
 
 app.get('/get-training',TrainingController.getTraining)
 app.delete('/delete-user',UserController.deleteUser)
+app.get('/get-todo',TrainingController.getTodo)
 
 
 
