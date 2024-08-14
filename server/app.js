@@ -26,6 +26,7 @@ app.get('/trainer',UserController.getAllTrainers)
 
 app.post('/register',UserController.register)
 app.post('/register-pt',UserController.registerPt)
+app.post('/register-admin',UserController.registerAdmin)
 app.post('/login',UserController.login)
 
 app.post(`/midtrans`, BookingController.midtrans)

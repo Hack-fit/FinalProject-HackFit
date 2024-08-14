@@ -12,7 +12,7 @@ export default function RootLayout({
         <div className="flex min-h-screen h-full">
           <SideBar />
 
-          <div className="flex-1 flex flex-col ml-52 overflow-y-auto"> {/* Adjust ml-64 based on Sidebar width */}
+          <div className="flex-1 flex flex-col overflow-y-auto"> {/* Adjust ml-64 based on Sidebar width */}
             {/* <Navbar /> */}
 
             {/* Main Content */}
