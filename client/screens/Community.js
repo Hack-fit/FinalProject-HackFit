@@ -29,9 +29,6 @@ export default function Community() {
   );
 }
 
-
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

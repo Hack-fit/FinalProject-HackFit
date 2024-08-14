@@ -28,12 +28,12 @@ app.post('/register',UserController.register)
 app.post('/register-pt',UserController.registerPt)
 app.post('/register-admin',UserController.registerAdmin)
 app.post('/login',UserController.login)
+app.post(`/notification-payment`, BookingController.notification)
 
 
 app.use(authentication)// authentication setelah login, belum handle di client. manual buat headersnya 
 
 app.post(`/midtrans`, BookingController.midtrans)
-app.post(`/notification-payment`, BookingController.notification)
 app.get('/trainers',TrainerController.getalltrainer)
 app.post('/openai',UserController.openAi)
 app.get('/profile',UserController.finduserbyId)
