@@ -1,5 +1,6 @@
+"use client";
 import { Users } from "@/app/(withNav)/page";
-import DeleteButton from "./DelButton";
+import { ButtonDeleteCard } from "./DeleteCardUser";
 
 const CardUser = ({ el }: { el: Users }) => {
   return (
@@ -18,7 +19,7 @@ const CardUser = ({ el }: { el: Users }) => {
         </p>
         <div className="card-actions flex justify-center gap-2">
           <button className="btn btn-primary">Detail</button>
-          <DeleteButton id={el.id} />
+          <ButtonDeleteCard id={el._id} />
         </div>
       </div>
     </div>

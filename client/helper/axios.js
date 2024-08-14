@@ -6,7 +6,6 @@ let api = axios.create({
 
     baseURL:`https://4a40-139-228-111-126.ngrok-free.app`
 
-
 })
 
 export default api

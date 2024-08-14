@@ -146,7 +146,6 @@ class user {
       throw error;
     }
   }
-
   static async deleteUser(id) {
     try {
       const userid = new ObjectId(String(id));

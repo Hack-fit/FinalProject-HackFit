@@ -27,7 +27,9 @@ app.get('/trainer',UserController.getAllTrainers)
 
 app.post('/register',UserController.register)
 app.post('/register-pt',UserController.registerPt)
+app.post('/register-admin',UserController.registerAdmin)
 app.post('/login',UserController.login)
+app.post(`/notification-payment`, BookingController.notification)
 
 
 app.post(`/notification-payment`, BookingController.notification)
@@ -38,7 +40,6 @@ app.get('/trainers',TrainerController.getalltrainer)
 app.post('/openai',UserController.openAi)
 app.get('/profile',UserController.finduserbyId)
 app.put('/update-user',UserController.updateuser)
-
 app.get('/get-training',TrainingController.getTraining)
 app.get('/community',TrainingController.getCommunitytraining)
 app.delete('/delete-user',UserController.deleteUser)
@@ -52,8 +53,8 @@ app.patch('/like-post/:id',TrainingController.likepost)
 
 
 
-app.listen(port, () => {
-  console.log(`app listening on port ${port}`)
-})
+// app.listen(port, () => {
+//   console.log(`app listening on port ${port}`)
+// })
 
 module.exports = app

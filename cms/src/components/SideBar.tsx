@@ -7,8 +7,12 @@ import {
   IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import Link from "next/link";
 import { motion } from "framer-motion";
+
+import { LogoutButton } from "./LogoutButton";
+import { logout } from "@/actions/action";
 
 export function SideBar() {
   const links = [
@@ -34,12 +38,13 @@ export function SideBar() {
       ),
     },
     {
-      label: "Logout",
-      href: "/login",
+      label: "Add User",
+      href: "/adduser",
       icon: (
-        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IoMdAddCircleOutline  className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
+
   ];
 
   const [open, setOpen] = useState(true); // Set to `true` by default for demonstration
@@ -58,23 +63,7 @@ export function SideBar() {
               <SidebarLink key={idx} link={link} />
             ))}
           </div>
-
-          {/* User Profile */}
-          {/* <div className="mt-auto">
-            <SidebarLink
-              link={{
-                label: "Manu Arora",
-                href: "#",
-                icon: (
-                  <img
-                    src="https://assets.aceternity.com/manu.png"
-                    className="h-7 w-7 rounded-full"
-                    alt="Avatar"
-                  />
-                ),
-              }}
-            />
-          </div> */}
+        <LogoutButton />
         </SidebarBody>
       </Sidebar>
     </div>

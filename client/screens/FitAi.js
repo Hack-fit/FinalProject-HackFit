@@ -4,6 +4,7 @@ import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
 import { showMessage } from "react-native-flash-message";
 
+
 export default function FitAi() {
     const [level, setLevel] = useState(null);
     const [workoutFrequency, setWorkoutFrequency] = useState(null);
@@ -11,6 +12,7 @@ export default function FitAi() {
     const [name, setName] = useState(null);
     const [equipment, setEquipment] = useState([]);
     const [loading, setloading] = useState(false);
+    const [todoName, setTodoName] = useState(""); // State for To-Do name
 
     const optionsLevel = ["Pemula", "Profesional"];
     const optionsFrequency = ["1 kali", "2 kali", "3 kali", "4 kali", "5 kali", "6 kali", "7 kali", "> 7 kali"];
@@ -58,6 +60,7 @@ export default function FitAi() {
     };
 
     const handleCreatePlan = async () => {
+
         setloading(true)
         // console.log("Level:", level);
         // console.log("Workout Frequency:", workoutFrequency);
@@ -66,9 +69,11 @@ export default function FitAi() {
         // console.log("Name:", name);
         try {
         const data = await api({
+
             url:'/openai',
             method:'post',
             data:{
+                todoName, // Include To-Do name in the request
                 level,
                 workoutFrequency,
                 goal,
@@ -78,6 +83,7 @@ export default function FitAi() {
             headers:{
                 'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
             }
+
         })  
             showMessage({
                 message: "Plan Created!",
@@ -97,12 +103,21 @@ export default function FitAi() {
             setloading(false)
         }
 
+
     };
 
     return (
         <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.formContainer}>
+                <Text style={styles.questionText}>Nama To-Do:</Text>
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="Masukkan nama To-Do"
+                    value={todoName}
+                    onChangeText={setTodoName}
+                />
+
                 <Text style={styles.questionText}>Apakah Anda seorang:</Text>
                 {renderSingleOption(optionsLevel, level, setLevel)}
 
@@ -160,6 +175,14 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         marginRight: 10,
         borderRadius: 5,
+    },
+    textInput: {
+        height: 40,
+        borderColor: "#ddd",
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 20,
     },
     createPlanButton: {
         backgroundColor: "#173B45",

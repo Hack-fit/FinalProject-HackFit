@@ -98,6 +98,48 @@ class UserController {
     }
   }
 
+  static async registerAdmin(req, res) {
+    try {
+      const user = req.body;
+      // console.log(user, '<<<<');
+
+      if (user.name === "") {
+        throw "name is required";
+      }
+      if (user.username === "") {
+        throw "username is required";
+      }
+
+      const emailFormat = isEmail(user.email);
+      if (!emailFormat) {
+        throw "email must be in email format";
+      }
+
+      const emailUnique = await database
+        .collection("trainers")
+        .findOne({ email: user.email });
+      if (emailUnique) {
+        throw "email must be unique";
+      }
+
+      if (user.emai === "") {
+        throw "email is required";
+      }
+      if (user.pasword === "") {
+        throw "password is required";
+      }
+      var salt = bcrypt.genSaltSync(10);
+      user.password = bcrypt.hashSync(user.password, salt);
+
+      const post = await database.collection("admins").insertOne(user);
+
+      res.status(201).json("successfully register admin");
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error });
+    }
+  }
+
   static async login(req, res) {
     try {
       let { username, password } = req.body;
