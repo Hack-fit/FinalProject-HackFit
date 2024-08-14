@@ -3,6 +3,7 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-nat
 import ProfileCard from "./Card";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
+import { useFocusEffect } from "@react-navigation/native";
 // import { View } from "react-native-reanimated/lib/typescript/Animated";
 
 const dummyData = [
@@ -75,7 +76,13 @@ const CardList = () => {
     settrainer(data)
     setloading(false)
   }
-  
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     trainers()
+  //   }, [])
+  // );
+
   useEffect(()=>{
     trainers()
   },[])

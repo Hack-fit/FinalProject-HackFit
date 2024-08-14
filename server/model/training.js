@@ -67,6 +67,20 @@ class Training {
     
     }
 
+    static async deletedata(id) {
+      try {
+        const del = await database.collection('training').deleteOne({_id:new ObjectId(String(id))})
+
+        if (!del) {
+          throw "training not found" 
+        }
+
+        return del
+      } catch (error) {
+        throw error
+      } 
+    }
+
     static async insertdata(data) {
       try {
         const insert = await database.collection('training').insertOne(data)
@@ -78,8 +92,58 @@ class Training {
 
     static async insertConjunction(data) {
       try {
-        const insert = await database.collection('conjunction').insertOne(data)
+        const checkTraining = await database.collection('conjunction').findOne({userid:data.id_user, trainingid:data.training_id})
+
+        if (checkTraining) {
+          throw "already get training"
+        }
+
+        const insert = await database.collection('conjunction').insertOne({userid:data.id_user, trainingid:data.training_id})
         return insert
+      } catch (error) {
+        throw error
+      }
+    }
+
+    static async getCommunity() {
+      try {
+
+        const agg = [
+          {
+            '$lookup': {
+              'from': 'users', 
+              'localField': 'authorid', 
+              'foreignField': '_id', 
+              'as': 'user'
+            }
+          },{
+            '$unset': [
+              'user.password', 'user.token'
+            ]
+          }
+        ];
+
+        const data = await database.collection('Community').aggregate(agg).toArray()
+
+        return data
+      } catch (error) {
+        throw error
+      }
+    }
+
+    static async likedPost(userid,id) {
+      try {
+
+        const id_user = new ObjectId(String(userid))
+        const id_post = new ObjectId(String(id))
+        const checklike = await database.collection('Community').findOne({_id:id_post,'likes':{$elemMatch:{userid:id_user}}})
+        if (checklike) {
+          throw "already liked"
+        }
+
+        const like = await database.collection('Community').updateOne({_id:id_post}, {$push:{likes:{userid:id_user}}})
+
+        return like
       } catch (error) {
         throw error
       }

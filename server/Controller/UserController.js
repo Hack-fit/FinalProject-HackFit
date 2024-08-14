@@ -180,7 +180,10 @@ class UserController {
         await user.updateToken(userid)
       }
 
-
+      
+      if (!name) {
+        throw "data tidak boleh kosong";
+      }
       if (!level) {
         throw "data tidak boleh kosong";
       }
@@ -190,7 +193,7 @@ class UserController {
       if (!goal) {
         throw "data tidak boleh kosong";
       }
-      if (equipment === "" || []) {
+      if (!equipment) {
         throw "data tidak boleh kosong"; 
       }
 
@@ -202,7 +205,7 @@ class UserController {
       const data = await Training.insertdata(training)
       console.log(data,"insert data training")
 
-      const conjunctionData = await Training.insertConjunction({userid:new ObjectId(String(userid)), trainingid: data.insertedId})
+      const conjunctionData = await Training.insertConjunction({id_user:new ObjectId(String(userid)), training_id: data.insertedId})
 
       res.status(201).json({ message: "successfully created training" });
       // res.send(responseOpenAI);
@@ -230,6 +233,39 @@ class UserController {
       // console.log(data)
 
       res.status(201).json({ message: "successfully updated profile" });
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  }
+
+  static async deleteUser(req, res) {
+    try {
+      const {_id} = req.body;
+      // console.log(body, "<><>");
+     
+      const data = await user.deleteUser(_id);
+      console.log(data)
+
+      if(!data){
+        throw "user not found"
+      }
+
+      res.status(201).json({ message: "successfully deleted profile" });
+    } catch (error) {
+      res.status(404).json(error);
+    }
+  }
+
+  static async shareTraining(req, res) {
+    try {
+      const { userid } = req.user;
+      const { id } = req.params;
+      // console.log(name, todo, "<<<");
+
+      const share = await user.shareTrainingfromUser(userid, id);
+
+      res.status(201).json({ message: "successfully created training" });
+      
     } catch (error) {
       res.status(400).json(error);
     }

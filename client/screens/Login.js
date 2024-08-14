@@ -41,9 +41,9 @@ export default function Login() {
       setsignin(true)
 
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       showMessage({
-        message:error.response.data.message,
+        message:error.response.data.message === typeof(String) ? error.response.data.message: "error server",
         type:"danger"
       })
       setloading(false)

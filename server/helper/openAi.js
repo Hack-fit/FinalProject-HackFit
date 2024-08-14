@@ -10,7 +10,7 @@ module.exports = async function OpenAi({level,workoutFrequency,goal,equipment}) 
       {
         role: "system",
         content: `Buatkan saya jadwal latihan gym untuk ${level} dalam ${workoutFrequency} kali seminggu selang seling dengan tujuan untuk ${goal} menggunakan ${equipment} dalam bentuk list JSON[{
-      "day" : ""
+      "day" : "",
       "Jenis_Latihan" : "",
       "Rincian_Latihan" : [{
         "Jenis_Latihan" : "",

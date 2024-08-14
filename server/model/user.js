@@ -77,13 +77,13 @@ class user {
       // console.log(post)
 
       if (!post) {
-        throw "Invalid username/password" 
+        throw "Invalid username/password"
       }
 
       let compare = bcrypt.compareSync(password, post.password);
 
       if (!compare) {
-        throw "Invalid username/password" 
+        throw "Invalid username/password"
       }
       // console.log(post._id,"iduser")
 
@@ -144,6 +144,60 @@ class user {
       return update;
     } catch (error) {
       throw error;
+    }
+  }
+  static async deleteUser(id) {
+    try {
+      const userid = new ObjectId(String(id));
+
+      const checkUser = await database.collection("users").findOne({ _id: userid });
+      if (!checkUser) {
+        throw "user not found"
+      }
+
+      const data = await database
+        .collection("users")
+        .deleteOne({ _id: userid });
+      // console.log(data)
+
+
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  static async shareTrainingfromUser(userid, id) {
+    try {
+      const userId = new ObjectId(String(userid));
+      const trainingId = new ObjectId(String(id));
+
+      const checkTraining = await database.collection("training").findOne({ _id: trainingId });
+      if (!checkTraining) {
+        throw "training not found"
+      }
+
+      const checkpost = await database.collection("Community").findOne({ authorid: userId, trainingid: trainingId });
+      if (checkpost) {
+        throw "already shared"
+      }
+
+      const input = {
+        authorid: userId,
+        trainingid: trainingId,
+        trainingname: checkTraining.name,
+        likes:[],
+        training: checkTraining.todo
+      };
+
+
+      const data = await database.collection("Community").insertOne(input);
+      // console.log(data)
+
+      return data;
+    } catch (error) {
+      throw error
     }
   }
 }

@@ -7,22 +7,50 @@ import {
   FlatList
 
 } from "react-native";
-
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import CardCommunity from "../components/CardCommunity";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
 export default function Community() {
   const navigation = useNavigation();
+  const [community, setCommunity] = React.useState([]);
+
+  const communitydata = async () => {
+    try {
+      const {data} = await api({
+        url: "/community",
+        method: "GET",
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      });
+      // console.log(data);
+      setCommunity(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
+  // React.useEffect(()=>{
+  //   communitydata()
+  // },[])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      communitydata()
+    }, [])
+  );
+
 
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>HackFit Community</Text>
       <FlatList
-        data={[{ id: "1" }]} // Replace with actual data
-        keyExtractor={(item) => item.id}
-        renderItem={() => <CardCommunity />}
+        data={community} // Replace with actual data
+        keyExtractor={(item,idx) => idx}//key ganti idx
+        renderItem={({item}) => <CardCommunity data={item}/>}
         contentContainerStyle={styles.flatListContent} // Adjust padding or margins if needed
       />
     </View>
