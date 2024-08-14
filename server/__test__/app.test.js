@@ -44,6 +44,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await database.collection("users").deleteMany({});
   await database.collection("trainers").deleteMany({});
+  await database.collection("transactions").deleteMany({});
 });
 describe("POST /login", () => {
   it("should log in a user and return a token", async () => {
@@ -172,10 +173,13 @@ describe("GET /trainers", () => {
   let token;
 
   beforeAll(async () => {
-    const loginRes = await request(app)
-      .post("/login")
-      .send({ username: "TestingBayu", password: "123456" });
-    token = loginRes.body.token;
+    const credentials = {
+      username: "johndoe",
+      password: "password123",
+    };
+
+    const res = await request(app).post("/login").send(credentials);
+    token = res.body.access_token;
   });
   // console.log(token, `TOKEN`);
 
@@ -248,15 +252,36 @@ describe("PUT /update-user", () => {
   });
 });
 
+//create handle testing using jest and super test for get trainer by id
 describe("GET /trainer-detail/:id", () => {
-  it("should return trainer details by ID", async () => {
+  let token;
+
+  beforeAll(async () => {
+    const credentials = {
+      username: "TestingBayu",
+      password: "123456",
+    };
+
+    const res = await request(app).post("/login").send(credentials);
+    // console.log(res.body, `RES BODY`);
+    token = res.body.access_token;
+    // console.log(token, `TOKEN`);
+  });
+  //   console.log(token, `TOKEN`);
+
+  it("should return trainer by id", async () => {
     const trainers = await database.collection("trainers").find().toArray();
     const trainerId = trainers[0]._id;
+    // const selection = trainerId.match(/'([^']+)'/)[1];
+    // console.log(trainerId.toString(), `TOKEN-------`);
+    // console.log(trainerId, `TRAINER ID`);
 
-    const res = await request(app).get(`/trainer-detail/${trainerId}`);
+    const res = await request(app)
+      .get(`/trainer-detail/${trainerId.toString()}`)
+      .set("Authorization", `Bearer ${token}`);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toBeDefined();
-    expect(res.body._id).toBe(trainerId);
+    expect(res.body._id).toBe(trainerId.toString());
   });
 });
 
@@ -303,6 +328,73 @@ describe("GET /get-todo", () => {
     expect(res.body).toBeDefined();
   });
 });
+//create handle testing useng jest and super test for bookingController
+describe("POST /midtrans", () => {
+  let token;
+
+  beforeAll(async () => {
+    const credentials = {
+      username: "johndoe",
+      password: "password123",
+    };
+
+    const res = await request(app).post("/login").send(credentials);
+    token = res.body.access_token;
+    // console.log(token, `TOKEN`);
+  });
+
+  it("should handle midtrans notification", async () => {
+    const midtransData = {
+      paket: "hemat",
+    };
+
+    const res = await request(app)
+      .post("/midtrans")
+      .set("Authorization", `Bearer ${token}`)
+      .send(midtransData);
+    // console.log(res.body.message, `RES BODY`);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeDefined();
+    // expect(res.body.message).toBe(true);
+  });
+});
+
+//create handle testing useing jest and super test for openai controller for data can get same from openai.js
+describe.only("POST /openai", () => {
+  let token;
+
+  beforeAll(async () => {
+    const credentials = {
+      username: "TestingBayu",
+      password: "123456",
+    };
+
+    const res = await request(app).post("/login").send(credentials);
+    token = res.body.access_token;
+  });
+  // console.log(token, `TOKEN`);
+
+  it("should handle OpenAI request", async () => {
+    const openaiData = {
+      level: "beginner",
+      workoutFrequency: "3",
+      goal: "weight loss",
+      equipment: ["dumbbell"],
+      name: "TestingBayu",
+    };
+
+    const res = await request(app)
+      .post("/openai")
+      .set("Authorization", `Bearer ${token}`)
+      .send(openaiData);
+    console.log(res.body, `RES BODY`);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeDefined();
+  });
+});
+//create handle testing useing jest and super test for get user by id
 
 // delete user all data for after all
 // afterAll(async () => {
