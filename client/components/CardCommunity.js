@@ -7,6 +7,9 @@ import { showMessage } from "react-native-flash-message";
 import * as SecureStore from 'expo-secure-store'
 
 
+const uridummy = "https://static.vecteezy.com/system/resources/previews/004/991/321/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
+
+
 const CardCommunity = ({data}) => {
   // console.log(data.trainingid)
   const [liked, setLiked] = useState(false);
@@ -38,32 +41,26 @@ const CardCommunity = ({data}) => {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Image
-          style={styles.tinyLogo}
-          source={{
-            uri: "https://i.pinimg.com/564x/25/ee/de/25eedef494e9b4ce02b14990c9b5db2d.jpg",
-          }}
-        />
+        <Image style={styles.tinyLogo} source={{uri: data.user[0].imageurl ? data.user[0].imageurl : uridummy}}/>
         <View style={styles.headerTextContainer}>
           <View style={styles.headerTextRow}>
             <Text style={styles.name}>
-              test
-              {data.user[0].name}
+              {data?.user[0].name ? data.user[0].name : "Anonymous"}
               </Text>
             <Text style={styles.username}>
-            @{data.user[0].username}
+            @{data?.user[0].username ? data.user[0].username : "Anonymous"}
               </Text>
             {/* <Text style={styles.time}>·12.40</Text> */}
           </View>
         </View>
       </View>
-      <Text style={styles.text}>Shared a Training Task: <Text style={{color:'green'}}>{data.trainingname}</Text></Text>
+      <Text style={styles.text}>Shared a Training Task: <Text style={{color:'green'}}>{data?.trainingname}</Text></Text>
       
       {/* New button in the center */}
       <View style={styles.centerButtonContainer}>
         <TouchableOpacity 
           style={styles.centerButton} 
-          onPress={()=>navigator.navigate('detail',{trainid:data.trainingid,likes:data.likes,postid:data._id,train:data.training,username:data.user[0].username,name:data.user[0].name})}
+          onPress={()=>navigator.navigate('detail',{trainid:data?.trainingid,likes:data.likes,postid:data?._id,train:data?.training,username:data?.user[0]?.username,name:data?.user[0]?.name})}
         >
           <Text style={styles.centerButtonText}>More Info</Text>
         </TouchableOpacity>

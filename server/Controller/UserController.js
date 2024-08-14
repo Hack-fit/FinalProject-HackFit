@@ -85,6 +85,9 @@ class UserController {
       if (user.profile_picture === "") {
         throw "profile picture is required";
       }
+      if (user.location === "") {
+        throw "location is required";
+      }
 
       var salt = bcrypt.genSaltSync(10);
       user.password = bcrypt.hashSync(user.password, salt);
@@ -200,7 +203,7 @@ class UserController {
 
       let responseOpenAI = await openAi({level, workoutFrequency, goal, equipment});
 
-      const training = {name,todo: JSON.parse(responseOpenAI)}
+      const training = {authorid:datauser._id,name,todo: JSON.parse(responseOpenAI)}
 
       const data = await Training.insertdata(training)
       console.log(data,"insert data training")
@@ -244,13 +247,13 @@ class UserController {
       // console.log(body, "<><>");
      
       const data = await user.deleteUser(_id);
-      console.log(data)
+      // console.log(data)
 
       if(!data){
         throw "user not found"
       }
 
-      res.status(201).json({ message: "successfully deleted profile" });
+      res.status(201).json({ message: data });
     } catch (error) {
       res.status(404).json(error);
     }

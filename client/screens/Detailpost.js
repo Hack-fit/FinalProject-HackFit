@@ -15,9 +15,11 @@ import * as SecureStore from 'expo-secure-store';
 import api from "../helper/axios";
 import { showMessage } from "react-native-flash-message";
 
+const uridummy = "https://static.vecteezy.com/system/resources/previews/004/991/321/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
+
 export default function DetailPost({ route }) {
     const { name, username, train, postid, likes, trainid } = route.params;
-
+    console.log(trainid)
     const handleLike = async () => {
         try {
             await api({
@@ -71,7 +73,7 @@ export default function DetailPost({ route }) {
                     <Image
                         style={styles.tinyLogo}
                         source={{
-                            uri: 'https://reactnative.dev/img/tiny_logo.png',
+                            uri: uridummy,
                         }}
                     />
                     <View>

@@ -30,7 +30,7 @@ async function authentication(req,res,next) {
         
         const user = await database.collection('users').findOne({_id:id})
 
-        console.log(user)
+        // console.log(user)
 
         if (!user) {
             throw("Unauthorized")

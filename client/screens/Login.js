@@ -25,6 +25,7 @@ export default function Login() {
   const navigate = useNavigation();
   const handleLogin = async () => {
     try {
+      console.log(username,password)
       setloading(true)
       const {data} = await api({ // use helper axios
         url:'/login',
@@ -43,7 +44,8 @@ export default function Login() {
     } catch (error) {
       console.log(error)
       showMessage({
-        message:error.response.data.message === typeof(String) ? error.response.data.message: "error server",
+        message:"error",
+        description: typeof(error.response.data.message) === typeof("String") ? error.response.data.message : "Error",
         type:"danger"
       })
       setloading(false)

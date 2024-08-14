@@ -54,12 +54,16 @@ class user {
       if (data.bodyType === "") {
         throw "body type is required";
       }
+      if (data.phoneNumber === "") {
+        throw "phone number is required";
+      }
       if (data.password) {
         let salt = bcrypt.genSaltSync(10);
         data.password = bcrypt.hashSync(data.password, salt);
       }
 
       data.token = 2;
+      data.imageurl = "https://static.vecteezy.com/system/resources/previews/004/991/321/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
 
       const post = await database.collection("users").insertOne(data);
 
@@ -71,13 +75,13 @@ class user {
 
   static async loginuser(username, password) {
     try {
-      const post = await database
-        .collection("users")
-        .findOne({ username: username });
-      // console.log(post)
+      console.log(username, password);
+      const post = await database.collection("users").findOne({ username: username });
+
+        // console.log(post)
 
       if (!post) {
-        throw "Invalid username/password"
+        throw "Invalid username/password";
       }
 
       let compare = bcrypt.compareSync(password, post.password);
@@ -146,6 +150,7 @@ class user {
       throw error;
     }
   }
+
   static async deleteUser(id) {
     try {
       const userid = new ObjectId(String(id));
