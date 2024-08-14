@@ -14,7 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 import { WebView } from "react-native-webview"; // Pastikan WebView diimport
 import api from "../helper/axios";
 import * as SecureStore from "expo-secure-store";
-// import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 export default function Subscription() {
   const [token, setToken] = useState(null);
@@ -48,24 +47,13 @@ export default function Subscription() {
 
   const getTransactionToken = async (packageId) => {
     setLoading(true);
-    // console.log(packageId, `-------------111`);
-
-    // const selectedPackage = items.find((pkg) => pkg.id === packageId);
-    // console.log(selectedPackage, `-------------111`);
-
-    // if (!selectedPackage) {
-    //   setLoading(false);
-    //   Alert.alert("Error", "Invalid package selected.");
-    //   return;
-    // }
+    
 
     const transactionDetails = {
       paket: packageId,
     };
-    // console.log(transactionDetails.paket, `-------------222`);
 
     try {
-      console.log(transactionDetails, `-------------333`);
 
       const response = await api({
         url: `/midtrans`,
@@ -77,8 +65,6 @@ export default function Subscription() {
           )}`,
         },
       });
-      // console.log(response, `rerererererererere`);
-      // console.log(response.data.payment_url, `rerererererererere`);
 
       setToken(response.data.payment_url);
       setShowWebView(true);
