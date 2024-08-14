@@ -1,4 +1,4 @@
-// require ('dotenv').config()
+require ('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.URI
 // console.log(uri, "<<<<<");
@@ -12,6 +12,8 @@ const client = new MongoClient(uri, {
   }
 });
 
-const database = client.db("hackfit-final-project")
+const database = client.db(process.env.NODE_ENV === "test" ? "hackfit-final-project-test":process.env.DATABASE_NAME)
 
 module.exports = database
+
+//buatkan saya agar data didalam sini dapat menjalankan fitur testing dengan menggunakan jest
