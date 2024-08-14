@@ -234,23 +234,6 @@ class UserController {
       res.status(400).json(error);
     }
   }
-  static async deleteUser(req, res) {
-    try {
-      const {_id} = req.body;
-      // console.log(body, "<><>");
-     
-      const data = await user.deleteUser(_id);
-      console.log(data)
-
-      if(!data){
-        throw "user not found"
-      }
-
-      res.status(201).json({ message: "successfully deleted profile" });
-    } catch (error) {
-      res.status(404).json(error.message);
-    }
-  }
 }
 
 module.exports = UserController;

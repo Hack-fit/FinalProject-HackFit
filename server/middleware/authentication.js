@@ -10,19 +10,19 @@ async function authentication(req,res,next) {
         // console.log(token_access)
 
         if (!token_access) {
-            throw({name:"invalid token"})
+            throw("Unauthorized")
         }
 
         const [Bearer,token] = token_access.split(" ")
 
         if (Bearer !== "Bearer") {
-            throw({name:"invalid token"})
+            throw("Unauthorized")
         }
         const verif = verifyToken(token)
         // console.log(verif.userid)
 
         if (!verif) {
-            throw({name:"invalid token"})
+            throw("Unauthorized")
         }
 
         const id = new ObjectId(String(verif.userid))
@@ -33,7 +33,7 @@ async function authentication(req,res,next) {
         console.log(user)
 
         if (!user) {
-            throw({name:"invalid token"})
+            throw("Unauthorized")
         }
 
         req.user = {
