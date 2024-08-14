@@ -12,7 +12,6 @@ export default function FitAi() {
     const [name, setName] = useState(null);
     const [equipment, setEquipment] = useState([]);
     const [loading, setloading] = useState(false);
-    const [todoName, setTodoName] = useState(""); // State for To-Do name
 
     const optionsLevel = ["Pemula", "Profesional"];
     const optionsFrequency = ["1 kali", "2 kali", "3 kali", "4 kali", "5 kali", "6 kali", "7 kali", "> 7 kali"];
@@ -73,7 +72,6 @@ export default function FitAi() {
             url:'/openai',
             method:'post',
             data:{
-                todoName, // Include To-Do name in the request
                 level,
                 workoutFrequency,
                 goal,
@@ -94,10 +92,10 @@ export default function FitAi() {
             
         } catch (error) {
             // console.log(error)
-            console.log(error.response.data.message)
+            console.log(typeof(error.response.data.message))
             showMessage({
-                message: error.response.data.message === typeof("String") ? error.response.data.message : "Error",
-                description: "Your plan has not been created. please try again later",
+                message: "Failed",
+                description: typeof(error.response.data.message) === typeof("String") ? error.response.data.message : "Error",
                 type: "danger",
             })
             setloading(false)
@@ -114,8 +112,8 @@ export default function FitAi() {
                 <TextInput
                     style={styles.textInput}
                     placeholder="Masukkan nama To-Do"
-                    value={todoName}
-                    onChangeText={setTodoName}
+                    value={name}
+                    onChangeText={(text)=>setName(text)}
                 />
 
                 <Text style={styles.questionText}>Apakah Anda seorang:</Text>
@@ -133,13 +131,6 @@ export default function FitAi() {
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {renderMultipleOptions(optionsEquipment, equipment, toggleEquipmentSelection)}
                 </ScrollView>
-                <Text style={styles.questionText}>Nama todoList</Text>
-                <TextInput
-                    style={styles.input}
-                    value={name}
-                    onChangeText={(text)=>setName(text)}
-                    placeholder="Enter Todolistname"
-                />
             </View>
             </ScrollView>
 

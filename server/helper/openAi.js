@@ -3,7 +3,7 @@ require("dotenv").config();
 
 module.exports = async function OpenAi({level,workoutFrequency,goal,equipment}) { 
   const openai = new OpenAI({
-    apiKey: process.env.Open_AI_Key,
+    apiKey: process.env.OPENAI_API_KEY,
   });
   const completion = await openai.chat.completions.create({
     messages: [

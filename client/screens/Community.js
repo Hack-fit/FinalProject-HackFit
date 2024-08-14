@@ -12,6 +12,8 @@ import CardCommunity from "../components/CardCommunity";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
 
+
+
 export default function Community() {
   const navigation = useNavigation();
   const [community, setCommunity] = React.useState([]);

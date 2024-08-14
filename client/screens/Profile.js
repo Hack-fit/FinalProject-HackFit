@@ -63,7 +63,7 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        {user.profilePicture ? <Image source={{ uri: user.profilePicture }} style={styles.avatar} /> : <Image source={{ uri: uridummy }} style={styles.avatar} />}
+        {user.imagurl ? <Image source={{ uri: user.imagurl }} style={styles.avatar} /> : <Image source={{ uri: uridummy }} style={styles.avatar} />}
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
@@ -84,7 +84,7 @@ export default function ProfileScreen() {
         <View style={styles.infoRow}>
           <Ionicons name="call" size={20} color="#555" />
           <Text style={styles.label}>Phone:</Text>
-          <Text style={styles.info}>{user.phone}</Text>
+          <Text style={styles.info}>{user.phoneNumber}</Text>
         </View>
         <View style={styles.infoRow}>
           <Ionicons name="calendar" size={20} color="#555" />
@@ -94,12 +94,12 @@ export default function ProfileScreen() {
         <View style={styles.infoRow}>
           <Ionicons name="resize" size={20} color="#555" />
           <Text style={styles.label}>Height:</Text>
-          <Text style={styles.info}>{user.height}cm</Text>
+          <Text style={styles.info}>{user.height ? user.height + "cm" : "-"} </Text>
         </View>
         <View style={styles.infoRow}>
           <Ionicons name="barbell" size={20} color="#555" />
           <Text style={styles.label}>Weight:</Text>
-          <Text style={styles.info}>{user.weight}kg</Text>
+          <Text style={styles.info}>{user.weight ? user.weight + "kg" : "-"}</Text>
         </View>
         <View style={styles.infoRow}>
           <Ionicons name="logo-bitcoin" size={20} color="#555" />
