@@ -1,12 +1,38 @@
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import api from "../helper/axios";
+import { showMessage } from "react-native-flash-message";
+import * as SecureStore from 'expo-secure-store'
 
-const CardCommunity = () => {
+
+const CardCommunity = ({data}) => {
+  // console.log(data.trainingid)
   const [liked, setLiked] = useState(false);
+  const navigator = useNavigation();
 
-  const handleLike = () => {
-    setLiked(!liked);
+  const handleLike = async () => {
+    try {
+      await api({
+        url: `/like-post/${data._id}`,
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      })
+      showMessage({
+        message: "Success",
+        description: "Post has been liked successfully.",
+        type: "success"
+      })      
+    } catch (error) {
+      console.log(error.response.data)
+      showMessage({
+        message: error.response.data,
+        type:'danger'
+      })
+    }
   };
 
   return (
@@ -20,27 +46,33 @@ const CardCommunity = () => {
         />
         <View style={styles.headerTextContainer}>
           <View style={styles.headerTextRow}>
-            <Text style={styles.name}>Bayu</Text>
-            <Text style={styles.username}>@TestingBayu</Text>
-            <Text style={styles.time}>·12.40</Text>
+            <Text style={styles.name}>
+              test
+              {data.user[0].name}
+              </Text>
+            <Text style={styles.username}>
+            @{data.user[0].username}
+              </Text>
+            {/* <Text style={styles.time}>·12.40</Text> */}
           </View>
         </View>
       </View>
-      <Text style={styles.text}>Gym dulu ges biar kuat</Text>
-      <Image
-        style={styles.imagePost}
-        source={{
-          uri: "https://images.unsplash.com/photo-1519505907962-0a6cb0167c73?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        }}
-      />
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.actionButton}>
-          <FontAwesome name="comment-o" size={24} color="#808080" />
-          <Text style={styles.footerText}>5</Text>
+      <Text style={styles.text}>Shared a Training Task: <Text style={{color:'green'}}>{data.trainingname}</Text></Text>
+      
+      {/* New button in the center */}
+      <View style={styles.centerButtonContainer}>
+        <TouchableOpacity 
+          style={styles.centerButton} 
+          onPress={()=>navigator.navigate('detail',{trainid:data.trainingid,likes:data.likes,postid:data._id,train:data.training,username:data.user[0].username,name:data.user[0].name})}
+        >
+          <Text style={styles.centerButtonText}>More Info</Text>
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.footer}>
         <TouchableOpacity style={styles.actionButton} onPress={handleLike}>
-          <Entypo name="heart" size={24} color={liked ? "red" : "#808080"} />
-          <Text style={styles.footerText}>5</Text>
+          <Entypo name="heart" size={24} color={"red"} />
+          <Text style={styles.footerText}>{data.likes.length === 0 ? 0 : data.likes.length}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -87,15 +119,27 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: "black",
   },
-  imagePost: {
-    width: "100%",
-    height: 200,
-    borderRadius: 8,
+  centerButtonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  centerButton: {
+    backgroundColor: '#007BFF',
+    padding: 15, // Increased padding for a larger button
+    borderRadius: 5,
+    width: '80%', // Adjust the width as needed
+    alignItems: 'center',
+  },
+  centerButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16, // Increased font size for better readability
   },
   footer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginTop: 8,
   },
   actionButton: {

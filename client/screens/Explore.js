@@ -12,6 +12,7 @@ import BannerAi from "../components/BannerAi";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
+import { showMessage } from "react-native-flash-message";
 
 // const todoLists = [
 //     {
@@ -122,6 +123,33 @@ export default function Explore() {
     }, [])
   );
 
+  const handleDelete = async (id) => {
+    try {
+      console.log("delete")
+      setloading(true)
+      const data = await api({
+        url: `/delete-todo/${id}`,
+        method: "DELETE",
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
+        }
+      });
+      fetch_data()
+      setloading(false)
+      showMessage({
+        message: "Success",
+        description: "List has been deleted successfully.",
+        type: "success"
+      })
+    } catch (error) {
+      showMessage({
+        message: "Error",
+        description: "Failed to delete the list.",
+        type: "danger",
+      })
+    }
+  };
+
 
 
   return (
@@ -135,16 +163,23 @@ export default function Explore() {
           <ToDoListSection>
             <Text style={styles.sectionTitle}>To-Do Lists:</Text>
             {gettodoLists[0].todo.map((list, index) => (
+            <View key={index} style={styles.todoContainer}>
               <TouchableOpacity
-                key={index}
                 onPress={() =>
-                  navigation.navigate("DailyTask", { todoList: list.todo })
+                  navigation.navigate("DailyTask", { todoList: list.todo,id:list._id })
                 }
-                style={styles.todoContainer}
+                style={styles.todoContent}
               >
                 <Text style={styles.todoName}>{list.name}</Text>
               </TouchableOpacity>
-            ))}
+              <TouchableOpacity
+                onPress={() => handleDelete(list._id)}
+                style={styles.deleteButton}
+              >
+                <Text style={styles.deleteButtonText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
           </ToDoListSection>
         ) : (
           <Text style={styles.noTodoText}>No To-Do List Available</Text>
@@ -169,6 +204,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  todoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  todoContent: {
+    flex: 1,
+  },
+  deleteButton: {
+    backgroundColor: "red",
+    padding: 5, // Make the button smaller
+    borderRadius: 5,
+    marginLeft: "auto", // Add some space between the text and the button
+  },
+  deleteButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 12, // Make the text smaller
   },
   content: {
     paddingVertical: 20,

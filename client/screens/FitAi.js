@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Alert } from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView, Alert, TextInput } from "react-native";
 import api from "../helper/axios";
 import * as SecureStore from 'expo-secure-store'
 import { showMessage } from "react-native-flash-message";
@@ -8,8 +8,8 @@ export default function FitAi() {
     const [level, setLevel] = useState(null);
     const [workoutFrequency, setWorkoutFrequency] = useState(null);
     const [goal, setGoal] = useState(null);
+    const [name, setName] = useState(null);
     const [equipment, setEquipment] = useState([]);
-    const [getdata, setdata] = useState([]);
     const [loading, setloading] = useState(false);
 
     const optionsLevel = ["Pemula", "Profesional"];
@@ -63,6 +63,7 @@ export default function FitAi() {
         // console.log("Workout Frequency:", workoutFrequency);
         // console.log("Goal:", goal);
         // console.log("Equipment:", equipment);
+        // console.log("Name:", name);
         try {
         const data = await api({
             url:'/openai',
@@ -71,7 +72,8 @@ export default function FitAi() {
                 level,
                 workoutFrequency,
                 goal,
-                equipment
+                equipment,
+                name
             },
             headers:{
                 'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
@@ -88,8 +90,8 @@ export default function FitAi() {
             // console.log(error)
             console.log(error.response.data.message)
             showMessage({
-                message: error.response.data.message,
-                description: "Your plan has not been created.",
+                message: error.response.data.message === typeof("String") ? error.response.data.message : "Error",
+                description: "Your plan has not been created. please try again later",
                 type: "danger",
             })
             setloading(false)
@@ -99,6 +101,7 @@ export default function FitAi() {
 
     return (
         <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.formContainer}>
                 <Text style={styles.questionText}>Apakah Anda seorang:</Text>
                 {renderSingleOption(optionsLevel, level, setLevel)}
@@ -115,7 +118,15 @@ export default function FitAi() {
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {renderMultipleOptions(optionsEquipment, equipment, toggleEquipmentSelection)}
                 </ScrollView>
+                <Text style={styles.questionText}>Nama todoList</Text>
+                <TextInput
+                    style={styles.input}
+                    value={name}
+                    onChangeText={(text)=>setName(text)}
+                    placeholder="Enter Todolistname"
+                />
             </View>
+            </ScrollView>
 
             {loading ? <TouchableOpacity style={styles.createPlanButton} onPress={handleCreatePlan}>
                 <Text style={styles.buttonText}>Loading...</Text>
@@ -134,6 +145,10 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         padding: 20,
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: "space-between",
     },
     questionText: {
         fontSize: 18,
@@ -157,5 +172,14 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 16,
         fontWeight: "bold",
+    },    
+    input: {
+        width: "100%",
+        height: 50,
+        borderColor: "gray",
+        borderWidth: 1,
+        borderRadius: 10,
+        marginBottom: 15,
+        paddingHorizontal: 10,
     },
 });
