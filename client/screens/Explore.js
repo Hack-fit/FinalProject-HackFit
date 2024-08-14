@@ -6,92 +6,123 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import BannerAi from "../components/BannerAi";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import api from "../helper/axios";
+import * as SecureStore from 'expo-secure-store'
 
+// const todoLists = [
+//     {
+//       name: "Lower Strength",
+//       todo: [
+//         {
+//           "Hari": "Senin",
+//           "Jenis_Latihan": "Kardio dan Daya Tahan",
+//           "Rincian_Latihan": [
+//             {
+//               "Jenis_Latihan": "Treadmill",
+//               "rep": 30,
+//               "set": 1,
+//               "tipe": "",
+//               "link": "https://www.youtube.com/embed/fMKBfvsltAQ?si=wn7as4btpBubMfkR"
+//             },
+//             {
+//               "Jenis_Latihan": "Plank",
+//               "rep": 15,
+//               "set": 3,
+//               "tipe": "plank"
+//             }
+//           ]
+//         },
+//         {
+//           "Hari": "Selasa",
+//           "Jenis_Latihan": "Kekuatan Atas Tubuh",
+//           "Rincian_Latihan": [
+//             {
+//               "Jenis_Latihan": "Bench Press",
+//               "rep": 10,
+//               "set": 4,
+//               "tipe": "bench press"
+//             },
+//             {
+//               "Jenis_Latihan": "Pull-Up",
+//               "rep": 8,
+//               "set": 3,
+//               "tipe": "pull up"
+//             }
+//           ]
+//         },
+//         {
+//           "Hari": "Kamis",
+//           "Jenis_Latihan": "Kardio dan Daya Tahan",
+//           "Rincian_Latihan": [
+//             {
+//               "Jenis_Latihan": "Treadmill",
+//               "rep": 30,
+//               "set": 1,
+//               "tipe": ""
+//             },
+//             {
+//               "Jenis_Latihan": "Lunges",
+//               "rep": 12,
+//               "set": 3,
+//               "tipe": "Lunges"
+//             }
+//           ]
+//         },
+//         {
+//           "Hari": "Jumat",
+//           "Jenis_Latihan": "Kekuatan Bawah Tubuh",
+//           "Rincian_Latihan": [
+//             {
+//               "Jenis_Latihan": "Cable Machine",
+//               "rep": 10,
+//               "set": 4,
+//               "tipe": ""
+//             },
+//             {
+//               "Jenis_Latihan": "Squat",
+//               "rep": 10,
+//               "set": 3,
+//               "tipe": "squat"
+//             }
+//           ]
+//         }
+//       ]
+//     },
+//   ]
 export default function Explore() {
   const navigation = useNavigation();
-  const todoLists = [
-    {
-      name: "Lower Strength",
-      todo: [
-        {
-          "Hari": "Senin",
-          "Jenis_Latihan": "Kardio dan Daya Tahan",
-          "Rincian_Latihan": [
-            {
-              "Jenis_Latihan": "Treadmill",
-              "rep": 30,
-              "set": 1,
-              "tipe": "",
-              "link": "https://www.youtube.com/embed/fMKBfvsltAQ?si=wn7as4btpBubMfkR"
-            },
-            {
-              "Jenis_Latihan": "Plank",
-              "rep": 15,
-              "set": 3,
-              "tipe": "plank"
-            }
-          ]
-        },
-        {
-          "Hari": "Selasa",
-          "Jenis_Latihan": "Kekuatan Atas Tubuh",
-          "Rincian_Latihan": [
-            {
-              "Jenis_Latihan": "Bench Press",
-              "rep": 10,
-              "set": 4,
-              "tipe": "bench press"
-            },
-            {
-              "Jenis_Latihan": "Pull-Up",
-              "rep": 8,
-              "set": 3,
-              "tipe": "pull up"
-            }
-          ]
-        },
-        {
-          "Hari": "Kamis",
-          "Jenis_Latihan": "Kardio dan Daya Tahan",
-          "Rincian_Latihan": [
-            {
-              "Jenis_Latihan": "Treadmill",
-              "rep": 30,
-              "set": 1,
-              "tipe": ""
-            },
-            {
-              "Jenis_Latihan": "Lunges",
-              "rep": 12,
-              "set": 3,
-              "tipe": "Lunges"
-            }
-          ]
-        },
-        {
-          "Hari": "Jumat",
-          "Jenis_Latihan": "Kekuatan Bawah Tubuh",
-          "Rincian_Latihan": [
-            {
-              "Jenis_Latihan": "Cable Machine",
-              "rep": 10,
-              "set": 4,
-              "tipe": ""
-            },
-            {
-              "Jenis_Latihan": "Squat",
-              "rep": 10,
-              "set": 3,
-              "tipe": "squat"
-            }
-          ]
+  const [loading,setloading] = React.useState(false)
+  const [gettodoLists, setTodoLists] = React.useState([]);
+
+  const fetch_data = async () => {
+    try {
+      setloading(true)
+      const { data } = await api({
+        url: "/get-todo",
+        method: "GET",
+        headers:{
+          'Authorization':`Bearer ${await SecureStore.getItemAsync('access-token')}`
         }
-      ]
-    },
-  ]
+      });
+      // console.log(data);
+      setTodoLists(data)
+      setloading(false)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetch_data()
+    }, [])
+  );
+
+
 
   return (
     <View style={styles.container}>
@@ -100,10 +131,10 @@ export default function Explore() {
           <BannerAi />
         </BannerAiContainer>
 
-        {todoLists.length > 0 ? (
+        {gettodoLists.length > 0 ? (
           <ToDoListSection>
             <Text style={styles.sectionTitle}>To-Do Lists:</Text>
-            {todoLists.map((list, index) => (
+            {gettodoLists[0].todo.map((list, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() =>

@@ -1,10 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import * as SecureStore from 'expo-secure-store'
 import { Authcontext } from "../helper/context";
 import { Ionicons } from "@expo/vector-icons";
 import api from "../helper/axios";
+
+const uridummy = "https://static.vecteezy.com/system/resources/previews/004/991/321/original/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
 
 export default function ProfileScreen() {
   const navigate = useNavigation();
@@ -39,21 +41,29 @@ export default function ProfileScreen() {
     navigate.navigate("UpdateProfile");
   };
 
-  useEffect(()=>{
-    profileuser()
-  },[get])
+  useFocusEffect(
+    React.useCallback(() => {
+      profileuser()
+    }, [])
+  );
 
   if(loading){
     return(
       <View style={{flex:1,justifyContent:'center'}}>
         <ActivityIndicator size="large" color="#00ff00" />
-      </View>)
+      <TouchableOpacity onPress={handlelogout} style={styles.buttonLogOut}>
+        <Text style={styles.buttonText}>Log out</Text>
+      </TouchableOpacity>
+      </View>
+      
+      
+    )
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Image source={{ uri: user.profilePicture }} style={styles.avatar} />
+        {user.profilePicture ? <Image source={{ uri: user.profilePicture }} style={styles.avatar} /> : <Image source={{ uri: uridummy }} style={styles.avatar} />}
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
@@ -84,12 +94,12 @@ export default function ProfileScreen() {
         <View style={styles.infoRow}>
           <Ionicons name="resize" size={20} color="#555" />
           <Text style={styles.label}>Height:</Text>
-          <Text style={styles.info}>{user.height}</Text>
+          <Text style={styles.info}>{user.height}cm</Text>
         </View>
         <View style={styles.infoRow}>
           <Ionicons name="barbell" size={20} color="#555" />
           <Text style={styles.label}>Weight:</Text>
-          <Text style={styles.info}>{user.weight}</Text>
+          <Text style={styles.info}>{user.weight}kg</Text>
         </View>
         <View style={styles.infoRow}>
           <Ionicons name="logo-bitcoin" size={20} color="#555" />

@@ -22,12 +22,13 @@ class user {
       if (data.username === "") {
         throw "username is required";
       }
-
+      if (data.pasword === "" || !data.password) {
+        throw "password is required";
+      }
       const emailFormat = isEmail(data.email);
       if (!emailFormat) {
         throw "email must be in email format";
       }
-
       const emailUnique = await database
         .collection("users")
         .findOne({ email: data.email });
@@ -35,14 +36,14 @@ class user {
         throw "email must be unique";
       }
 
-      if (data.emai === "") {
+      if (data.email === "") {
         throw "email is required";
       }
-      if (data.pasword === "") {
-        throw "password is required";
-      }
-      if (data.age === "") {
+      if (data.age === "" || undefined) {
         throw "age is required";
+      }
+      if (data.gender === "") {
+        throw "gender is required"
       }
       if (data.weight === "") {
         throw "weight is required";
@@ -53,9 +54,10 @@ class user {
       if (data.bodyType === "") {
         throw "body type is required";
       }
-
-      let salt = bcrypt.genSaltSync(10);
-      data.password = bcrypt.hashSync(data.password, salt);
+      if (data.password) {
+        let salt = bcrypt.genSaltSync(10);
+        data.password = bcrypt.hashSync(data.password, salt);
+      }
 
       data.token = 2;
 
@@ -63,7 +65,7 @@ class user {
 
       return post;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
 
@@ -75,13 +77,13 @@ class user {
       // console.log(post)
 
       if (!post) {
-        throw { name: "username/password is invalid" };
+        throw "Invalid username/password" 
       }
 
       let compare = bcrypt.compareSync(password, post.password);
 
       if (!compare) {
-        throw { name: "Invalid username/password" };
+        throw "Invalid username/password" 
       }
       // console.log(post._id,"iduser")
 
@@ -90,7 +92,7 @@ class user {
 
       return access_token;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
 
@@ -102,7 +104,31 @@ class user {
 
       return data;
     } catch (error) {
-      return error;
+      throw error;
+    }
+  }
+
+  static async updateToken(id) {
+    try {
+      const userid = new ObjectId(String(id));
+      const data = await database
+        .collection("users")
+        .updateOne({ _id: userid }, { $inc: { token: -1 } });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updatetokenplus(id) {
+    try {
+      const userid = new ObjectId(String(id));
+      const data = await database
+        .collection("users")
+        .updateOne({ _id: userid }, { $inc: { token: 1 } });
+      return data;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -110,13 +136,6 @@ class user {
     try {
       const userid = new ObjectId(String(id));
       // console.log(data)
-      if (data.weight) {
-        data.weight = data.weight + "kg";
-      }
-      if (data.height) {
-        data.height = data.height + "cm";
-      }
-
       data.updatedAt = new Date();
 
       const update = await database
@@ -124,7 +143,7 @@ class user {
         .updateOne({ _id: userid }, { $set: data });
       return update;
     } catch (error) {
-      return error;
+      throw error;
     }
   }
   static async deleteUser(id) {

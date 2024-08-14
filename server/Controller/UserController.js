@@ -6,6 +6,7 @@ const openAi = require("../helper/openAi");
 const bcrypt = require("bcryptjs");
 const user = require("../model/user");
 const trainer = require("../model/trainer");
+const Training = require("../model/training");
 
 class UserController {
   static async getall(req, res) {
@@ -29,7 +30,7 @@ class UserController {
       res.status(201).json("successfully registered");
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error });
+      res.status(400).json({message:error});
     }
   }
 
@@ -148,7 +149,7 @@ class UserController {
       res.status(200).json({ access_token: access_token });
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error: error.name });
+      res.status(400).json({ message: error });
     }
   }
 
@@ -166,15 +167,57 @@ class UserController {
 
   static async openAi(req, res) {
     try {
-      const data = req.body;
+      const {level, workoutFrequency, goal, equipment, name} = req.body
+      const { userid } = req.user;
+      // console.log(level,workoutFrequency,goal,equipment)
+      
+      const datauser = await user.getuserbyid(userid);
+      console.log(datauser.token)
+      if (datauser.token <= 0 || datauser.token === 0) {
+        throw "Out of token please buy more to use this feature"; 
+      }
+      else if(datauser.token > 0){
+        await user.updateToken(userid)
+      }
 
-      console.log(data);
 
-      let responseOpenAI = await openAi(data);
+      if (!level) {
+        throw "data tidak boleh kosong";
+      }
+      if (!workoutFrequency) {
+        throw "data tidak boleh kosong";
+      }
+      if (!goal) {
+        throw "data tidak boleh kosong";
+      }
+      if (equipment === "" || []) {
+        throw "data tidak boleh kosong"; 
+      }
 
-      res.send(responseOpenAI);
+
+      let responseOpenAI = await openAi({level, workoutFrequency, goal, equipment});
+
+      const training = {name,todo: JSON.parse(responseOpenAI)}
+
+      const data = await Training.insertdata(training)
+      console.log(data,"insert data training")
+
+      const conjunctionData = await Training.insertConjunction({userid:new ObjectId(String(userid)), trainingid: data.insertedId})
+
+      res.status(201).json({ message: "successfully created training" });
+      // res.send(responseOpenAI);
     } catch (error) {
-      console.log(error);
+      console.log(error)
+      if (error === "Out of token please buy more to use this feature") {
+        console.log(error);
+        res.status(400).json({message:error});
+      }
+      else{
+        const { userid } = req.user;
+        await user.updatetokenplus(userid)
+        res.status(400).json({message:error});
+      }
+
     }
   }
 

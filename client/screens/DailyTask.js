@@ -12,15 +12,15 @@ export default function DailyTask({ route }) {
         <View key={index} style={styles.dayContainer}>
           <View style={styles.headerContainer}>
             <MaterialIcons name="today" size={24} color="#4CAF50" />
-            <Text style={styles.dayText}>{item.day}</Text>
+            <Text style={styles.dayText}>{item.day}</Text> 
           </View>
-          <Text style={styles.typeText}>{item.Jenis_Latihan}</Text>
+          <Text style={styles.typeText}>{item.Jenis_Latihan}</Text> 
           {item.Rincian_Latihan.map((detail, idx) => (
             <View key={idx} style={styles.detailContainer}>
               <View style={styles.exerciseInfo}>
                 <MaterialIcons name="fitness-center" size={20} color="#FF9800" />
                 <Text style={styles.detailText}>
-                  {`${detail.Jenis_Latihan}: ${detail.rep} reps, ${detail.set} sets`}
+                  {`${detail.Jenis_Latihan}: ${detail.rep} reps, ${detail.set} sets`} 
                 </Text>
               </View>
               {detail.tipe === "" ? (
