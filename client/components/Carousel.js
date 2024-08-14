@@ -6,7 +6,7 @@ export default function CarouselCard() {
     const width = Dimensions.get('window').width;
     const images = [
         require('../assets/gym1.jpg'),
-        require('../assets/gym2.jpg'),
+        require('../assets/Banner1.jpg'),
         require('../assets/gym3.jpg'),
         require('../assets/gym4.jpg'),
         require('../assets/farel.jpeg')

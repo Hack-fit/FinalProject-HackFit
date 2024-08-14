@@ -1,5 +1,7 @@
 "use client";
 import { Trainers } from "@/app/(withNav)/page";
+import { ButtonDeleteCard } from "./DeleteCardTrainer";
+import Link from "next/link";
 
 
 const CardTrainer = ({ el }: { el: Trainers }) => {
@@ -59,8 +61,10 @@ const CardTrainer = ({ el }: { el: Trainers }) => {
         </div>
 
         <div className="card-actions flex justify-center gap-2 mt-5">
-          <button className="btn btn-primary">Buy Now</button>
-          <button className="btn btn-error">Delete</button>
+          <Link href={`/trainer/${el._id}`}>
+          <button className="btn btn-primary">Edit</button>
+          </Link>
+          <ButtonDeleteCard id={el._id}/>
         </div>
       </div>
     </div>
