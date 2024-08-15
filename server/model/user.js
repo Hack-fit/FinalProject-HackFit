@@ -5,15 +5,6 @@ const isEmail = require("../helper/isEmail");
 const { ObjectId } = require("mongodb");
 
 class user {
-  static async getuser() {
-    try {
-      const data = await database.collection("users").find().toArray();
-      return data;
-    } catch (error) {
-      return error;
-    }
-  }
-
   static async registeruser(data) {
     try {
       if (data.name === "") {

@@ -361,7 +361,7 @@ describe("POST /midtrans", () => {
 });
 
 //create handle testing useing jest and super test for openai controller for data can get same from openai.js
-describe.only("POST /openai", () => {
+describe("POST /openai", () => {
   let token;
 
   beforeAll(async () => {
