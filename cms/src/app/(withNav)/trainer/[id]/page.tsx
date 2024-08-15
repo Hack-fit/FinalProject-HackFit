@@ -1,10 +1,25 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { CldUploadWidget } from "next-cloudinary";
 
-const Page = () => {
+// Fetch existing trainer data based on the given ID
+export async function fetchDataTrainer(id: string) {
+  const link: string | undefined = process.env.NEXT_PUBLIC_BASE_URL;
+  if (!link) {
+    throw new Error("Base URL is not defined");
+  }
+
+  const response = await fetch(`${link}/api/trainer/${id}`);
+  if (!response.ok) {
+    throw new Error("Trainer not found");
+  }
+
+  return await response.json();
+}
+
+const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [input, setInput] = useState({
     name: "",
@@ -21,6 +36,19 @@ const Page = () => {
     location: "",
   });
 
+  useEffect(() => {
+    const fetchTrainerData = async () => {
+      try {
+        const data = await fetchDataTrainer(params.id);
+        setInput(data.trainer);
+      } catch (error) {
+        console.error("Error fetching trainer data:", error);
+      }
+    };
+
+    fetchTrainerData();
+  }, [params.id]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
@@ -34,7 +62,6 @@ const Page = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // Check if all fields are filled
       const fields = [
         "name",
         "username",
@@ -48,9 +75,7 @@ const Page = () => {
         "profile_picture",
         "role",
       ];
-      const isValid = fields.every(
-        (field) => input[field as keyof typeof input]
-      );
+      const isValid = fields.every((field) => input[field as keyof typeof input]);
       if (!isValid) {
         return Swal.fire({
           title: "Please fill all the fields",
@@ -63,8 +88,8 @@ const Page = () => {
         throw new Error("Base URL is not defined");
       }
 
-      const response = await fetch(`${link}/api/trainer`, {
-        method: "POST",
+      const response = await fetch(`${link}/api/trainer/${params.id}`, {
+        method: "PUT",
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +109,7 @@ const Page = () => {
       }
 
       Swal.fire({
-        title: "Success add Trainer!",
+        title: "Success update Trainer!",
         icon: "success",
       });
       router.push("/");
@@ -99,7 +124,7 @@ const Page = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Add New Trainer</h1>
+      <h1 className="text-2xl font-bold mb-6">Edit Trainer</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <InputField
           label="Name"
@@ -138,22 +163,12 @@ const Page = () => {
           value={input.height}
           onChange={handleChange}
         />
-        <label className="block text-lg font-medium mb-2">Specialist</label>
-        <select
-          value={input.specialist}
+        <InputField
+          label="Specialist"
           name="specialist"
-          className="select select-bordered w-full mb-5"
+          value={input.specialist}
           onChange={handleChange}
-        >
-          <option value="" disabled>
-            Select Specialist
-          </option>
-          <option value="Body Building">Body Building</option>
-          <option value="Cardio">Cardio</option>
-          <option value="Yoga">Yoga</option>
-          <option value="Zumba">Zumba</option>
-          <option value="Boxing">Boxing</option>
-        </select>
+        />
         <InputField
           label="Phone Number"
           name="phone_number"
@@ -166,18 +181,12 @@ const Page = () => {
           value={input.bio}
           onChange={handleChange}
         />
-        <label className="block text-lg font-medium mb-2">Role</label>
-        <select
-          value={input.role}
+        <InputField
+          label="Role"
           name="role"
-          className="select select-bordered w-full mb-5"
+          value={input.role}
           onChange={handleChange}
-        >
-          <option value="" disabled>
-            Select Role
-          </option>
-          <option value="Trainer">Trainer</option>
-        </select>
+        />
         <InputField
           label="Location"
           name="location"
@@ -185,9 +194,7 @@ const Page = () => {
           onChange={handleChange}
         />
         <div className="mb-5">
-          <label className="block text-lg font-medium mb-2">
-            Profile Picture
-          </label>
+          <label className="block text-lg font-medium mb-2">Profile Picture</label>
           {input.profile_picture && (
             <div className="mb-4">
               <img
@@ -199,20 +206,20 @@ const Page = () => {
           )}
           <CldUploadWidget
             signatureEndpoint="/api/cloudinary"
-            onSuccess={(Result) => {
+            onSuccess={(result) => {
               setInput((prev) => ({
                 ...prev,
                 profile_picture:
-                  typeof Result.info === "string"
-                    ? Result.info
-                    : Result.info?.secure_url || "",
+                  typeof result.info === "string"
+                    ? result.info
+                    : result.info?.secure_url || "",
               }));
             }}
           >
             {({ open }) => (
               <button
-                className="bg-slate-500 rounded py-2 px-4 mb-5 text-white"
                 type="button"
+                className="bg-slate-500 text-white py-2 px-4 rounded"
                 onClick={() => open()}
               >
                 Upload an Image
