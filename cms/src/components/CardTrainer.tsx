@@ -3,7 +3,6 @@ import { Trainers } from "@/app/(withNav)/page";
 import { ButtonDeleteCard } from "./DeleteCardTrainer";
 import Link from "next/link";
 
-
 const CardTrainer = ({ el }: { el: Trainers }) => {
   return (
     <div className="card bg-base-100 w-64 shadow-xl rounded-lg overflow-hidden">
@@ -15,11 +14,25 @@ const CardTrainer = ({ el }: { el: Trainers }) => {
         />
       </figure>
       <div className="card-body text-center p-4">
-        <h2 className="card-title text-xl font-bold mb-2 text-center justify-center">{el.name}</h2>
+        <h2 className="card-title text-xl font-bold mb-2 text-center justify-center">
+          {el.name}
+        </h2>
         <p className="text-sm text-gray-600 mb-4">{el?.bio}</p>
 
         {/* Container for icons and text */}
         <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 34 34"
+              className="w-8 h-8"
+            >
+              <g>
+                <path d="M11.11 23a1 1 0 0 1-.34-.06 1 1 0 0 1-.65-1.05l.77-7.09H5a1 1 0 0 1-.83-1.56l7.89-11.8a1 1 0 0 1 1.17-.38 1 1 0 0 1 .65 1l-.77 7.14H19a1 1 0 0 1 .83 1.56l-7.89 11.8a1 1 0 0 1-.83.44z"></path>
+              </g>
+            </svg>
+          <span>{el.specialist}</span>
+          </div>
           <div className="flex items-center space-x-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,15 +69,15 @@ const CardTrainer = ({ el }: { el: Trainers }) => {
               <path d="M24 4c-7.73 0-14 6.27-14 14 0 10.5 14 26 14 26s14-15.5 14-26c0-7.73-6.27-14-14-14zm0 19c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"></path>
               <path fill="none" d="M0 0h48v48H0z"></path>
             </svg>
-            <span>Jakarta</span>
+            <span>{el.location}</span>
           </div>
         </div>
 
         <div className="card-actions flex justify-center gap-2 mt-5">
           <Link href={`/trainer/${el._id}`}>
-          <button className="btn btn-primary">Edit</button>
+            <button className="btn btn-primary">Edit</button>
           </Link>
-          <ButtonDeleteCard id={el._id}/>
+          <ButtonDeleteCard id={el._id} />
         </div>
       </div>
     </div>

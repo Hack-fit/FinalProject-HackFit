@@ -38,12 +38,12 @@ export function SideBar() {
       ),
     },
     {
-      label: "Add User",
+      label: "Add Trainer",
       href: "/adduser",
       icon: (
         <IoMdAddCircleOutline  className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
-    },
+    }
 
   ];
 

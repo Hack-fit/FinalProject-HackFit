@@ -31,6 +31,8 @@ import { z } from "zod";
 
 export async function GET(request: Request) {
   try {
+    console.log(request, "request");
+    
     const { searchParams } = new URL(request.url);
     const name = searchParams.get("name") || ""; // Default to empty string if null
     const trainer = await Trainer.getAllTrainer(name);

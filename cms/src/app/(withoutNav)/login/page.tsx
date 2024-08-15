@@ -56,31 +56,24 @@ export default function Page() {
   };
 
   return (
-    <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased min-h-screen">
-      <div className="max-w-2xl mx-auto p-4">
+    <div className="h-[40rem] w-full rounded-md bg-neutral-800 relative flex flex-col items-center justify-center antialiased min-h-screen">
+      <div className="max-w-2xl mx-auto p-4 -mt-28">
         <div className="grid place-items-center">
           <img
-            src="/assets/image.png"
+            src="/assets/qwerty.png"
             alt="Login Illustration"
-            className="w-40 h-40 mb-0"
+            className="md:w-96 w-64"
           />
         </div>
 
-        <h1 className="relative z-10 text-lg md:text-7xl bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600 text-center font-sans font-bold">
+        <h1 className="relative -mt-16 z-10 text-lg md:text-7xl bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600 text-center font-sans font-bold">
           LOGIN
         </h1>
-        <p className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10">
-          Welcome to MailJet, the best transactional email service on the web.
-          We provide reliable, scalable, and customizable email solutions for
-          your business. Whether you&apos;re sending order confirmations,
-          password reset emails, or promotional campaigns, MailJet has got you
-          covered.
-        </p>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="email"
-            className="text-white rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4 bg-neutral-950 placeholder:text-white-700"
+            className="text-white rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4 bg-neutral-950 placeholder:text-white-700 text-center"
             name="email"
             value={user.email}
             onChange={handleChange}
@@ -88,7 +81,7 @@ export default function Page() {
           <input
             type="password"
             placeholder="password"
-            className="text-white rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4 bg-neutral-950 placeholder:text-white-700 mb-5"
+            className="text-white rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 w-full relative z-10 mt-4 bg-neutral-950 placeholder:text-white-700 mb-5 text-center"
             name="password"
             value={user.password}
             onChange={handleChange}
