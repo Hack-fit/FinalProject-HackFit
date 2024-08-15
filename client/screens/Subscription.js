@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { WebView } from "react-native-webview"; // Pastikan WebView diimport
 import api from "../helper/axios";
 import * as SecureStore from "expo-secure-store";
+import { showMessage } from "react-native-flash-message";
 
 export default function Subscription() {
   const [token, setToken] = useState(null);
@@ -76,22 +77,35 @@ export default function Subscription() {
   };
 
   const handleNavigationChange = (state) => {
+    console.log(state);
+    
     if (!state.loading && state.url.includes("example.com")) {
       const url = new URL(state.url);
+      console.log(url,url.searchParams)
       const transactionStatus = url.searchParams.get("transaction_status");
-
       if (transactionStatus === "settlement") {
-        Alert.alert("Payment Successful!", "Your payment was successful.", [
-          { text: "OK", onPress: () => navigation.replace("Homepage") },
-        ]);
+        showMessage({
+          message: "Payment Successful!",
+          description: "Your payment was successful.",
+          type: "success",
+          onHide: () => navigation.goBack()
+        })
       } else if (transactionStatus === "pending") {
-        Alert.alert(
-          "Payment Failed",
-          "Your payment has failed. Please try again.",
-          [{ text: "OK", onPress: () => navigation.goBack() }]
-        );
+        // Alert.alert(
+        //   "Payment Failed",
+        //   "Your payment has failed. Please try again.",
+        //   [{ text: "OK", onPress: () => navigation.goBack() }]
+        // );
+        showMessage({
+          message: "Payment Failed",
+          description: "Your payment has failed. Please try again.",
+          type: "danger",
+          onHide: () => navigation.goBack()
+        })
       }
     }
+
+    
   };
 
   useEffect(() => {

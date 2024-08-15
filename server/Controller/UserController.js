@@ -9,17 +9,6 @@ const trainer = require("../model/trainer");
 const Training = require("../model/training");
 
 class UserController {
-  static async getall(req, res) {
-    const data = await user.getuser();
-    // console.log(data)
-    res.status(200).json(data);
-  }
-
-  static async getAllTrainers(req, res) {
-    const data = await trainer.gettrainer();
-    // console.log(data)
-    res.status(200).json(data);
-  }
 
   static async register(req, res) {
     try {
@@ -241,23 +230,6 @@ class UserController {
     }
   }
 
-  static async deleteUser(req, res) {
-    try {
-      const {_id} = req.body;
-      // console.log(body, "<><>");
-     
-      const data = await user.deleteUser(_id);
-      // console.log(data)
-
-      if(!data){
-        throw "user not found"
-      }
-
-      res.status(201).json({ message: data });
-    } catch (error) {
-      res.status(404).json(error);
-    }
-  }
 
   static async shareTraining(req, res) {
     try {
