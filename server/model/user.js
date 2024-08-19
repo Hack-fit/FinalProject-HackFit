@@ -142,28 +142,6 @@ class user {
     }
   }
 
-  static async deleteUser(id) {
-    try {
-      const userid = new ObjectId(String(id));
-
-      const checkUser = await database.collection("users").findOne({ _id: userid });
-      if (!checkUser) {
-        throw "user not found"
-      }
-
-      const data = await database
-        .collection("users")
-        .deleteOne({ _id: userid });
-      // console.log(data)
-
-
-      return data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-
   static async shareTrainingfromUser(userid, id) {
     try {
       const userId = new ObjectId(String(userid));

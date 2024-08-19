@@ -70,16 +70,6 @@ class Training {
     static async deletedata(id) {
       try {
         const checkauthor = await database.collection('conjunction').deleteOne({trainingid:new ObjectId(String(id))})
-
-        // if (checkauthor.authorid !== id) {
-        //   throw "not authorized"
-        // }
-        // const del = await database.collection('training').deleteOne({_id:new ObjectId(String(id))})
-
-        // if (!del) {
-        //   throw "training not found" 
-        // }
-
         return "successfully deleted"
       } catch (error) {
         throw error

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -117,13 +117,10 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -141,7 +138,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,23 +159,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { OpenAI } = require("openai");
 require("dotenv").config();
 &nbsp;
-module.exports = async function <span class="fstat-no" title="function not covered" >OpenAi(</span>{level,workoutFrequency,goal,equipment}) { 
-  const openai = <span class="cstat-no" title="statement not covered" >new OpenAI({</span>
-    apiKey: process.env.Open_AI_Key,
+module.exports = async function OpenAi({level,workoutFrequency,goal,equipment}) { 
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
   });
-  const completion = <span class="cstat-no" title="statement not covered" >await openai.chat.completions.create({</span>
+  const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "system",
         content: `Buatkan saya jadwal latihan gym untuk ${level} dalam ${workoutFrequency} kali seminggu selang seling dengan tujuan untuk ${goal} menggunakan ${equipment} dalam bentuk list JSON[{
-      "day" : ""
+      "day" : "",
       "Jenis_Latihan" : "",
       "Rincian_Latihan" : [{
         "Jenis_Latihan" : "",
@@ -191,7 +191,7 @@ module.exports = async function <span class="fstat-no" title="function not cover
   });
   //   console.log(completion.choices[0].message.content);
 &nbsp;
-  const content = <span class="cstat-no" title="statement not covered" >[</span>
+  const content = [
     { nama: "push up", link: "https://www.youtube.com/watch?v=fMKBfvsltAQ" },
     { nama: "pull up", link: " https://www.youtube.com/watch?v=KvsQyhp3y68" },
     {
@@ -209,9 +209,9 @@ module.exports = async function <span class="fstat-no" title="function not cover
     { nama: "plank", link: " https://www.youtube.com/watch?v=8MvNDLdRgZI" },
     { nama: "lunges", link: " https://www.youtube.com/watch?v=xgJl9zTEIPw" },
   ];
-<span class="cstat-no" title="statement not covered" >  console.log(completion.choices[0].message.content);</span>
+  // console.log(completion.choices[0].message.content);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return completion.choices[0].message.content;</span>
+  return completion.choices[0].message.content;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -220,7 +220,7 @@ module.exports = async function <span class="fstat-no" title="function not cover
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-08-14T18:57:09.156Z
+                at 2024-08-15T06:56:47.903Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

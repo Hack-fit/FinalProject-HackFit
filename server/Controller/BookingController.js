@@ -64,6 +64,7 @@ class BookingController {
         }
       );
       // console.log(response.data);
+      response.data.order_id = check.insertedId;
 
       res.status(200).json(response.data);
     } catch (error) {
@@ -94,13 +95,6 @@ class BookingController {
           .updateOne(
             { _id: transaction.userId },
             { $inc: { token: transaction.token } }
-          );
-      } else {
-        await database
-          .collection("transactions")
-          .updateOne(
-            { _id: new ObjectId(String(orderId)) },
-            { $set: { status: "Failed" } }
           );
       }
 

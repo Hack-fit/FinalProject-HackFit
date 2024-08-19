@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.07% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/13</span>
+                <span class='fraction'>10/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.07% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/13</span>
+                <span class='fraction'>10/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -97,24 +97,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -125,25 +125,25 @@
 const database = require("../config/mongodb")
 &nbsp;
 class trainer {
-<span class="fstat-no" title="function not covered" >    st</span>atic async gettrainer(){
-<span class="cstat-no" title="statement not covered" >        try {</span>
-            const data = <span class="cstat-no" title="statement not covered" >await database.collection('trainers').find().toArray()</span>
+    static async gettrainer(){
+        try {
+            const data = await database.collection('trainers').find().toArray()
             // console.log(data)
-<span class="cstat-no" title="statement not covered" >            return data</span>
+            return data
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            return error</span>
         }
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    st</span>atic async gettrainerbyid(id){
-<span class="cstat-no" title="statement not covered" >        try {</span>
-            const data = <span class="cstat-no" title="statement not covered" >await database.collection('trainers').findOne({_id:new ObjectId(String(id))})</span>
+    static async gettrainerbyid(id){
+        try {
+            const data = await database.collection('trainers').findOne({_id:new ObjectId(String(id))})
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if (!data) {</span>
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!data) {
 <span class="cstat-no" title="statement not covered" >                throw { name: "trainer not found" }</span>
             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            return data</span>
+            return data
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            return error</span>
         }
@@ -157,7 +157,7 @@ module.exports = trainer</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-08-14T18:57:09.156Z
+                at 2024-08-15T06:56:47.903Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

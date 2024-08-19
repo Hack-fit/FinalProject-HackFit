@@ -164,7 +164,7 @@ class UserController {
       // console.log(level,workoutFrequency,goal,equipment)
       
       const datauser = await user.getuserbyid(userid);
-      console.log(datauser.token)
+      // console.log(datauser.token, "<<<123123");
       if (datauser.token <= 0 || datauser.token === 0) {
         throw "Out of token please buy more to use this feature"; 
       }
@@ -195,7 +195,7 @@ class UserController {
       const training = {authorid:datauser._id,name,todo: JSON.parse(responseOpenAI)}
 
       const data = await Training.insertdata(training)
-      console.log(data,"insert data training")
+      // console.log(data,"insert data training")
 
       const conjunctionData = await Training.insertConjunction({id_user:new ObjectId(String(userid)), training_id: data.insertedId})
 
