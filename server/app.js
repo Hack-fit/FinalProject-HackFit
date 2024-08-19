@@ -31,7 +31,6 @@ app.post('/register-admin',UserController.registerAdmin)
 app.post('/login',UserController.login)
 app.post(`/notification-payment`, BookingController.notification)
 
-
 app.post(`/notification-payment`, BookingController.notification)
 app.use(authentication)// authentication setelah login, belum handle di client. manual buat headersnya 
 
@@ -42,7 +41,6 @@ app.get('/profile',UserController.finduserbyId)
 app.put('/update-user',UserController.updateuser)
 app.get('/get-training',TrainingController.getTraining)
 app.get('/community',TrainingController.getCommunitytraining)
-app.delete('/delete-user',UserController.deleteUser)
 app.get('/get-todo',TrainingController.getTodo)
 app.post('/share-todo/:id',UserController.shareTraining)
 app.get('/get-shared-todo/:trainingid',TrainingController.gettodofrompost)
@@ -50,12 +48,9 @@ app.delete('/delete-todo/:id',TrainingController.deletetodo)
 app.get('/trainer-detail/:id',TrainerController.getptbyid)
 app.patch('/like-post/:id',TrainingController.likepost)
 
-
-
-
-app.listen(port, () => {
-  console.log(`app listening on port ${port}`)
-})
+// app.listen(port, () => {
+//   console.log(`app listening on port ${port}`)
+// })
 
 module.exports = app
 

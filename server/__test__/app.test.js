@@ -36,8 +36,15 @@ beforeAll(async () => {
       "https://i.pinimg.com/564x/bf/9b/9d/bf9b9d50c27eeeeaddc433ac152f865a.jpg",
     role: "trainer\n",
   };
+  const data = await database.collection("users").insertOne(user);
+  // const userId = data.insertedId;
+  // const todo = {
+  //   title: "Sample Todo",
+  //   description: "This is a sample todo",
+  //   userId: userId,
+  // };
 
-  await database.collection("users").insertOne(user);
+  // await database.collection("todos").insertOne(todo);
   await database.collection("trainers").insertOne(trainers);
 });
 
@@ -45,6 +52,8 @@ afterAll(async () => {
   await database.collection("users").deleteMany({});
   await database.collection("trainers").deleteMany({});
   await database.collection("transactions").deleteMany({});
+  await database.collection("todos").deleteMany({});
+  await database.collection("trainings").deleteMany({});
 });
 describe("POST /login", () => {
   it("should log in a user and return a token", async () => {
@@ -193,15 +202,6 @@ describe("GET /trainers", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 });
-
-//   describe("POST /openai", () => {
-//     it("should handle OpenAI request", async () => {
-//       const res = await request(app).post("/openai").send({ prompt: "Hello, AI!" });
-//       expect(res.statusCode).toEqual(200);
-//       expect(res.body).toBeDefined();
-//     });
-//   });
-
 describe("GET /profile", () => {
   let token;
 
@@ -305,7 +305,16 @@ describe("GET /get-training", () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body).toBeDefined();
   });
+  it("should return training data failed dont have token", async () => {
+    const res = await request(app)
+      .get("/get-training")
+      .set("Authorization", `Bearer ${token}1`);
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toBeDefined();
+  });
 });
+
+//please create handle testing using jest and super test for get training by id condition failed because not have data
 
 describe("GET /get-todo", () => {
   let token;
@@ -331,6 +340,7 @@ describe("GET /get-todo", () => {
 //create handle testing useng jest and super test for bookingController
 describe("POST /midtrans", () => {
   let token;
+  let orderId;
 
   beforeAll(async () => {
     const credentials = {
@@ -354,31 +364,102 @@ describe("POST /midtrans", () => {
       .send(midtransData);
     // console.log(res.body.message, `RES BODY`);
 
+    orderId = res.body.order_id;
+
     expect(res.statusCode).toEqual(200);
     expect(res.body).toBeDefined();
     // expect(res.body.message).toBe(true);
   });
+  it("should handle midtrans notification", async () => {
+    const midtransData = {
+      paket: "sedang",
+    };
+
+    const res = await request(app)
+      .post("/midtrans")
+      .set("Authorization", `Bearer ${token}`)
+      .send(midtransData);
+    // console.log(res.body.message, `RES BODY`);
+
+    orderId = res.body.order_id;
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeDefined();
+    // expect(res.body.message).toBe(true);
+  });
+  it("should handle midtrans notification", async () => {
+    const midtransData = {
+      paket: "premium",
+    };
+
+    const res = await request(app)
+      .post("/midtrans")
+      .set("Authorization", `Bearer ${token}`)
+      .send(midtransData);
+    // console.log(res.body.message, `RES BODY`);
+
+    orderId = res.body.order_id;
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeDefined();
+    // expect(res.body.message).toBe(true);
+  });
+  it("should handle midtrans notification", async () => {
+    {
+      // handle POST /notification-payment
+      // midtrans payload notification
+      const midtransData = {
+        order_id: orderId,
+        transaction_status: "settlement",
+      };
+
+      const res = await request(app)
+        .post("/notification-payment")
+        .send(midtransData);
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body).toBeDefined();
+    }
+  });
 });
 
 //create handle testing useing jest and super test for openai controller for data can get same from openai.js
-describe.only("POST /openai", () => {
+describe("POST /openai", () => {
   let token;
 
   beforeAll(async () => {
+    const user = {
+      name: "bayuTestingedit324",
+      username: "testingopenai",
+      email: "testing_openai@mail.com",
+      password: "$2a$10$wFp9Ejs7wp3subCdw3RKEeg9uTiwZkMALMsPof.bdDvotUnEc/qe6",
+      age: "20",
+      weight: "72",
+      height: "171",
+      bodyType: "mesomorph",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      token: 8,
+    };
+    const data = await database.collection("users").insertOne(user);
     const credentials = {
-      username: "TestingBayu",
+      username: "testingopenai",
       password: "123456",
     };
 
     const res = await request(app).post("/login").send(credentials);
     token = res.body.access_token;
   });
+  // afterAll(async () => {
+  //   await database.collection("users").deleteOne({username: "testingopenai"});
+  // });
+
   // console.log(token, `TOKEN`);
 
   it("should handle OpenAI request", async () => {
     const openaiData = {
       level: "beginner",
-      workoutFrequency: "3",
+      workoutFrequency: "1",
       goal: "weight loss",
       equipment: ["dumbbell"],
       name: "TestingBayu",
@@ -388,14 +469,140 @@ describe.only("POST /openai", () => {
       .post("/openai")
       .set("Authorization", `Bearer ${token}`)
       .send(openaiData);
-    console.log(res.body, `RES BODY`);
+    // console.log(await res.body, `RES BODY`);
+
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toBeDefined();
+  }, 10000);
+});
+
+describe("GET /get-todo", () => {
+  let token;
+
+  beforeAll(async () => {
+    const credentials = {
+      username: "johndoe",
+      password: "password123",
+    };
+
+    const res = await request(app).post("/login").send(credentials);
+    token = res.body.access_token;
+  });
+  it("should get all todo items", async () => {
+    const res = await request(app)
+      .get("/get-todo")
+      .set("Authorization", `Bearer ${token}`);
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toBeDefined();
+    expect(Array.isArray(res.body)).toBe(true);
   });
 });
-//create handle testing useing jest and super test for get user by id
 
+describe("GET /community", () => {
+  let token;
+
+  beforeAll(async () => {
+    const credentials = {
+      username: "johndoe",
+      password: "password123",
+    };
+
+    const res = await request(app).post("/login").send(credentials);
+    token = res.body.access_token;
+  });
+  it("should get community training data", async () => {
+    const res = await request(app)
+      .get("/community")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeDefined();
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+});
+describe("DELETE /delete-todo/:id", () => {
+  let token;
+  let todoId;
+  beforeAll(async () => {
+    const credentials = {
+      username: "TestingBayu",
+      password: "123456",
+    };
+    const res = await request(app).post("/login").send(credentials);
+    const todo = {
+      title: "Sample Todo",
+      description: "This is a sample todo",
+      userId: res.body.userId,
+    };
+    const data = await database.collection("todos").insertOne(todo);
+    todoId = data.insertedId;
+    token = res.body.access_token;
+    // console.log(data, `DATA`);
+  });
+
+  it("should delete a todo", async () => {
+    const res = await request(app)
+      .delete(`/delete-todo/${todoId}`)
+      .set("Authorization", `Bearer ${token}`);
+    console.log(res, `RES BODY`);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toBeDefined();
+    expect(res.body).toBe("successfully deleted todo");
+  });
+});
+describe("GET /get-shared-todo/:trainingid", () => {
+  let token;
+  let trainingId;
+
+  beforeAll(async () => {
+    const credentials = {
+      username: "johndoe",
+      password: "password123",
+    };
+
+    // Log in to get the token
+    const loginRes = await request(app).post("/login").send(credentials);
+    token = loginRes.body.access_token;
+
+    // Insert a training to get a valid trainingId
+    const training = {
+      title: "Sample Training",
+      description: "This is a sample training",
+      date: new Date(),
+    };
+    const trainingRes = await database
+      .collection("trainings")
+      .insertOne(training);
+    trainingId = trainingRes.insertedId;
+  });
+
+  afterAll(async () => {
+    // Clean up the inserted training
+    await database.collection("trainings").deleteOne({ _id: trainingId });
+  });
+
+  it("should return shared todo for a valid training ID", async () => {
+    const res = await request(app)
+      .get(`/get-shared-todo/${trainingId}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toBeDefined();
+    expect(Array.isArray(res.body)).toBe(false);
+  });
+
+  it("should return 404 for an invalid training ID", async () => {
+    const invalidTrainingId = "invalidTrainingId";
+    const res = await request(app)
+      .get(`/get-shared-todo/${invalidTrainingId}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toEqual(400);
+    // expect(res.body).toHaveProperty("error", "Training not found");
+  });
+});
 // delete user all data for after all
 // afterAll(async () => {
 //   await database.collection("users").deleteMany({});

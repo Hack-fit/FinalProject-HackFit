@@ -44,7 +44,7 @@ module.exports = async function OpenAi({level,workoutFrequency,goal,equipment}) 
     { nama: "plank", link: " https://www.youtube.com/watch?v=8MvNDLdRgZI" },
     { nama: "lunges", link: " https://www.youtube.com/watch?v=xgJl9zTEIPw" },
   ];
-  console.log(completion.choices[0].message.content);
+  // console.log(completion.choices[0].message.content);
 
   return completion.choices[0].message.content;
 };

@@ -12,7 +12,7 @@ const client = new MongoClient(uri, {
   }
 });
 
-const database = client.db(process.env.NODE_ENV === "test" ? "hackfit-final-project":process.env.DATABASE_NAME)
+const database = client.db(process.env.NODE_ENV === "test" ? "hackfit-final-project-test":process.env.DATABASE_NAME)
 
 module.exports = database
 
