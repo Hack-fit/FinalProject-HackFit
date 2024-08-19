@@ -2,9 +2,8 @@
 
 import CardTrainer from "@/components/CardTrainer";
 import CardUser from "@/components/CardUser";
-import Trainer from "@/db/models/Trainer";
 import { useEffect, useState } from "react";
-import { set } from "zod";
+
 
 export type Trainers = {
   _id: string;
@@ -20,6 +19,8 @@ export type Trainers = {
   bio: string;
   profile_picture: string;
   role: string;
+  location: string;
+  speciality: string;
 };
 
 export type Users = {
@@ -32,6 +33,7 @@ export type Users = {
   weight: string;
   height: string;
   bodyType: string;
+  imageurl: string;
 };
 
 export default function Home() {

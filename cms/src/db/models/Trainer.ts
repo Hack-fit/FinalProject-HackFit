@@ -3,12 +3,13 @@ import { ObjectId } from "mongodb";
 import { z } from "zod";
 
 const TrainerSchema = z.object({
+  id: z.instanceof(ObjectId),
   name: z.string().min(1),
   username: z.string().min(1),
   email: z.string().email().min(1),
-  age: z.number().int().min(1),
-  weight: z.number().int().min(1), // fixed from 'Weight' to 'weight'
-  height: z.number().int().min(1),
+  age: z.number().int().positive(),
+  weight: z.string().min(1), // fixed from 'Weight' to 'weight'
+  height: z.string().min(1),
   specialist: z.string().min(1),
   phone_number: z.string().min(1),
   bio: z.string().min(1),
@@ -73,6 +74,20 @@ class Trainer {
       console.log(error);
       throw error;
     }
+  }
+  static async getById(id: string) {
+    // console.log(id, '<<<<ID<<<');
+    
+    const trainer = await this.collection().findOne({
+      _id : new ObjectId(String(id))
+    })
+    console.log(trainer, '<<<<TRAINER');
+    if(!trainer){
+      let error = new Error("Trainer not found")
+      error.name = "Not Found"
+      throw error
+    }
+    return trainer
   }
 }
 

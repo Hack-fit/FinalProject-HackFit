@@ -9,17 +9,6 @@ const trainer = require("../model/trainer");
 const Training = require("../model/training");
 
 class UserController {
-  static async getall(req, res) {
-    const data = await user.getuser();
-    // console.log(data)
-    res.status(200).json(data);
-  }
-
-  static async getAllTrainers(req, res) {
-    const data = await trainer.gettrainer();
-    // console.log(data)
-    res.status(200).json(data);
-  }
 
   static async register(req, res) {
     try {
@@ -240,6 +229,7 @@ class UserController {
       res.status(400).json(error);
     }
   }
+
 
   static async shareTraining(req, res) {
     try {

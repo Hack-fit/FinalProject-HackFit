@@ -73,8 +73,10 @@ class BookingController {
   }
   static async notification(req, res) {
     try {
-      console.log(req.body, `-----------123`);
+      // console.log(req.body, `-----------123`);
       const orderId = req.body.order_id.split("-")[0];
+      console.log(req.body.transaction_status, `------------`);
+      
       if (
         req.body.transaction_status === `settlement` ||
         req.body.transaction_status === `capture`
